@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
 }
 
@@ -8,13 +8,13 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.cmdv.displaymatcher"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -33,17 +33,10 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':core')
-    implementation project(path: ':data')
+    api project(path: ':common')
     implementation project(path: ':domain')
-    implementation project(path: ':feature-main')
 
     testImplementation libs.junit
     androidTestImplementation libs.junit_ext
     androidTestImplementation libs.espresso_core
-
-    implementation libs.kotlin_stdlib
-    implementation libs.core_ktx
-    implementation libs.appcompat
-    implementation libs.material
 }

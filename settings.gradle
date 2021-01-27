@@ -1,2 +1,7 @@
+include ':common'
+include ':domain'
+include ':data'
+include ':core'
+include ':feature-main'
 include ':app'
 rootProject.name = "Display Matcher"

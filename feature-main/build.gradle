@@ -30,15 +30,24 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     api project(path: ':common')
     implementation project(path: ':core')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
     testImplementation libs.junit
     androidTestImplementation libs.junit_ext
     androidTestImplementation libs.espresso_core
 
+    implementation libs.navigation_fragment_ktx
+    implementation libs.navigation_ui_ktx
     implementation libs.constraintlayout
 }

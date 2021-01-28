@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation.xml"
+    app:startDestination="@id/manufacturersFragment">
+
+    <fragment
+        android:id="@+id/manufacturersFragment"
+        android:name="com.cmdv.feature_main.ui.fragment.ManufacturersFragment"
+        android:label="manufacturers_fragment"
+        tools:layout="@layout/fragment_manufacturers" >
+        <action
+            android:id="@+id/action_manufacturersFragment_to_modelsFragment"
+            app:destination="@id/modelsFragment" />
+        <action
+            android:id="@+id/action_manufacturersFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modelsFragment"
+        android:name="com.cmdv.feature_main.ui.fragment.ModelsFragment"
+        android:label="manufacturer_fragment"
+        tools:layout="@layout/fragment_models" >
+        <action
+            android:id="@+id/action_modelsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.cmdv.feature_main.ui.fragment.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+</navigation>

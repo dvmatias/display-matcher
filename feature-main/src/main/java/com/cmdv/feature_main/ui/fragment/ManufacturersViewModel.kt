@@ -25,7 +25,7 @@ class ManufacturersViewModel : ViewModel() {
         getManufacturersJob.cancelIfActive()
         getManufacturersJob = viewModelScope.launch {
             FirebaseManufacturerServiceImpl.getManufacturers().collect { manufacturers ->
-                mutableManufacturersLiveData.value = manufacturers?.distinctBy { it.name } ?: listOf()
+                mutableManufacturersLiveData.value = manufacturers
             }
         }
     }

@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.feature_main.databinding.ItemManufacturerBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ManufacturerRecyclerViewAdapter(val context: Context) : RecyclerView.Adapter<ManufacturerRecyclerViewAdapter.ManufacturerViewHolder>() {
 
@@ -15,8 +17,9 @@ class ManufacturerRecyclerViewAdapter(val context: Context) : RecyclerView.Adapt
     fun setItems(manufacturers: List<ManufacturerModel>) {
         items.apply {
             clear()
-            addAll(manufacturers)
-        }.run { notifyDataSetChanged() }
+            addAll(manufacturers.sortedBy { it.name })
+        }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManufacturerViewHolder {

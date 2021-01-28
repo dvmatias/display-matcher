@@ -34,8 +34,11 @@ android {
 
 dependencies {
     api project(path: ':common')
-
+    // Testing
     testImplementation libs.junit
     androidTestImplementation libs.junit_ext
     androidTestImplementation libs.espresso_core
+    // Coroutines
+    implementation libs.coroutines_core
+    implementation libs.coroutines_android
 }

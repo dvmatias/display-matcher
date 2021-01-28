@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "898987494260",
+    "project_id": "display-matcher",
+    "storage_bucket": "display-matcher.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898987494260:android:a98e63222b1ae67636ba21",
+        "android_client_info": {
+          "package_name": "com.cmdv.displaymatcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898987494260-oq2iv7ni7gplq7ljvk0sl85dem3tmk8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHsd-3ofge6TKhqsHM6deft5DLmT_yxQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898987494260-oq2iv7ni7gplq7ljvk0sl85dem3tmk8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

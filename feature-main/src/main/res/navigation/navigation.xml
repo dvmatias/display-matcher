@@ -3,24 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation.xml"
-    app:startDestination="@id/brandsFragment">
+    app:startDestination="@id/manufacturersFragment">
 
     <fragment
-        android:id="@+id/brandsFragment"
-        android:name="com.cmdv.feature_main.ui.fragment.BrandsFragment"
-        android:label="brands_fragment"
-        tools:layout="@layout/fragment_brands" >
+        android:id="@+id/manufacturersFragment"
+        android:name="com.cmdv.feature_main.ui.fragment.ManufacturersFragment"
+        android:label="manufacturers_fragment"
+        tools:layout="@layout/fragment_manufacturers" >
         <action
-            android:id="@+id/action_brandsFragment_to_modelsFragment"
+            android:id="@+id/action_manufacturersFragment_to_modelsFragment"
             app:destination="@id/modelsFragment" />
         <action
-            android:id="@+id/action_brandsFragment_to_searchFragment"
+            android:id="@+id/action_manufacturersFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/modelsFragment"
         android:name="com.cmdv.feature_main.ui.fragment.ModelsFragment"
-        android:label="brand_fragment"
+        android:label="manufacturer_fragment"
         tools:layout="@layout/fragment_models" >
         <action
             android:id="@+id/action_modelsFragment_to_searchFragment"

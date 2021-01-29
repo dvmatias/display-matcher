@@ -21,7 +21,7 @@
         android:id="@+id/modelsFragment"
         android:name="com.cmdv.feature_main.ui.fragments.models.DevicesFragment"
         android:label="manufacturer_fragment"
-        tools:layout="@layout/fragment_models" >
+        tools:layout="@layout/fragment_devices" >
         <action
             android:id="@+id/action_modelsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />

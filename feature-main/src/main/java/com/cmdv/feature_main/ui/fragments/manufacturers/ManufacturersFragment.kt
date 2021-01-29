@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cmdv.common.utils.Constants
+import com.cmdv.domain.models.ManufacturerModel
+import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature_main.R
 import com.cmdv.feature_main.databinding.FragmentManufacturersBinding
 import com.cmdv.feature_main.ui.adapters.ManufacturerRecyclerViewAdapter
@@ -36,8 +38,12 @@ class ManufacturersFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ManufacturersFragmentViewModel::class.java)
 
-        viewModel.manufacturersLiveData.observe(viewLifecycleOwner, {
-            manufacturerAdapter.setItems(it)
+        viewModel.manufacturersLiveData.observe(viewLifecycleOwner, { statusWrapper ->
+            when(statusWrapper.status) {
+                LiveDataStatusWrapper.Status.LOADING -> setLoadingStateView()
+                LiveDataStatusWrapper.Status.SUCCESS -> statusWrapper.data?.run { setInfoStateView(this) }
+                LiveDataStatusWrapper.Status.ERROR -> setErrorStateView()
+            }
         })
     }
 
@@ -67,6 +73,21 @@ class ManufacturersFragment : Fragment() {
                 R.id.action_manufacturersFragment_to_modelsFragment,
                 bundle
             )
+    }
+
+    private fun setLoadingStateView() {
+        binding.cardViewManufacturersContainer.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun setInfoStateView(manufacturers: List<ManufacturerModel>) {
+        binding.cardViewManufacturersContainer.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+        manufacturerAdapter.setItems(manufacturers)
+    }
+
+    private fun setErrorStateView() {
+
     }
 
 }

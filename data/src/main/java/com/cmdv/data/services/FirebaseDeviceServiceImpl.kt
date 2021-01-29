@@ -6,6 +6,7 @@ import com.cmdv.domain.models.DeviceModel
 import com.cmdv.common.utils.FirebaseConstants.COLLECTION_MANUFACTURERS_PATH
 import com.cmdv.common.utils.FirebaseConstants.COLLECTION_DEVICES_PATH
 import com.cmdv.domain.services.FirebaseDeviceService
+import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
@@ -21,8 +22,9 @@ object FirebaseDeviceServiceImpl : FirebaseDeviceService {
     private val TAG = FirebaseDeviceService::class.java.simpleName
     private val db = FirebaseFirestore.getInstance()
 
-    override suspend fun getDevices(manufacturerId: String): Flow<List<DeviceModel>?> =
+    override suspend fun getDevices(manufacturerId: String): Flow<LiveDataStatusWrapper<List<DeviceModel>>> =
         callbackFlow {
+            offer(LiveDataStatusWrapper.loading(null))
             val listenerRegistration =
                 db.collection(COLLECTION_MANUFACTURERS_PATH)
                     .document(manufacturerId)
@@ -38,7 +40,7 @@ object FirebaseDeviceServiceImpl : FirebaseDeviceService {
                         val map = querySnapshot?.documents?.mapNotNull { snapShot ->
                             DeviceMapper.transformEntityToModel(snapShot)
                         }
-                        offer(map)
+                        offer(LiveDataStatusWrapper.success(map))
                     }
             awaitClose {
                 Log.d(TAG, "Cancelling posts listener")

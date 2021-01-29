@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmdv.data.services.FirebaseManufacturerServiceImpl
 import com.cmdv.domain.models.ManufacturerModel
+import com.cmdv.domain.utils.LiveDataStatusWrapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 class ManufacturersFragmentViewModel : ViewModel() {
     private var getManufacturersJob: Job? = null
-    private val mutableManufacturersLiveData = MutableLiveData<List<ManufacturerModel>>()
+    private val mutableManufacturersLiveData = MutableLiveData<LiveDataStatusWrapper<List<ManufacturerModel>>>()
     val manufacturersLiveData = mutableManufacturersLiveData
 
     init {
@@ -23,8 +24,8 @@ class ManufacturersFragmentViewModel : ViewModel() {
     private fun getManufacturers() {
         getManufacturersJob.cancelIfActive()
         getManufacturersJob = viewModelScope.launch {
-            FirebaseManufacturerServiceImpl.getManufacturers().collect { manufacturers ->
-                mutableManufacturersLiveData.value = manufacturers
+            FirebaseManufacturerServiceImpl.getManufacturers().collect { manufacturersStatusWrapper ->
+                mutableManufacturersLiveData.value = manufacturersStatusWrapper
             }
         }
     }

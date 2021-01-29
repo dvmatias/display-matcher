@@ -1,4 +1,4 @@
-package com.cmdv.feature_main.ui.fragments.models
+package com.cmdv.feature_main.ui.fragments.devices
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

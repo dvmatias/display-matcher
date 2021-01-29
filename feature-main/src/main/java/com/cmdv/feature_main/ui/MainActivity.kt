@@ -1,7 +1,7 @@
 package com.cmdv.feature_main.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.cmdv.feature_main.R
@@ -19,4 +19,5 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
     }
+
 }

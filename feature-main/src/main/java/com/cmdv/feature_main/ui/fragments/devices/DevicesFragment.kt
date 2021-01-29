@@ -1,4 +1,4 @@
-package com.cmdv.feature_main.ui.fragments.models
+package com.cmdv.feature_main.ui.fragments.devices
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,17 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.common.utils.Constants
+import com.cmdv.core.navigatior.Navigator
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature_main.databinding.FragmentDevicesBinding
 import com.cmdv.feature_main.ui.adapters.DeviceRecyclerViewAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
 class DevicesFragment : Fragment() {
 
     private lateinit var viewModel: DevicesFragmentViewModel
     private lateinit var binding: FragmentDevicesBinding
+    private val navigator: Navigator by inject()
 
     private lateinit var deviceAdapter: DeviceRecyclerViewAdapter
 
@@ -67,7 +70,7 @@ class DevicesFragment : Fragment() {
     }
 
     private fun deviceClickListener(deviceId: String) {
-        Toast.makeText(activity, "Click on ID=$deviceId", Toast.LENGTH_SHORT).show()
+        goToDeviceDetails(deviceId)
     }
 
     private fun setLoadingStateView() {
@@ -83,6 +86,10 @@ class DevicesFragment : Fragment() {
 
     private fun setErrorStateView() {
 
+    }
+
+    private fun goToDeviceDetails(deviceId: String) {
+        activity?.run { navigator.toDeviceDetailsActivity(this) }
     }
 
 }

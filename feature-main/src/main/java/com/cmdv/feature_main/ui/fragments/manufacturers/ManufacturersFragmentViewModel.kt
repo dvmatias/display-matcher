@@ -24,8 +24,8 @@ class ManufacturersFragmentViewModel : ViewModel() {
     private fun getManufacturers() {
         getManufacturersJob.cancelIfActive()
         getManufacturersJob = viewModelScope.launch {
-            FirebaseManufacturerServiceImpl.getManufacturers().collect {
-                mutableManufacturersLiveData.value = it
+            FirebaseManufacturerServiceImpl.getManufacturers().collect { manufacturersStatusWrapper ->
+                mutableManufacturersLiveData.value = manufacturersStatusWrapper
             }
         }
     }

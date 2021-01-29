@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/modelsFragment"
-        android:name="com.cmdv.feature_main.ui.fragments.models.DevicesFragment"
+        android:name="com.cmdv.feature_main.ui.fragments.devices.DevicesFragment"
         android:label="manufacturer_fragment"
         tools:layout="@layout/fragment_devices" >
         <action

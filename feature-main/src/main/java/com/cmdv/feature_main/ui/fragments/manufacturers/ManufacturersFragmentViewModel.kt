@@ -1,4 +1,4 @@
-package com.cmdv.feature_main.ui.fragment
+package com.cmdv.feature_main.ui.fragments.manufacturers
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class ManufacturersViewModel : ViewModel() {
-
+class ManufacturersFragmentViewModel : ViewModel() {
     private var getManufacturersJob: Job? = null
     private val mutableManufacturersLiveData = MutableLiveData<List<ManufacturerModel>>()
     val manufacturersLiveData = mutableManufacturersLiveData
@@ -31,6 +30,6 @@ class ManufacturersViewModel : ViewModel() {
     }
 }
 
-private fun Job?.cancelIfActive() {
+fun Job?.cancelIfActive() {
     this?.let { if (isActive) cancel() }
 }

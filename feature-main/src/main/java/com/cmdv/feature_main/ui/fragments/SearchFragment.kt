@@ -1,4 +1,4 @@
-package com.cmdv.feature_main.ui.fragment
+package com.cmdv.feature_main.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

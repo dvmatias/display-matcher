@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.feature_main.databinding.ItemManufacturerBinding
-import java.util.*
-import kotlin.collections.ArrayList
 
-class ManufacturerRecyclerViewAdapter(val context: Context) : RecyclerView.Adapter<ManufacturerRecyclerViewAdapter.ManufacturerViewHolder>() {
+class ManufacturerRecyclerViewAdapter(
+    private val context: Context,
+    private val listener: (String, String) -> Unit
+) : RecyclerView.Adapter<ManufacturerRecyclerViewAdapter.ManufacturerViewHolder>() {
 
     private val items: ArrayList<ManufacturerModel> = arrayListOf()
 
@@ -23,12 +24,13 @@ class ManufacturerRecyclerViewAdapter(val context: Context) : RecyclerView.Adapt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManufacturerViewHolder {
-        val binding = ItemManufacturerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemManufacturerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ManufacturerViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ManufacturerViewHolder, position: Int) {
-        holder.bindItem(items[position], context)
+        holder.bindItem(items[position], context, listener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -39,11 +41,18 @@ class ManufacturerRecyclerViewAdapter(val context: Context) : RecyclerView.Adapt
     class ManufacturerViewHolder(private val binding: ItemManufacturerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bindItem(manufacturer: ManufacturerModel, context: Context) {
-            binding.textViewName.text = manufacturer.name
-            Glide.with(context)
-                .load(manufacturer.imageUrl)
-                .into(binding.imageViewLogo)
+        fun bindItem(
+            manufacturer: ManufacturerModel,
+            context: Context,
+            listener: (String, String) -> Unit
+        ) {
+            with(manufacturer) {
+                Glide.with(context)
+                    .load(imageUrl)
+                    .into(binding.imageViewLogo)
+                binding.textViewName.text = name
+                binding.cardViewContainer.setOnClickListener { listener.invoke(id, name) }
+            }
         }
 
     }

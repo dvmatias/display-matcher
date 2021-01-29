@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
-    tools:context=".ui.fragment.ManufacturersFragment">
+    tools:context=".ui.fragments.manufacturers.ManufacturersFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

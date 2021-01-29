@@ -10,4 +10,13 @@ data class DeviceModel(
     val displayWidth: Long,
     val displaySize: Double,
     val imageUrl: String,
+    val dateRelease: String,
+    val isReleased: Boolean,
+    val releaseStatus: ReleaseStatus
 )
+
+enum class ReleaseStatus {
+    RELEASED,
+    NOT_RELEASED,
+    DELAYED
+}

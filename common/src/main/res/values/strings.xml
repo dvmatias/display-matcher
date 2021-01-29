@@ -1,0 +1,7 @@
+<resources>
+    <string name="title_manufacturers">Manufacturers</string>
+    <string name="item_device_release_placeholder">%1s %2s</string>
+    <string name="item_device_release_status_released">Released</string>
+    <string name="item_device_release_status_not_released">Exp. Release</string>
+    <string name="item_device_release_status_delayed">Release Delayed</string>
+</resources>

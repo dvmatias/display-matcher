@@ -4,11 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.cmdv.core.helpers.StringHelper
 import com.cmdv.domain.models.DeviceModel
+import com.cmdv.domain.models.ReleaseStatus
+import com.cmdv.feature_main.R
 import com.cmdv.feature_main.databinding.ItemDeviceBinding
-import java.lang.StringBuilder
-import java.util.*
-import kotlin.collections.ArrayList
 
 class DeviceRecyclerViewAdapter(
     private val context: Context,
@@ -27,19 +28,13 @@ class DeviceRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): DeviceViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {
         val binding =
             ItemDeviceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DeviceViewHolder(binding)
     }
 
-    override fun onBindViewHolder(
-        holder: DeviceViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
         holder.bindItem(items[position], manufacturer, context, listener)
     }
 
@@ -48,32 +43,49 @@ class DeviceRecyclerViewAdapter(
     /**
      *
      */
-    class DeviceViewHolder(private val binding: ItemDeviceBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class DeviceViewHolder(private val binding: ItemDeviceBinding) : RecyclerView.ViewHolder(binding.root) {
         private lateinit var device: DeviceModel
         private lateinit var manufacturer: String
 
-        fun bindItem(
-            device: DeviceModel,
-            manufacturer: String,
-            context: Context,
-            listener: ((String) -> Unit)?
-        ) {
+        fun bindItem(device: DeviceModel, manufacturer: String, context: Context, listener: ((String) -> Unit)?) {
             this.device = device
             this.manufacturer = manufacturer
-            binding.textViewName.text = getDeviceFullName()
+
+            setDeviceName()
+            setReleaseInfo(context)
+            setDeviceImage(context)
+            setClickListener(listener)
         }
 
-        private fun getDeviceFullName(): String {
-            val builder = StringBuilder()
-            builder.append(manufacturer.substring(0, 1).capitalize(Locale.ROOT) )
-            builder.append(manufacturer.substring(1, manufacturer.length))
-            builder.append(" ")
-            if (device.name.isNotEmpty()) builder.append("${device.name} ")
-            if (device.version.isNotEmpty()) builder.append("${device.version} ")
-            if (device.variant.isNotEmpty()) builder.append(device.variant)
-            return builder.toString()
+        private fun setDeviceName() {
+            binding.textViewName.text = StringHelper.getDeviceFullName(device, manufacturer)
         }
+
+        private fun setReleaseInfo(context: Context) {
+            val releaseStatusText = when (device.releaseStatus) {
+                ReleaseStatus.RELEASED -> context.getString(R.string.item_device_release_status_released)
+                ReleaseStatus.NOT_RELEASED -> context.getString(R.string.item_device_release_status_not_released)
+                ReleaseStatus.DELAYED -> context.getString(R.string.item_device_release_status_delayed)
+            }
+            binding.textViewReleaseDate.text =
+                context.getString(
+                    R.string.item_device_release_placeholder,
+                    releaseStatusText,
+                    StringHelper.capitalizeFirstLetterOnly(device.dateRelease),
+                )
+
+        }
+
+        private fun setDeviceImage(context: Context) {
+            Glide.with(context)
+                .load(device.imageUrl)
+                .into(binding.imageViewDevice)
+        }
+
+        private fun setClickListener(listener: ((String) -> Unit)?) {
+            binding.container.setOnClickListener { listener?.invoke(device.id) }
+        }
+
     }
 
 }

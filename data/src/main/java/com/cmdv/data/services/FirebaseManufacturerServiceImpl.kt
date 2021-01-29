@@ -5,6 +5,7 @@ import com.cmdv.common.utils.FirebaseConstants.COLLECTION_MANUFACTURERS_PATH
 import com.cmdv.data.mappers.ManufacturerMapper
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.services.FirebaseManufacturerService
+import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
@@ -20,8 +21,9 @@ object FirebaseManufacturerServiceImpl : FirebaseManufacturerService {
     private val TAG = FirebaseManufacturerServiceImpl::class.java.simpleName
     private val db = FirebaseFirestore.getInstance()
 
-    override suspend fun getManufacturers(): Flow<List<ManufacturerModel>?> =
+    override suspend fun getManufacturers(): Flow<LiveDataStatusWrapper<List<ManufacturerModel>>> =
         callbackFlow {
+            offer(LiveDataStatusWrapper.loading(null))
             val listenerRegistration =
                 db.collection(COLLECTION_MANUFACTURERS_PATH)
                     .addSnapshotListener { querySnapshot: QuerySnapshot?, firebaseFirestoreException: FirebaseFirestoreException? ->
@@ -35,7 +37,7 @@ object FirebaseManufacturerServiceImpl : FirebaseManufacturerService {
                         val map = querySnapshot?.documents?.mapNotNull {
                             ManufacturerMapper.transformEntityToModel(it)
                         }
-                        offer(map)
+                        offer(LiveDataStatusWrapper.success(map))
                     }
             awaitClose {
                 Log.d(TAG, "Cancelling posts listener")

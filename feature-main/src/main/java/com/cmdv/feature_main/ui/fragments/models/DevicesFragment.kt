@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,7 +21,6 @@ class DevicesFragment : Fragment() {
     private lateinit var binding: FragmentModelsBinding
 
     private lateinit var deviceAdapter: DeviceRecyclerViewAdapter
-    private lateinit var manufacturer: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +48,17 @@ class DevicesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         activity?.let { context ->
-            deviceAdapter = DeviceRecyclerViewAdapter(context, null)
+            deviceAdapter = DeviceRecyclerViewAdapter(context, ::deviceClickListener)
             binding.recyclerViewDevice.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = deviceAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
         }
+    }
+
+    private fun deviceClickListener(deviceId: String) {
+        Toast.makeText(activity, "Click on ID=$deviceId", Toast.LENGTH_SHORT).show()
     }
 
 }

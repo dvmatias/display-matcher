@@ -10,7 +10,7 @@ private const val FIELD_NAME = "name"
 private const val FIELD_SHORT_NAME = "short_name"
 private const val FIELD_IMAGE_URL = "image_url"
 
-class ManufacturerMapper : BaseMapper<DocumentSnapshot, ManufacturerModel>() {
+object ManufacturerMapper : BaseMapper<DocumentSnapshot, ManufacturerModel>() {
 
     override fun transformEntityToModel(e: DocumentSnapshot): ManufacturerModel {
         val id: String = e.id

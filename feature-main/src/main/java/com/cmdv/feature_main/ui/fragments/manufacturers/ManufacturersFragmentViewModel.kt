@@ -1,20 +1,20 @@
-package com.cmdv.feature_main.ui.fragment
+package com.cmdv.feature_main.ui.fragments.manufacturers
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmdv.data.services.FirebaseManufacturerServiceImpl
 import com.cmdv.domain.models.ManufacturerModel
+import com.cmdv.domain.utils.LiveDataStatusWrapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class ManufacturersViewModel : ViewModel() {
-
+class ManufacturersFragmentViewModel : ViewModel() {
     private var getManufacturersJob: Job? = null
-    private val mutableManufacturersLiveData = MutableLiveData<List<ManufacturerModel>>()
+    private val mutableManufacturersLiveData = MutableLiveData<LiveDataStatusWrapper<List<ManufacturerModel>>>()
     val manufacturersLiveData = mutableManufacturersLiveData
 
     init {
@@ -24,13 +24,13 @@ class ManufacturersViewModel : ViewModel() {
     private fun getManufacturers() {
         getManufacturersJob.cancelIfActive()
         getManufacturersJob = viewModelScope.launch {
-            FirebaseManufacturerServiceImpl.getManufacturers().collect { manufacturers ->
-                mutableManufacturersLiveData.value = manufacturers?.distinctBy { it.name } ?: listOf()
+            FirebaseManufacturerServiceImpl.getManufacturers().collect { manufacturersStatusWrapper ->
+                mutableManufacturersLiveData.value = manufacturersStatusWrapper
             }
         }
     }
 }
 
-private fun Job?.cancelIfActive() {
+fun Job?.cancelIfActive() {
     this?.let { if (isActive) cancel() }
 }

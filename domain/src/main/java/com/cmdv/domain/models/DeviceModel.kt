@@ -2,6 +2,7 @@ package com.cmdv.domain.models
 
 data class DeviceModel(
     val id: String,
+    val manufacturer: String,
     val manufacturerId: String,
     val name: String,
     val variant: String,

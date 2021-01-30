@@ -1,4 +1,4 @@
-package com.cmdv.feature_main.ui.adapters
+package com.cmdv.feature.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import com.bumptech.glide.Glide
 import com.cmdv.core.helpers.StringHelper
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus
-import com.cmdv.feature_main.R
-import com.cmdv.feature_main.databinding.ItemDeviceBinding
+import com.cmdv.feature.R
+import com.cmdv.feature.databinding.ItemDeviceBinding
 
 class DeviceRecyclerViewAdapter(
     private val context: Context,
@@ -17,14 +17,12 @@ class DeviceRecyclerViewAdapter(
 ) : RecyclerView.Adapter<DeviceRecyclerViewAdapter.DeviceViewHolder>() {
 
     private val items: ArrayList<DeviceModel> = arrayListOf()
-    private lateinit var manufacturer: String
 
-    fun setItems(devices: List<DeviceModel>, manufacturer: String) {
+    fun setItems(devices: List<DeviceModel>) {
         items.apply {
             clear()
             addAll(devices.sortedBy { it.name })
         }
-        this.manufacturer = manufacturer
         notifyDataSetChanged()
     }
 
@@ -35,7 +33,7 @@ class DeviceRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
-        holder.bindItem(items[position], manufacturer, context, listener)
+        holder.bindItem(items[position], context, listener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -45,11 +43,9 @@ class DeviceRecyclerViewAdapter(
      */
     class DeviceViewHolder(private val binding: ItemDeviceBinding) : RecyclerView.ViewHolder(binding.root) {
         private lateinit var device: DeviceModel
-        private lateinit var manufacturer: String
 
-        fun bindItem(device: DeviceModel, manufacturer: String, context: Context, listener: ((String) -> Unit)?) {
+        fun bindItem(device: DeviceModel, context: Context, listener: ((String) -> Unit)?) {
             this.device = device
-            this.manufacturer = manufacturer
 
             setDeviceName()
             setReleaseInfo(context)
@@ -58,7 +54,7 @@ class DeviceRecyclerViewAdapter(
         }
 
         private fun setDeviceName() {
-            binding.textViewName.text = StringHelper.getDeviceFullName(device, manufacturer)
+            binding.textViewName.text = StringHelper.getDeviceFullName(device)
         }
 
         private fun setReleaseInfo(context: Context) {

@@ -1,10 +1,10 @@
-package com.cmdv.feature_main.ui.fragments.devices
+package com.cmdv.feature.ui.fragments.devices
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,8 +13,8 @@ import com.cmdv.common.utils.Constants
 import com.cmdv.core.navigatior.Navigator
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
-import com.cmdv.feature_main.databinding.FragmentDevicesBinding
-import com.cmdv.feature_main.ui.adapters.DeviceRecyclerViewAdapter
+import com.cmdv.feature.databinding.FragmentDevicesBinding
+import com.cmdv.feature.ui.adapters.DeviceRecyclerViewAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
@@ -28,7 +28,6 @@ class DevicesFragment : Fragment() {
     private lateinit var deviceAdapter: DeviceRecyclerViewAdapter
 
     private lateinit var manufacturerId: String
-    private lateinit var manufacturer: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +42,7 @@ class DevicesFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(DevicesFragmentViewModel::class.java)
 
-        manufacturerId = arguments?.getString(Constants.ARG_MANUFACTURER_ID) ?: ""
-        manufacturer = arguments?.getString(Constants.ARG_MANUFACTURER) ?: ""
+        manufacturerId = arguments?.getString(Constants.ARG_MANUFACTURER_ID_KEY) ?: ""
 
         if (manufacturerId.isNotEmpty()) {
             viewModel.devicesLiveData.observe(viewLifecycleOwner, { devicesStatusWrapper ->
@@ -81,7 +79,7 @@ class DevicesFragment : Fragment() {
     private fun setInfoStateView(devices: List<DeviceModel>) {
         binding.recyclerViewDevice.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
-        deviceAdapter.setItems(devices, manufacturer)
+        deviceAdapter.setItems(devices)
     }
 
     private fun setErrorStateView() {
@@ -89,7 +87,10 @@ class DevicesFragment : Fragment() {
     }
 
     private fun goToDeviceDetails(deviceId: String) {
-        activity?.run { navigator.toDeviceDetailsActivity(this) }
+        activity?.let { activity ->
+            val bundle = bundleOf(Constants.EXTRA_DEVICE_ID_KEY to deviceId)
+            navigator.toDeviceDetailsActivity(activity, bundle, null, false)
+        }
     }
 
 }

@@ -1,9 +1,10 @@
-package com.cmdv.feature_main.ui.fragments.manufacturers
+package com.cmdv.feature.ui.fragments.manufacturers
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -11,10 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.cmdv.common.utils.Constants
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
-import com.cmdv.feature_main.R
-import com.cmdv.feature_main.databinding.FragmentManufacturersBinding
-import com.cmdv.feature_main.ui.adapters.ManufacturerRecyclerViewAdapter
-import com.cmdv.feature_main.ui.decorators.GridManufacturerItemDecorator
+import com.cmdv.feature.R
+import com.cmdv.feature.databinding.FragmentManufacturersBinding
+import com.cmdv.feature.ui.adapters.ManufacturerRecyclerViewAdapter
+import com.cmdv.feature.ui.decorators.GridManufacturerItemDecorator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -39,7 +40,7 @@ class ManufacturersFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ManufacturersFragmentViewModel::class.java)
 
         viewModel.manufacturersLiveData.observe(viewLifecycleOwner, { statusWrapper ->
-            when(statusWrapper.status) {
+            when (statusWrapper.status) {
                 LiveDataStatusWrapper.Status.LOADING -> setLoadingStateView()
                 LiveDataStatusWrapper.Status.SUCCESS -> statusWrapper.data?.run { setInfoStateView(this) }
                 LiveDataStatusWrapper.Status.ERROR -> setErrorStateView()
@@ -65,9 +66,10 @@ class ManufacturersFragment : Fragment() {
     }
 
     private fun onManufacturerClick(id: String, name: String) {
-        val bundle = Bundle()
-        bundle.putString(Constants.ARG_MANUFACTURER_ID, id)
-        bundle.putString(Constants.ARG_MANUFACTURER, name)
+        val bundle = bundleOf(
+            Constants.ARG_MANUFACTURER_ID_KEY to id,
+            Constants.ARG_MANUFACTURER_KEY to name
+        )
         Navigation.findNavController(binding.root)
             .navigate(
                 R.id.action_manufacturersFragment_to_modelsFragment,

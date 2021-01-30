@@ -11,26 +11,39 @@ private const val DEFAULT_STRING_VALUE = ""
 private const val DEFAULT_LONG_VALUE = -1L
 private const val DEFAULT_DOUBLE_VALUE = 0.0
 private const val DEFAULT_BOOLEAN_VALUE = false
+
+private const val FIELD_MANUFACTURER = "manufacturer"
 private const val FIELD_MANUFACTURER_ID = "manufacturer_id"
+private const val FIELD_NAME = "name"
+private const val FIELD_VARIANT = "variant"
+private const val FIELD_VERSION = "version"
+private const val FIELD_DISPLAY_HEIGHT = "display_height"
+private const val FIELD_DISPLAY_WIDTH = "display_width"
+private const val FIELD_DISPLAY_SIZE = "display_size"
+private const val FIELD_IMAGE_URL = "image_url"
+private const val FIELD_DATE_RELEASE = "date_release"
+private const val FIELD_RELEASED = "released"
 
 object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
 
     override fun transformEntityToModel(e: DocumentSnapshot): DeviceModel {
         val id: String = e.id
+        val manufacturer: String = e.getStringValue(FIELD_MANUFACTURER)
         val manufacturerId: String = e.getStringValue(FIELD_MANUFACTURER_ID)
-        val name: String = e.getStringValue("name")
-        val variant: String = e.getStringValue("variant")
-        val version: String = e.getStringValue("version")
-        val displayHeight: Long = e.getLongValue("display_height")
-        val displayWidth: Long = e.getLongValue("display_width")
-        val displaySize: Double = e.getDoubleValue("display_size")
-        val imageUrl: String = e.getStringValue("image_url")
-        val dateRelease: String = e.getTimeStampValue("date_release")
-        val isReleased: Boolean = e.getBooleanValue("released")
+        val name: String = e.getStringValue(FIELD_NAME)
+        val variant: String = e.getStringValue(FIELD_VARIANT)
+        val version: String = e.getStringValue(FIELD_VERSION)
+        val displayHeight: Long = e.getLongValue(FIELD_DISPLAY_HEIGHT)
+        val displayWidth: Long = e.getLongValue(FIELD_DISPLAY_WIDTH)
+        val displaySize: Double = e.getDoubleValue(FIELD_DISPLAY_SIZE)
+        val imageUrl: String = e.getStringValue(FIELD_IMAGE_URL)
+        val dateRelease: String = e.getTimeStampValue(FIELD_DATE_RELEASE)
+        val isReleased: Boolean = e.getBooleanValue(FIELD_RELEASED)
         val releaseStatus: ReleaseStatus = getReleasedStatus(isReleased, dateRelease)
 
         return DeviceModel(
             id,
+            manufacturer,
             manufacturerId,
             name,
             variant,

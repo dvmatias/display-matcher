@@ -1,4 +1,4 @@
-package com.cmdv.feature_main.ui.adapters
+package com.cmdv.feature.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cmdv.domain.models.ManufacturerModel
-import com.cmdv.feature_main.databinding.ItemManufacturerBinding
+import com.cmdv.feature.databinding.ItemManufacturerBinding
 
 class ManufacturerRecyclerViewAdapter(
     private val context: Context,

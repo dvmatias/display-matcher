@@ -1,9 +1,6 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
-    id 'com.google.gms.google-services'
-    id 'kotlin-kapt'
-    id 'koin'
 }
 
 android {
@@ -11,13 +8,13 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.cmdv.displaymatcher"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -36,24 +33,13 @@ android {
 }
 
 dependencies {
+    api project(path: ':common')
     implementation project(path: ':core')
-    implementation project(path: ':data')
-    implementation project(path: ':domain')
-    implementation project(path: ':feature-main')
-    implementation project(path: ':feature-device-details')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     // Testing
     testImplementation libs.junit
     androidTestImplementation libs.junit_ext
     androidTestImplementation libs.espresso_core
-    // Kotlin - Android
-    implementation libs.kotlin_stdlib
-    implementation libs.core_ktx
-    implementation libs.appcompat
-    implementation libs.material
-    // Firebase
-    implementation libs.firebase_firestore
-    implementation libs.firebase_firestore_ktx
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 }

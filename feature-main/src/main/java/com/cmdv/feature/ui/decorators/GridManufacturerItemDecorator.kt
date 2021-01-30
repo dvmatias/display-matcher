@@ -1,4 +1,4 @@
-package com.cmdv.feature_main.ui.decorators
+package com.cmdv.feature.ui.decorators
 
 import android.graphics.Rect
 import android.view.View

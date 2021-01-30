@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/manufacturersFragment"
-        android:name="com.cmdv.feature_main.ui.fragments.manufacturers.ManufacturersFragment"
+        android:name="com.cmdv.feature.ui.fragments.manufacturers.ManufacturersFragment"
         android:label="manufacturers_fragment"
         tools:layout="@layout/fragment_manufacturers" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/modelsFragment"
-        android:name="com.cmdv.feature_main.ui.fragments.devices.DevicesFragment"
+        android:name="com.cmdv.feature.ui.fragments.devices.DevicesFragment"
         android:label="manufacturer_fragment"
         tools:layout="@layout/fragment_devices" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.cmdv.feature_main.ui.fragments.SearchFragment"
+        android:name="com.cmdv.feature.ui.fragments.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
 </navigation>

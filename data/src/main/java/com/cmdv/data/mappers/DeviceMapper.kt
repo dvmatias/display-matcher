@@ -23,6 +23,10 @@ private const val FIELD_DISPLAY_SIZE = "display_size"
 private const val FIELD_IMAGE_URL = "image_url"
 private const val FIELD_DATE_RELEASE = "date_release"
 private const val FIELD_RELEASED = "released"
+private const val FIELD_CAMERA = "camera"
+private const val FIELD_VIDEO = "video"
+private const val FIELD_RAM = "ram"
+private const val FIELD_CHIPSET = "chipset"
 
 object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
 
@@ -40,6 +44,10 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         val dateRelease: String = e.getTimeStampValue(FIELD_DATE_RELEASE)
         val isReleased: Boolean = e.getBooleanValue(FIELD_RELEASED)
         val releaseStatus: ReleaseStatus = getReleasedStatus(isReleased, dateRelease)
+        val camera: String = e.getStringValue(FIELD_CAMERA)
+        val video: String = e.getStringValue(FIELD_VIDEO)
+        val ram: ArrayList<String> = arrayListOf()
+        val chipSet: String = e.getStringValue(FIELD_CHIPSET)
 
         return DeviceModel(
             id,
@@ -54,7 +62,11 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
             imageUrl,
             dateRelease,
             isReleased,
-            releaseStatus
+            releaseStatus,
+            camera,
+            video,
+            ram,
+            chipSet
         )
     }
 

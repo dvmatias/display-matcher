@@ -88,7 +88,10 @@ class DevicesFragment : Fragment() {
 
     private fun goToDeviceDetails(deviceId: String) {
         activity?.let { activity ->
-            val bundle = bundleOf(Constants.EXTRA_DEVICE_ID_KEY to deviceId)
+            val bundle = bundleOf(
+                Constants.EXTRA_DEVICE_ID_KEY to deviceId,
+                Constants.EXTRA_MANUFACTURER_ID_KEY to manufacturerId,
+            )
             navigator.toDeviceDetailsActivity(activity, bundle, null, false)
         }
     }

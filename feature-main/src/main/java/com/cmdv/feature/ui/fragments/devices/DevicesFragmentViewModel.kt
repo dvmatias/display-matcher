@@ -3,10 +3,10 @@ package com.cmdv.feature.ui.fragments.devices
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cmdv.core.extensions.cancelIfActive
 import com.cmdv.data.services.FirebaseDeviceServiceImpl
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
-import com.cmdv.feature.ui.fragments.manufacturers.cancelIfActive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect

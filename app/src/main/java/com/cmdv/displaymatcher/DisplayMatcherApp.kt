@@ -19,7 +19,7 @@ class DisplayMatcherApp : Application() {
         startKoin {
 //            androidLogger()
             androidContext(this@DisplayMatcherApp)
-            modules(appModule)
+            modules(appModule, viewModelModule)
         }
     }
 }

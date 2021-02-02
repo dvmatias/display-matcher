@@ -9,10 +9,8 @@ import com.cmdv.data.services.FirebaseManufacturerServiceImpl
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class DeviceDetailsViewModel : ViewModel() {
@@ -24,30 +22,51 @@ class DeviceDetailsViewModel : ViewModel() {
     private val mutableDeviceLiveData = MutableLiveData<LiveDataStatusWrapper<DeviceModel>>()
     val deviceLiveData = mutableDeviceLiveData
 
-    fun getManufacturer(manufacturerId: String) {
+    private val mutableIsLoadFinishedLiveData = MutableLiveData<Boolean>()
+    val isLoadFinishedLiveData = mutableIsLoadFinishedLiveData
+
+    private var isManufacturerGetFinished = false
+    private var isDeviceGetFinished = false
+
+    fun getData(id: String, manufacturerId: String) {
+        getManufacturer(manufacturerId)
+        getDevice(id, manufacturerId)
+    }
+
+    private fun getManufacturer(manufacturerId: String) {
         if (manufacturerId.isEmpty()) {
             mutableManufacturerLiveData.value = LiveDataStatusWrapper(LiveDataStatusWrapper.Status.ERROR, null, "Manufacturer ID can't be null")
             return
         }
         getManufacturerJob.cancelIfActive()
         getManufacturerJob = viewModelScope.launch {
-            FirebaseManufacturerServiceImpl.getManufacturer(manufacturerId).collect { manufacturerStatusWrapper ->
-                manufacturerLiveData.value = manufacturerStatusWrapper
+            FirebaseManufacturerServiceImpl.getManufacturer(manufacturerId).collect {
+                mutableManufacturerLiveData.value = it
+                isManufacturerGetFinished = it.status == LiveDataStatusWrapper.Status.SUCCESS
+                setFinishLoadStatus()
             }
         }
     }
 
-    fun getDevice(id: String, manufacturerId: String) {
+    private fun getDevice(id: String, manufacturerId: String) {
         if (id.isEmpty() || manufacturerId.isEmpty()) {
             mutableDeviceLiveData.value = LiveDataStatusWrapper(LiveDataStatusWrapper.Status.ERROR, null, "Device ID can't be null")
             return
         }
         getDeviceJob.cancelIfActive()
         getDeviceJob = viewModelScope.launch {
-            FirebaseDeviceServiceImpl.getDevice(id, manufacturerId).collect { deviceStatusWrapper ->
-                mutableDeviceLiveData.value = deviceStatusWrapper
+            FirebaseDeviceServiceImpl.getDevice(id, manufacturerId).collect {
+                mutableDeviceLiveData.value = it
+                isDeviceGetFinished = it.status == LiveDataStatusWrapper.Status.SUCCESS
+                setFinishLoadStatus()
             }
         }
     }
+
+    private fun setFinishLoadStatus() {
+        mutableIsLoadFinishedLiveData.value = isManufacturerGetFinished && isDeviceGetFinished
+    }
+
+
 
 }

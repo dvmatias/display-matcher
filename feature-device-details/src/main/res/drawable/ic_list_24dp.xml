@@ -10,7 +10,7 @@
             android:name="path"
             android:pathData="M 3.458 6.702 L 20.541 6.702 M 3.458 12 L 13.568 12 M 3.458 17.298 L 8.513 17.298"
             android:strokeColor="#303030"
-            android:strokeWidth="2.3"
+            android:strokeWidth="2.5"
             android:strokeLineCap="round"/>
     </group>
 </vector>

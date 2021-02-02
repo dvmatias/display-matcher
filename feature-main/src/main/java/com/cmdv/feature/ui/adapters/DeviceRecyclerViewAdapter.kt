@@ -48,24 +48,24 @@ class DeviceRecyclerViewAdapter(
             this.device = device
 
             setDeviceName()
-            setReleaseInfo(context)
+            setReleaseDate(context)
             setDeviceImage(context)
             setClickListener(listener)
         }
 
         private fun setDeviceName() {
-            binding.textViewName.text = StringHelper.getDeviceFullName(device)
+            binding.textViewName.text = StringHelper.getDeviceFullNameWithManufacturer(device)
         }
 
-        private fun setReleaseInfo(context: Context) {
+        private fun setReleaseDate(context: Context) {
             val releaseStatusText = when (device.releaseStatus) {
-                ReleaseStatus.RELEASED -> context.getString(R.string.item_device_release_status_released)
-                ReleaseStatus.NOT_RELEASED -> context.getString(R.string.item_device_release_status_not_released)
-                ReleaseStatus.DELAYED -> context.getString(R.string.item_device_release_status_delayed)
+                ReleaseStatus.RELEASED -> context.getString(R.string.text_item_device_release_status_released)
+                ReleaseStatus.NOT_RELEASED -> context.getString(R.string.text_item_device_release_status_not_released)
+                ReleaseStatus.DELAYED -> context.getString(R.string.text_item_device_release_status_delayed)
             }
             binding.textViewReleaseDate.text =
                 context.getString(
-                    R.string.item_device_release_placeholder,
+                    R.string.placeholder_item_device_release,
                     releaseStatusText,
                     StringHelper.capitalizeFirstLetterOnly(device.dateRelease),
                 )

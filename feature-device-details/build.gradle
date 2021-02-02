@@ -44,11 +44,16 @@ dependencies {
     androidTestImplementation libs.junit_ext
     androidTestImplementation libs.espresso_core
     // Kotlin - Android
+    implementation libs.core_ktx
     implementation libs.kotlin_stdlib
     implementation libs.constraintlayout
     implementation libs.appcompat
     implementation libs.lifecycle_livedata_ktx
     implementation libs.lifecycle_viewmodel_ktx
+    // Coroutines
+    implementation libs.coroutines_play_services
+    implementation libs.coroutines_core
+    implementation libs.coroutines_android
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'

@@ -46,7 +46,7 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         val releaseStatus: ReleaseStatus = getReleasedStatus(isReleased, dateRelease)
         val camera: String = e.getStringValue(FIELD_CAMERA)
         val video: String = e.getStringValue(FIELD_VIDEO)
-        val ram: ArrayList<String> = arrayListOf()
+        val ram: ArrayList<String> = e.get("ram") as ArrayList<String>
         val chipSet: String = e.getStringValue(FIELD_CHIPSET)
 
         return DeviceModel(

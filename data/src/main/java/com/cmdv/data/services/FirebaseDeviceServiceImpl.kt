@@ -50,7 +50,6 @@ object FirebaseDeviceServiceImpl : FirebaseDeviceService {
 
     override suspend fun getDevice(id: String, manufacturerId: String): Flow<LiveDataStatusWrapper<DeviceModel>> =
         callbackFlow {
-            offer(LiveDataStatusWrapper.loading(null))
             val docRef = db.collection(COLLECTION_MANUFACTURERS_PATH)
                 .document(manufacturerId)
                 .collection(COLLECTION_DEVICES_PATH)

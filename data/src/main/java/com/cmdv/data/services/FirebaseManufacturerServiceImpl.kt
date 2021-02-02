@@ -24,7 +24,7 @@ object FirebaseManufacturerServiceImpl : FirebaseManufacturerService {
 
     override suspend fun getManufacturer(id: String): Flow<LiveDataStatusWrapper<ManufacturerModel>>  =
         callbackFlow {
-            offer(LiveDataStatusWrapper.loading(null))
+            delay(1250) // TODO fake delay remove!!!!!!!!
             val docRef = db.collection(COLLECTION_MANUFACTURERS_PATH).document(id)
             docRef.get()
                 .addOnSuccessListener { documentSnapshot ->

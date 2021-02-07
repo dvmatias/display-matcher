@@ -215,15 +215,14 @@
         android:layout_marginStart="16dp"
         android:background="@null"
         android:padding="8dp"
-        android:tint="@android:color/black"
         android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_list_24dp" />
 
-    <View
-        android:id="@+id/view"
+    <FrameLayout
+        android:id="@+id/fameInfoFragmentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -231,6 +230,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+    </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/fameCompareFragmentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="#58E133"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

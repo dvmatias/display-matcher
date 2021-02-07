@@ -229,20 +229,28 @@
         android:background="@null"
         android:contentDescription="@null"
         android:padding="8dp"
-        android:tint="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/textViewRelease"
         app:layout_constraintEnd_toStartOf="@id/guideLineRight"
         app:layout_constraintTop_toTopOf="@+id/textViewDeviceName"
         app:srcCompat="@drawable/ic_list_24dp" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/fameInfoFragmentContainer"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:background="#ff9800"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+    </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/fameCompareFragmentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="#58E133"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

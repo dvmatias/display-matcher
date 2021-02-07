@@ -8,7 +8,7 @@
     <path
         android:name="path_1"
         android:pathData="M 11.538 21 L 18.85 21 C 19.95 21 20.85 20.1 20.85 19 L 20.85 5 C 20.85 3.9 19.95 3 18.85 3 L 11.225 3"
-        android:strokeColor="#45b291"
+        android:strokeColor="#ACE346"
         android:strokeWidth="2.3"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"

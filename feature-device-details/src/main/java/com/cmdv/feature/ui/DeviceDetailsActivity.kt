@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.FragmentTransaction
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.cmdv.common.utils.Constants
@@ -14,12 +15,18 @@ import com.cmdv.domain.models.ReleaseStatus
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature.R
 import com.cmdv.feature.databinding.ActivityDeviceDetailsMainBinding
+import com.cmdv.feature.ui.fragments.InfoFragment
+import com.google.gson.Gson
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class DeviceDetailsActivity : AppCompatActivity() {
     private val viewModel: DeviceDetailsViewModel by viewModel()
     private lateinit var binding: ActivityDeviceDetailsMainBinding
+
+    private val gson: Gson by inject()
 
     private lateinit var deviceId: String
     private lateinit var manufacturerId: String
@@ -92,7 +99,8 @@ class DeviceDetailsActivity : AppCompatActivity() {
         viewModel.deviceLiveData.observe(this, {
             if (it.status == LiveDataStatusWrapper.Status.SUCCESS) {
                 device = it.data
-                setDeviceDetails()
+                setDeviceMinimalisticDetails()
+                inflateInfoFragment()
             }
         })
         viewModel.isLoadFinishedLiveData.observe(this, { isLoadFinished ->
@@ -111,7 +119,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDeviceDetails() {
+    private fun setDeviceMinimalisticDetails() {
         device?.let {
             binding.textViewDeviceName.text = StringHelper.getDeviceFullName(it)
             setImage()
@@ -169,12 +177,19 @@ class DeviceDetailsActivity : AppCompatActivity() {
         device?.let {
             var ram = ""
             it.ram.forEach { value ->
-                ram+= value
+                ram += value
                 if (it.ram.indexOf(value) != it.ram.size - 1) ram += "/"
             }
             binding.textViewRam.text = String.format(getString(R.string.placeholder_device_detail_ram), ram)
             binding.textViewChipSet.text = it.chipset
         }
+    }
+
+    private fun inflateInfoFragment() {
+        val fragment = InfoFragment.newInstance(gson.toJson(device))
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        transaction.add(binding.fameInfoFragmentContainer.id, fragment)
+        transaction.commit()
     }
 
 }

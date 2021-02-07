@@ -1,7 +1,11 @@
 <resources>
     <string name="title_manufacturers">Manufacturers</string>
-    <string name="item_device_release_placeholder">%1s %2s</string>
-    <string name="item_device_release_status_released">Released</string>
-    <string name="item_device_release_status_not_released">Exp. Release</string>
-    <string name="item_device_release_status_delayed">Release Delayed</string>
+    <string name="placeholder_item_device_release">%1s %2s</string>
+    <string name="text_item_device_release_status_released">Released</string>
+    <string name="text_item_device_release_status_not_released">Exp. Release</string>
+    <string name="text_item_device_release_status_delayed">Release Delayed</string>
+
+    <string name="placeholder_device_detail_display_size">%1$.1f\"</string>
+    <string name="placeholder_device_detail_display_resolution">%1dx%2d pixels</string>
+    <string name="placeholder_device_detail_ram">%1sGB</string>
 </resources>

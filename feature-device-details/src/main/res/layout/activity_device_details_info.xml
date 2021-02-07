@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".ui.DeviceDetailsActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineMid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <ImageView
+        android:id="@+id/imageViewBackButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/ic_back_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewCompareButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/ic_compare_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewManufacturer"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@null"
+        android:src="@drawable/motorola"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewBackButton"
+        app:layout_constraintEnd_toStartOf="@id/textViewManufacturer"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/imageViewBackButton"
+        app:layout_constraintTop_toTopOf="@+id/imageViewBackButton" />
+
+    <TextView
+        android:id="@+id/textViewManufacturer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="Motorola"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewManufacturer"
+        app:layout_constraintEnd_toStartOf="@id/imageViewCompareButton"
+        app:layout_constraintStart_toEndOf="@+id/imageViewManufacturer"
+        app:layout_constraintTop_toTopOf="@+id/imageViewManufacturer" />
+
+    <ImageView
+        android:id="@+id/imageViewDevice"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        tools:src="@drawable/moto_edge_s"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/guideLineMid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewManufacturer" />
+
+    <TextView
+        android:id="@+id/textViewDeviceName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="Moto G9 Play"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/textViewRelease"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideLineMid"
+        app:layout_constraintTop_toTopOf="@+id/imageViewDevice"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textViewRelease"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        tools:text="Released January 14, 2021"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDisplaySize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDeviceName" />
+
+    <TextView
+        android:id="@+id/textViewDisplaySize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="6.8"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDisplayResolution"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRelease" />
+
+    <TextView
+        android:id="@+id/textViewDisplayResolution"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="1080x2540 pixels"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCameraPhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDisplaySize" />
+
+    <TextView
+        android:id="@+id/textViewCameraPhoto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="48MP"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCameraVideo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDisplayResolution" />
+
+    <TextView
+        android:id="@+id/textViewCameraVideo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="3020p"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewRam"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCameraPhoto" />
+
+    <TextView
+        android:id="@+id/textViewRam"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="4/6GB Ram"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewChipSet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCameraVideo" />
+
+    <TextView
+        android:id="@+id/textViewChipSet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/cereal_medium"
+        tools:text="Snapdragon 870 5G"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRam" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="imageViewDevice, textViewDeviceName, textViewRelease, textViewDisplaySize, textViewDisplayResolution, textViewCameraPhoto, textViewCameraVideo,textViewRam, textViewChipSet" />
+
+    <ImageButton
+        android:id="@+id/imageButtonInfo"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:background="@null"
+        android:padding="8dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_list_24dp" />
+
+    <FrameLayout
+        android:id="@+id/fameInfoFragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="#ff9800"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fameCompareFragmentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="#58E133"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

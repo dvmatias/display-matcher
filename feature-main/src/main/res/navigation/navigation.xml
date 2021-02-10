@@ -11,24 +11,20 @@
         android:label="manufacturers_fragment"
         tools:layout="@layout/fragment_manufacturers" >
         <action
-            android:id="@+id/action_manufacturersFragment_to_modelsFragment"
-            app:destination="@id/modelsFragment" />
-        <action
-            android:id="@+id/action_manufacturersFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            android:id="@+id/action_manufacturersFragment_to_devicesFragment"
+            app:destination="@id/devicesFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
-        android:id="@+id/modelsFragment"
+        android:id="@+id/devicesFragment"
         android:name="com.cmdv.feature.ui.fragments.devices.DevicesFragment"
         android:label="manufacturer_fragment"
         tools:layout="@layout/fragment_devices" >
         <action
-            android:id="@+id/action_modelsFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            android:id="@+id/action_devicesFragment_to_manufacturersFragment"
+            app:destination="@id/manufacturersFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
     </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.cmdv.feature.ui.fragments.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
 </navigation>

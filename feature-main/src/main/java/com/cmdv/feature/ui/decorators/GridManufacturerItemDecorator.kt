@@ -8,8 +8,7 @@ class GridManufacturerItemDecorator(
     private val spacing: Int,
     private val spanCount: Int,
     private val includeEdge: Boolean
-) :
-    RecyclerView.ItemDecoration() {
+) : RecyclerView.ItemDecoration() {
 
     /**
      * Applies padding to all sides of the [Rect], which is the container for the view

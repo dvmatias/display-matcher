@@ -16,7 +16,9 @@ import com.cmdv.feature.R
 import com.cmdv.feature.databinding.FragmentManufacturersBinding
 import com.cmdv.feature.ui.adapters.ManufacturerRecyclerViewAdapter
 import com.cmdv.feature.ui.decorators.GridManufacturerItemDecorator
+import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
 class ManufacturersFragment : Fragment() {
@@ -25,6 +27,7 @@ class ManufacturersFragment : Fragment() {
     private lateinit var binding: FragmentManufacturersBinding
 
     private lateinit var manufacturerAdapter: ManufacturerRecyclerViewAdapter
+    private val gson: Gson by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,14 +68,12 @@ class ManufacturersFragment : Fragment() {
         }
     }
 
-    private fun onManufacturerClick(id: String, name: String) {
-        val bundle = bundleOf(
-            Constants.ARG_MANUFACTURER_ID_KEY to id,
-            Constants.ARG_MANUFACTURER_KEY to name
-        )
+    private fun onManufacturerClick(position: Int) {
+        val manufacturer: ManufacturerModel = manufacturerAdapter.getItemAt(position)
+        val bundle = bundleOf(Constants.ARG_MANUFACTURER_KEY to gson.toJson(manufacturer, ManufacturerModel::class.java))
         Navigation.findNavController(binding.root)
             .navigate(
-                R.id.action_manufacturersFragment_to_modelsFragment,
+                R.id.action_manufacturersFragment_to_devicesFragment,
                 bundle
             )
     }

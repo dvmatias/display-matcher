@@ -10,7 +10,7 @@ import com.cmdv.feature.databinding.ItemManufacturerBinding
 
 class ManufacturerRecyclerViewAdapter(
     private val context: Context,
-    private val listener: (String, String) -> Unit
+    private val listener: (position: Int) -> Unit
 ) : RecyclerView.Adapter<ManufacturerRecyclerViewAdapter.ManufacturerViewHolder>() {
 
     private val items: ArrayList<ManufacturerModel> = arrayListOf()
@@ -30,10 +30,13 @@ class ManufacturerRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ManufacturerViewHolder, position: Int) {
-        holder.bindItem(items[position], context, listener)
+        holder.bindItem(items[position], context, listener, position)
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun getItemAt(position: Int): ManufacturerModel =
+        items[position]
 
     /**
      * [ManufacturerRecyclerViewAdapter] View holder pattern class.
@@ -44,14 +47,15 @@ class ManufacturerRecyclerViewAdapter(
         fun bindItem(
             manufacturer: ManufacturerModel,
             context: Context,
-            listener: (String, String) -> Unit
+            listener: (position: Int) -> Unit,
+            position: Int
         ) {
             with(manufacturer) {
                 Glide.with(context)
                     .load(imageUrl)
                     .into(binding.imageViewLogo)
                 binding.textViewName.text = name
-                binding.cardViewContainer.setOnClickListener { listener.invoke(id, name) }
+                binding.cardViewContainer.setOnClickListener { listener.invoke(position) }
             }
         }
 

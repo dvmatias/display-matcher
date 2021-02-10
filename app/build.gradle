@@ -41,6 +41,7 @@ dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':feature-main')
     implementation project(path: ':feature-device-details')
+    implementation project(path: ':feature-devices-search')
     // Testing
     testImplementation libs.junit
     androidTestImplementation libs.junit_ext

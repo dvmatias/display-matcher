@@ -7,18 +7,18 @@ object StringHelper {
 
     fun getDeviceFullName(device: DeviceModel): String {
         val builder = StringBuilder()
-        if (device.name.isNotEmpty()) builder.append("${device.name} ")
-        if (device.version.isNotEmpty()) builder.append("${device.version} ")
-        if (device.variant.isNotEmpty()) builder.append(device.variant)
+        if (device.model.name.isNotEmpty()) builder.append("${device.model.name} ")
+        if (device.model.version.isNotEmpty()) builder.append("${device.model.version} ")
+        if (device.model.variant.isNotEmpty()) builder.append(device.model.variant)
         return builder.toString()
     }
 
     fun getDeviceFullNameWithManufacturer(device: DeviceModel): String {
         val builder = StringBuilder()
-        builder.append("${capitalizeFirstLetterOnly(device.manufacturer)} ")
-        if (device.name.isNotEmpty()) builder.append("${device.name} ")
-        if (device.version.isNotEmpty()) builder.append("${device.version} ")
-        if (device.variant.isNotEmpty()) builder.append(device.variant)
+        builder.append("${capitalizeFirstLetterOnly(DeviceIdHelper.getDeviceManufacturer(device.id))} ")
+        if (device.model.name.isNotEmpty()) builder.append("${device.model.name} ")
+        if (device.model.version.isNotEmpty()) builder.append("${device.model.version} ")
+        if (device.model.variant.isNotEmpty()) builder.append(device.model.variant)
         return builder.toString()
     }
 

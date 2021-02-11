@@ -11,7 +11,6 @@ import com.cmdv.common.utils.Constants
 import com.cmdv.core.helpers.StringHelper
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ManufacturerModel
-import com.cmdv.domain.models.ReleaseStatus
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature.R
 import com.cmdv.feature.databinding.ActivityDeviceDetailsMainBinding
@@ -124,65 +123,55 @@ class DeviceDetailsActivity : AppCompatActivity() {
             binding.textViewDeviceName.text = StringHelper.getDeviceFullName(it)
             setImage()
             setReleaseStatus()
-            setDisplay()
-            setCamera()
-            setRam()
+            setDisplay(it.resume)
+            setCamera(it.resume)
+            setRam(it.resume)
         }
     }
 
     private fun setImage() {
         device?.let {
-            Glide.with(this@DeviceDetailsActivity).load(it.imageUrl).into(binding.imageViewDevice)
+            Glide.with(this@DeviceDetailsActivity).load(it.thumbnail).into(binding.imageViewDevice)
         }
     }
 
     private fun setReleaseStatus() {
         device?.let {
-            val releaseStatusText = when (it.releaseStatus) {
-                ReleaseStatus.RELEASED -> getString(R.string.text_item_device_release_status_released)
-                ReleaseStatus.NOT_RELEASED -> getString(R.string.text_item_device_release_status_not_released)
-                ReleaseStatus.DELAYED -> getString(R.string.text_item_device_release_status_delayed)
-            }
-            binding.textViewRelease.text =
-                getString(
-                    R.string.placeholder_item_device_release,
-                    releaseStatusText,
-                    StringHelper.capitalizeFirstLetterOnly(it.dateRelease),
-                )
+//            val releaseStatusText = when (it.releaseStatus) {
+//                ReleaseStatus.RELEASED -> getString(R.string.text_item_device_release_status_released)
+//                ReleaseStatus.NOT_RELEASED -> getString(R.string.text_item_device_release_status_not_released)
+//                ReleaseStatus.DELAYED -> getString(R.string.text_item_device_release_status_delayed)
+//            }
+//            binding.textViewRelease.text =
+//                getString(
+//                    R.string.placeholder_item_device_release,
+//                    releaseStatusText,
+//                    StringHelper.capitalizeFirstLetterOnly(it.dateRelease),
+//                )
         }
     }
 
-    private fun setDisplay() {
-        device?.let {
-            binding.textViewDisplaySize.text = String.format(
-                getString(R.string.placeholder_device_detail_display_size),
-                it.displaySize
-            )
-            binding.textViewDisplayResolution.text = String.format(
-                getString(R.string.placeholder_device_detail_display_resolution),
-                it.displayWidth,
-                it.displayHeight
-            )
-        }
+    private fun setDisplay(resume: DeviceModel.ResumeModel) {
+        binding.textViewDisplaySize.text = String.format(
+            getString(R.string.placeholder_device_detail_display_size),
+            resume.display
+        )
+        binding.textViewDisplayResolution.text = String.format(
+            getString(R.string.placeholder_device_detail_display_resolution),
+            resume.resolution
+        )
+
     }
 
-    private fun setCamera() {
-        device?.let {
-            binding.textViewCameraPhoto.text = it.camera
-            binding.textViewCameraVideo.text = it.video
-        }
+    private fun setCamera(resume: DeviceModel.ResumeModel) {
+        binding.textViewCameraPhoto.text = resume.camera
+        binding.textViewCameraVideo.text = resume.video
     }
 
-    private fun setRam() {
-        device?.let {
-            var ram = ""
-            it.ram.forEach { value ->
-                ram += value
-                if (it.ram.indexOf(value) != it.ram.size - 1) ram += "/"
-            }
-            binding.textViewRam.text = String.format(getString(R.string.placeholder_device_detail_ram), ram)
-            binding.textViewChipSet.text = it.chipset
-        }
+    private fun setRam(resume: DeviceModel.ResumeModel) {
+        binding.textViewRam.text = resume.ram
+        binding.textViewChipSet.text = resume.chipset
+
     }
 
     private fun inflateInfoFragment() {

@@ -8,10 +8,7 @@ import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.services.FirebaseDeviceService
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -25,39 +22,31 @@ object FirebaseDeviceServiceImpl : FirebaseDeviceService {
     override suspend fun getDevices(manufacturerId: String): Flow<LiveDataStatusWrapper<List<DeviceModel>>> =
         callbackFlow {
             offer(LiveDataStatusWrapper.loading(null))
-            val listenerRegistration =
-                db.collection(COLLECTION_MANUFACTURERS_PATH)
-                    .document(manufacturerId)
-                    .collection(COLLECTION_DEVICES_PATH)
-                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firebaseFirestoreException: FirebaseFirestoreException? ->
-                        if (firebaseFirestoreException != null) {
-                            cancel(
-                                message = "Error fetching devices of manufacter with ID=$manufacturerId",
-                                cause = firebaseFirestoreException
-                            )
-                            return@addSnapshotListener
-                        }
-                        val map = querySnapshot?.documents?.mapNotNull { snapShot ->
-                            DeviceMapper.transformEntityToModel(snapShot)
-                        }
-                        offer(LiveDataStatusWrapper.success(map))
+            val collection = db.collection(COLLECTION_DEVICES_PATH)
+            val query = collection.whereEqualTo("manufacturer_id", manufacturerId)
+
+            query.get().addOnSuccessListener { task ->
+                val map =
+                    task?.documents?.mapNotNull { snapShot ->
+                        DeviceMapper.transformEntityToModel(snapShot)
                     }
+                offer(LiveDataStatusWrapper.success(map))
+            }
             awaitClose {
                 Log.d(TAG, "Cancelling posts listener")
-                listenerRegistration.remove()
             }
         }
 
-    override suspend fun getDevice(id: String, manufacturerId: String): Flow<LiveDataStatusWrapper<DeviceModel>> =
+    override suspend fun getDevice(id: String): Flow<LiveDataStatusWrapper<DeviceModel>> =
         callbackFlow {
-            val docRef = db.collection(COLLECTION_MANUFACTURERS_PATH)
-                .document(manufacturerId)
-                .collection(COLLECTION_DEVICES_PATH)
-                .document(id)
+            val docRef = db.collection(COLLECTION_DEVICES_PATH).document(id)
+
             docRef.get()
                 .addOnSuccessListener { documentSnapshot ->
                     val deviceModel =
-                        if (documentSnapshot != null) { DeviceMapper.transformEntityToModel(documentSnapshot) } else null
+                        if (documentSnapshot != null) {
+                            DeviceMapper.transformEntityToModel(documentSnapshot)
+                        } else null
                     offer(LiveDataStatusWrapper.success(deviceModel))
                 }
             awaitClose {

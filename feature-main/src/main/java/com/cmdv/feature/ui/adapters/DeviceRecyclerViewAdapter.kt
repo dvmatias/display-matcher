@@ -21,7 +21,7 @@ class DeviceRecyclerViewAdapter(
     fun setItems(devices: List<DeviceModel>) {
         items.apply {
             clear()
-            addAll(devices.sortedBy { it.name })
+            addAll(devices.sortedBy { it.model.name })
         }
         notifyDataSetChanged()
     }
@@ -54,27 +54,29 @@ class DeviceRecyclerViewAdapter(
         }
 
         private fun setDeviceName() {
-            binding.textViewName.text = StringHelper.getDeviceFullNameWithManufacturer(device)
+            binding.textViewName.text = StringHelper.getDeviceFullName(device)
         }
 
         private fun setReleaseDate(context: Context) {
-            val releaseStatusText = when (device.releaseStatus) {
-                ReleaseStatus.RELEASED -> context.getString(R.string.text_item_device_release_status_released)
-                ReleaseStatus.NOT_RELEASED -> context.getString(R.string.text_item_device_release_status_not_released)
-                ReleaseStatus.DELAYED -> context.getString(R.string.text_item_device_release_status_delayed)
-            }
-            binding.textViewReleaseDate.text =
-                context.getString(
-                    R.string.placeholder_item_device_release,
-                    releaseStatusText,
-                    StringHelper.capitalizeFirstLetterOnly(device.dateRelease),
-                )
-
+//
+//
+//
+//            val releaseStatusText = when (device.launch.release.status) {
+//                ReleaseStatus.RELEASED -> context.getString(R.string.text_item_device_release_status_released)
+//                ReleaseStatus.NOT_RELEASED -> context.getString(R.string.text_item_device_release_status_not_released)
+//                ReleaseStatus.DELAYED -> context.getString(R.string.text_item_device_release_status_delayed)
+//            }
+//            binding.textViewReleaseDate.text =
+//                context.getString(
+//                    R.string.placeholder_item_device_release,
+//                    releaseStatusText,
+//                    StringHelper.capitalizeFirstLetterOnly(device.dateRelease),
+//                )
         }
 
         private fun setDeviceImage(context: Context) {
             Glide.with(context)
-                .load(device.imageUrl)
+                .load(device.thumbnail)
                 .into(binding.imageViewDevice)
         }
 

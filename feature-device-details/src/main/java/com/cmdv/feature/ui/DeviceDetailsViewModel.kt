@@ -30,7 +30,7 @@ class DeviceDetailsViewModel : ViewModel() {
 
     fun getData(id: String, manufacturerId: String) {
         getManufacturer(manufacturerId)
-        getDevice(id, manufacturerId)
+        getDevice(id)
     }
 
     private fun getManufacturer(manufacturerId: String) {
@@ -48,14 +48,14 @@ class DeviceDetailsViewModel : ViewModel() {
         }
     }
 
-    private fun getDevice(id: String, manufacturerId: String) {
-        if (id.isEmpty() || manufacturerId.isEmpty()) {
+    private fun getDevice(id: String) {
+        if (id.isEmpty()) {
             mutableDeviceLiveData.value = LiveDataStatusWrapper(LiveDataStatusWrapper.Status.ERROR, null, "Device ID can't be null")
             return
         }
         getDeviceJob.cancelIfActive()
         getDeviceJob = viewModelScope.launch {
-            FirebaseDeviceServiceImpl.getDevice(id, manufacturerId).collect {
+            FirebaseDeviceServiceImpl.getDevice(id).collect {
                 mutableDeviceLiveData.value = it
                 isDeviceGetFinished = it.status == LiveDataStatusWrapper.Status.SUCCESS
                 setFinishLoadStatus()

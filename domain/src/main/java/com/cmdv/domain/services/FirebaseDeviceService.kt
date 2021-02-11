@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface FirebaseDeviceService {
 
     suspend fun getDevices(manufacturerId: String): Flow<LiveDataStatusWrapper<List<DeviceModel>>>
-    suspend fun getDevice(id: String, manufacturerId: String): Flow<LiveDataStatusWrapper<DeviceModel>>
+    suspend fun getDevice(id: String): Flow<LiveDataStatusWrapper<DeviceModel>>
 
 }

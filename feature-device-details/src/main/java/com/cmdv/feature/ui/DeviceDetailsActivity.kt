@@ -8,7 +8,9 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.cmdv.common.utils.Constants
+import com.cmdv.core.helpers.DimensHelper
 import com.cmdv.core.helpers.StringHelper
+import com.cmdv.core.helpers.TextAnimationHelper
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
@@ -19,6 +21,7 @@ import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
+private const val ANIM_DURATION = 350L
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class DeviceDetailsActivity : AppCompatActivity() {
@@ -67,11 +70,44 @@ class DeviceDetailsActivity : AppCompatActivity() {
             TransitionManager.beginDelayedTransition(binding.root)
             mainConstraint.applyTo(binding.root)
             if (isLoadFinished) hideLoading()
+
+            TextAnimationHelper.animateTextSize(
+                this,
+                binding.textViewDeviceName.textSize,
+                DimensHelper.spToPx(this, 20F),
+                ANIM_DURATION,
+                binding.textViewDeviceName
+            )
+
+            TextAnimationHelper.animateTextSize(
+                this,
+                binding.textViewDisplaySize.textSize,
+                DimensHelper.spToPx(this, 18F),
+                ANIM_DURATION,
+                binding.textViewDisplaySize, binding.textViewCameraPhoto, binding.textViewRam, binding.textViewCapacity
+            )
         }
 
         binding.imageButtonInfo.setOnClickListener {
             TransitionManager.beginDelayedTransition(binding.root)
             infoConstraint.applyTo(binding.root)
+
+            TextAnimationHelper.animateTextSize(
+                this,
+                binding.textViewDeviceName.textSize,
+                DimensHelper.spToPx(this, 16F),
+                ANIM_DURATION,
+                binding.textViewDeviceName
+            )
+
+            TextAnimationHelper.animateTextSize(
+                this,
+                binding.textViewDisplaySize.textSize,
+                DimensHelper.spToPx(this, 14F),
+                ANIM_DURATION,
+                binding.textViewDisplaySize, binding.textViewCameraPhoto, binding.textViewRam, binding.textViewCapacity
+            )
+
         }
 
         binding.imageViewCompareButton.setOnClickListener {
@@ -98,7 +134,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
         viewModel.deviceLiveData.observe(this, {
             if (it.status == LiveDataStatusWrapper.Status.SUCCESS) {
                 device = it.data
-                setDeviceMinimalisticDetails()
+                setResume()
                 inflateInfoFragment()
             }
         })
@@ -118,7 +154,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDeviceMinimalisticDetails() {
+    private fun setResume() {
         device?.let {
             binding.textViewDeviceName.text = StringHelper.getDeviceFullName(it)
             setImage()
@@ -126,6 +162,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
             setDisplay(it.resume)
             setCamera(it.resume)
             setRam(it.resume)
+            setBattery(it.resume)
         }
     }
 
@@ -172,6 +209,11 @@ class DeviceDetailsActivity : AppCompatActivity() {
         binding.textViewRam.text = resume.ram
         binding.textViewChipSet.text = resume.chipset
 
+    }
+
+    private fun setBattery(resume: DeviceModel.ResumeModel) {
+        binding.textViewCapacity.text = resume.capacity
+        binding.textViewTechnology.text = resume.technology
     }
 
     private fun inflateInfoFragment() {

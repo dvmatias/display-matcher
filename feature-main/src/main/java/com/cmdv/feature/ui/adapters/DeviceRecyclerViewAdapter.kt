@@ -50,6 +50,7 @@ class DeviceRecyclerViewAdapter(
             setDeviceName()
             setReleaseDate(context)
             setDeviceImage(context)
+            setResume(context)
             setClickListener(listener)
         }
 
@@ -77,7 +78,16 @@ class DeviceRecyclerViewAdapter(
         private fun setDeviceImage(context: Context) {
             Glide.with(context)
                 .load(device.thumbnail)
-                .into(binding.imageViewDevice)
+                .into(binding.imageViewThumbnail)
+        }
+
+        private fun setResume(context: Context) {
+            with(device.resume) {
+                binding.textViewDisplay.text = context.getString(R.string.placeholder_item_device_display_size, display)
+                binding.textViewCamera.text = camera
+                binding.textViewRam.text = ram
+                binding.textViewCapacity.text = capacity
+            }
         }
 
         private fun setClickListener(listener: ((String) -> Unit)?) {

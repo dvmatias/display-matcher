@@ -16,4 +16,12 @@ object DimensHelper {
         val r = context.resources
         return px / (r.displayMetrics.densityDpi / 160f)
     }
+
+    fun spToPx(context: Context, sp: Float): Float {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.resources.displayMetrics)
+    }
+
+    fun pxToSp(context: Context, px: Float): Float {
+        return px / context.resources.displayMetrics.scaledDensity
+    }
 }

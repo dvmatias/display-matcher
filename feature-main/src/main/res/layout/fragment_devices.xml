@@ -37,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingStart="12dp"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="#989898"
         android:text="Search for..."
         android:gravity="center_vertical"

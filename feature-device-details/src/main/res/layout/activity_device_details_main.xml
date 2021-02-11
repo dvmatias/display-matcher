@@ -98,8 +98,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:fontFamily="@font/cereal_medium"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewManufacturer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewManufacturer"
@@ -121,6 +121,13 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewManufacturer"
         tools:src="@drawable/moto_edge_s" />
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="imageViewDevice" />
+
     <TextView
         android:id="@+id/textViewDeviceName"
         android:layout_width="wrap_content"
@@ -128,16 +135,17 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/cereal_medium"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#202124"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewRelease"
         app:layout_constraintStart_toStartOf="@+id/guideLineLeft"
         app:layout_constraintTop_toBottomOf="@+id/imageViewDevice"
-        app:layout_constraintVertical_bias="0.5"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Moto G9 Play" />
 
     <TextView
         android:id="@+id/textViewRelease"
+        style="@style/ResumeSubtitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -148,10 +156,9 @@
 
     <TextView
         android:id="@+id/textViewDisplaySize"
+        style="@style/ResumeTitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_medium"
-        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewDisplayResolution"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewRelease"
@@ -159,11 +166,10 @@
 
     <TextView
         android:id="@+id/textViewDisplayResolution"
+        style="@style/ResumeSubtitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/cereal_medium"
-        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewCameraPhoto"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewDisplaySize"
@@ -171,10 +177,9 @@
 
     <TextView
         android:id="@+id/textViewCameraPhoto"
+        style="@style/ResumeTitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_medium"
-        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewCameraVideo"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewDisplayResolution"
@@ -182,11 +187,10 @@
 
     <TextView
         android:id="@+id/textViewCameraVideo"
+        style="@style/ResumeSubtitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/cereal_medium"
-        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewRam"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewCameraPhoto"
@@ -194,10 +198,9 @@
 
     <TextView
         android:id="@+id/textViewRam"
+        style="@style/ResumeTitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_medium"
-        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewChipSet"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewCameraVideo"
@@ -205,21 +208,34 @@
 
     <TextView
         android:id="@+id/textViewChipSet"
+        style="@style/ResumeSubtitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/cereal_medium"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/textViewCapacity"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewRam"
         tools:text="Snapdragon 870 5G" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
+    <TextView
+        android:id="@+id/textViewCapacity"
+        style="@style/ResumeTitle.Main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="imageViewDevice" />
+        app:layout_constraintBottom_toTopOf="@+id/textViewTechnology"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewChipSet"
+        tools:text="10000mAh" />
+
+    <TextView
+        android:id="@+id/textViewTechnology"
+        style="@style/ResumeSubtitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCapacity"
+        tools:text="Li-Po" />
 
     <ImageButton
         android:id="@+id/imageButtonInfo"
@@ -241,8 +257,7 @@
         android:layout_marginTop="16dp"
         android:background="#ff9800"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent">
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <FrameLayout
         android:id="@+id/fameCompareFragmentContainer"
@@ -251,6 +266,5 @@
         android:layout_marginTop="16dp"
         android:background="#58E133"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent">
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -137,10 +137,10 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
             mapDimensions[FIELD_DEPTH]?.toDouble() ?: DEFAULT_DOUBLE_VALUE
         )
         return DeviceModel.BodyModel(
-            dimensions,
-            (mapBody[FIELD_WEIGHT] as String).toDouble(),
-            mapBody[FIELD_BUILD] as String,
-            (mapBody[FIELD_SIM] as String).getStringArrayFromString("|")
+            dimensions = dimensions,
+            weight = (mapBody[FIELD_WEIGHT] as String).toDouble(),
+            build = mapBody[FIELD_BUILD] as String,
+            sim = mapBody[FIELD_SIM] as ArrayList<String>
         )
     }
 
@@ -159,7 +159,7 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
 
         return DeviceModel.CameraModel(
             getCameraType(),
-            (cameraMap[FIELD_SPECS] as String).getStringArrayFromString("|"),
+            cameraMap[FIELD_SPECS] as ArrayList<String>,
             cameraMap.getString(FIELD_FEATURES),
             cameraMap.getString(FIELD_VIDEO)
         )
@@ -209,15 +209,16 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         )
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun getNetwork(e: DocumentSnapshot): DeviceModel.NetworkModel {
-        val networkMap = e.getMap<String, String>(FIELD_NETWORK)
+        val networkMap = e.getMap<String, Any>(FIELD_NETWORK)
 
         return DeviceModel.NetworkModel(
             technology = networkMap.getString(FIELD_TECHNOLOGY),
-            twoG = networkMap[FIELD_2G]?.getStringArrayFromString("|") ?: arrayListOf(),
-            threeG = networkMap[FIELD_3G]?.getStringArrayFromString("|") ?: arrayListOf(),
-            fourG = networkMap[FIELD_4G]?.getStringArrayFromString("|") ?: arrayListOf(),
-            fiveG = networkMap[FIELD_5G]?.getStringArrayFromString("|") ?: arrayListOf(),
+            twoG = networkMap[FIELD_2G] as ArrayList<String>,
+            threeG = networkMap[FIELD_3G] as ArrayList<String>,
+            fourG = networkMap[FIELD_4G] as ArrayList<String>,
+            fiveG = networkMap[FIELD_5G] as ArrayList<String>,
             speed = networkMap.getString(FIELD_SPEED)
         )
     }

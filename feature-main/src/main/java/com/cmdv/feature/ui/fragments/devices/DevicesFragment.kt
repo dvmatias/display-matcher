@@ -129,14 +129,12 @@ class DevicesFragment : Fragment() {
     }
 
     private fun setLoadingStateView() {
-        binding.layoutToolbar.cardViewContainer.visibility = View.GONE
-        binding.recyclerViewDevice.visibility = View.GONE
+        binding.group.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun setInfoStateView(devices: List<DeviceModel>) {
-        binding.layoutToolbar.cardViewContainer.visibility = View.VISIBLE
-        binding.recyclerViewDevice.visibility = View.VISIBLE
+        binding.group.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
         deviceAdapter.setItems(devices)
     }

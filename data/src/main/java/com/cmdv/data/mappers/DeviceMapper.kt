@@ -35,11 +35,11 @@ private const val FIELD_BODY = "body"
 private const val FIELD_DIMENSIONS = "dimensions"
 private const val FIELD_WIDTH = "width"
 private const val FIELD_HEIGHT = "height"
-private const val FIELD_DEPTH = "depth"
+private const val FIELD_THICKNESS = "thickness"
 private const val FIELD_WEIGHT = "weight"
 private const val FIELD_BUILD = "build"
 private const val FIELD_SIM = "sim"
-private const val FIELD_CAMERA_RARE = "camera_rare"
+private const val FIELD_CAMERA_REAR = "camera_rear"
 private const val FIELD_CAMERA_FRONT = "camera_front"
 private const val FIELD_CAMERA_TYPE = "type"
 private const val FIELD_SPECS = "specs"
@@ -79,7 +79,7 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         val thumbnail: String = e.getStringValue(FIELD_THUMBNAIL)
         val images: ArrayList<String> = e.get(FIELD_IMAGES) as ArrayList<String>
         val body: DeviceModel.BodyModel = getBody(e)
-        val cameraRare: DeviceModel.CameraModel = getCamera(e, FIELD_CAMERA_RARE)
+        val cameraRear: DeviceModel.CameraModel = getCamera(e, FIELD_CAMERA_REAR)
         val cameraFront: DeviceModel.CameraModel = getCamera(e, FIELD_CAMERA_FRONT)
         val display: DeviceModel.DisplayModel = getDisplay(e)
         val launch: DeviceModel.LaunchModel = getLaunch(e)
@@ -94,7 +94,7 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
             thumbnail,
             images,
             body,
-            cameraRare,
+            cameraRear,
             cameraFront,
             display,
             launch,
@@ -135,7 +135,7 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         val dimensions = DeviceModel.BodyModel.DimensionsModel(
             mapDimensions[FIELD_WIDTH]?.toDouble() ?: DEFAULT_DOUBLE_VALUE,
             mapDimensions[FIELD_HEIGHT]?.toDouble() ?: DEFAULT_DOUBLE_VALUE,
-            mapDimensions[FIELD_DEPTH]?.toDouble() ?: DEFAULT_DOUBLE_VALUE
+            mapDimensions[FIELD_THICKNESS]?.toDouble() ?: DEFAULT_DOUBLE_VALUE
         )
         return DeviceModel.BodyModel(
             dimensions = dimensions,

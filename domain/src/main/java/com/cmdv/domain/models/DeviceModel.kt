@@ -10,7 +10,7 @@ data class DeviceModel(
     val thumbnail: String,
     val images: ArrayList<String>,
     val body: BodyModel,
-    val cameraRare: CameraModel,
+    val cameraRear: CameraModel,
     val cameraFront: CameraModel,
     val display: DisplayModel,
     val launch: LaunchModel,
@@ -43,7 +43,7 @@ data class DeviceModel(
         data class DimensionsModel(
             val width: Double,
             val height: Double,
-            val depth: Double
+            val thickness: Double
         )
     }
 

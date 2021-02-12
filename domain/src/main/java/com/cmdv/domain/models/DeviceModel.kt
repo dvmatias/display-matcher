@@ -70,12 +70,12 @@ data class DeviceModel(
     }
 
     data class LaunchModel(
-        val announced: String,
+        val announced: Date,
         val release: ReleaseModel
     ) {
         data class ReleaseModel(
-            val expected: String,
-            val released: String,
+            val expected: Date,
+            val released: Date,
             val status: ReleaseStatus
         )
     }

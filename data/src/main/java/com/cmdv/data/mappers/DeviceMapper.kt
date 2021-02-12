@@ -7,6 +7,7 @@ import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
+import java.util.*
 
 
 private const val DEFAULT_STRING_VALUE = ""
@@ -200,10 +201,10 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
             }
 
         return DeviceModel.LaunchModel(
-            (launchMap[FIELD_ANNOUNCED] as Timestamp).getStringValue(),
+            announced = DateHelper.getDateFromTimestamp(launchMap[FIELD_ANNOUNCED] as Timestamp) ?: Date(),
             DeviceModel.LaunchModel.ReleaseModel(
-                (releaseMap[FIELD_EXPECTED] as Timestamp).getStringValue(),
-                (releaseMap[FIELD_RELEASED] as Timestamp).getStringValue(),
+                expected = DateHelper.getDateFromTimestamp(releaseMap[FIELD_EXPECTED] as Timestamp) ?: Date(),
+                released = DateHelper.getDateFromTimestamp(releaseMap[FIELD_RELEASED] as Timestamp) ?: Date(),
                 getReleaseStatus()
             )
         )

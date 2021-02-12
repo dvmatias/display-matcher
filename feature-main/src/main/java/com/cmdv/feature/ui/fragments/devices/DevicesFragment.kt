@@ -89,7 +89,7 @@ class DevicesFragment : Fragment() {
     private fun setupSearchViewMotion() {
         binding.recyclerViewDevice.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val deltaY = abs(dy)
+                val deltaY = (abs(dy) * 0.75).toInt()
                 if (dy > 0) {
                     if (binding.customViewSearchView.bottom > binding.layoutToolbar.cardViewContainer.bottom) {
                         binding.customViewSearchView.bottom -= deltaY

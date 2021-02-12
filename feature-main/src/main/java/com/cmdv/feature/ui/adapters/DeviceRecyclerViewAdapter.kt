@@ -21,7 +21,7 @@ class DeviceRecyclerViewAdapter(
     fun setItems(devices: List<DeviceModel>) {
         items.apply {
             clear()
-            addAll(devices.sortedBy { it.model.name })
+            addAll(devices.sortedByDescending { it.launch.release.released })
         }
         notifyDataSetChanged()
     }

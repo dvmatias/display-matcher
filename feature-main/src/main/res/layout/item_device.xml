@@ -7,22 +7,21 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:selectableItemBackground"
+    android:background="?android:selectableItemBackground"
     android:paddingStart="32dp"
-    android:paddingTop="12dp"
+    android:paddingTop="14dp"
     android:paddingEnd="32dp"
-    android:paddingBottom="12dp">
+    android:paddingBottom="14dp">
 
     <ImageView
         android:id="@+id/imageViewThumbnail"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
         android:layout_marginStart="10dp"
         android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewDisplay"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="#ff9800"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewName"
@@ -56,25 +55,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        tools:text="6.8"
         android:textColor="#5f6368"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="6.8" />
 
     <TextView
         android:id="@+id/textViewCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
-        tools:text="64MP"
         android:textColor="#5f6368"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewThumbnail"
         app:layout_constraintEnd_toStartOf="@id/textViewRam"
-        app:layout_constraintStart_toStartOf="@+id/textViewName" />
+        app:layout_constraintStart_toStartOf="@+id/textViewName"
+        tools:text="64MP" />
 
     <TextView
         android:id="@+id/textViewRam"
@@ -82,12 +81,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:includeFontPadding="false"
-        tools:text="4/6GB"
         android:textColor="#5f6368"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/textViewCapacity"
         app:layout_constraintStart_toEndOf="@+id/textViewCamera"
-        app:layout_constraintTop_toTopOf="@+id/textViewCamera" />
+        app:layout_constraintTop_toTopOf="@+id/textViewCamera"
+        tools:text="4/6GB" />
 
     <TextView
         android:id="@+id/textViewCapacity"
@@ -95,10 +94,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:includeFontPadding="false"
-        tools:text="5000mAh"
         android:textColor="#5f6368"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/textViewRam"
-        app:layout_constraintTop_toTopOf="@+id/textViewRam" />
+        app:layout_constraintTop_toTopOf="@+id/textViewRam"
+        tools:text="5000mAh" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

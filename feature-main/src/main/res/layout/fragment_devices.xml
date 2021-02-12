@@ -1,50 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.devices.DevicesFragment">
+
+    <include
+        android:id="@+id/layoutToolbar"
+        layout="@layout/view_fragment_devices_toolbar" />
+
+    <com.cmdv.common.views.CustomSearchView
+        android:id="@+id/customViewSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+        app:view_type="BUTTON"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDevice"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <include
-        android:id="@+id/layoutToolbar"
-        layout="@layout/view_fragment_devices_toolbar"/>
-
-    <View
-        android:id="@+id/viewSearchShape"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/selector_search_button"
-        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:paddingStart="12dp"
-        android:textSize="14sp"
-        android:textColor="#989898"
-        android:text="Search for..."
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@id/viewSearchShape"
-        app:layout_constraintStart_toStartOf="@id/viewSearchShape"
-        app:layout_constraintTop_toTopOf="@id/viewSearchShape"
-        app:layout_constraintEnd_toEndOf="@id/viewSearchShape"/>
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbar" />
 
     <ProgressBar
         android:id="@+id/progressBar"

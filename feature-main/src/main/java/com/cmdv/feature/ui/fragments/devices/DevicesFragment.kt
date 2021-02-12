@@ -9,8 +9,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cmdv.common.utils.Constants
 import com.cmdv.core.navigatior.Navigator
@@ -24,6 +24,7 @@ import com.cmdv.feature.ui.decorators.DevicesItemDecorator
 import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
+import kotlin.math.abs
 
 @ExperimentalCoroutinesApi
 class DevicesFragment : Fragment() {
@@ -32,10 +33,10 @@ class DevicesFragment : Fragment() {
     private lateinit var binding: FragmentDevicesBinding
     private val navigator: Navigator by inject()
     private val gson: Gson by inject()
-
     private lateinit var deviceAdapter: DeviceRecyclerViewAdapter
-
     private var manufacturer: ManufacturerModel? = null
+    private val searchViewMaxBottom by lazy { binding.customViewSearchView.bottom - binding.layoutToolbar.cardViewContainer.bottom + binding.layoutToolbar.cardViewContainer.height }
+    private val searchViewHeight by lazy { binding.customViewSearchView.height }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,9 +57,9 @@ class DevicesFragment : Fragment() {
         }
 
         binding.layoutToolbar.imageViewBackButton.setOnClickListener { goToManufacturers() }
-        binding.layoutToolbar.imageViewSearchButton.setOnClickListener { goToSearchDevice() }
-        binding.viewSearchShape.setOnClickListener { goToSearchDevice() }
+        binding.customViewSearchView.setButtonStateListener { goToSearchDevice() }
         setupRecyclerView()
+        setupSearchViewMotion()
         handleBackAction()
 
         manufacturer?.run {
@@ -83,6 +84,28 @@ class DevicesFragment : Fragment() {
                 addItemDecoration(DevicesItemDecorator())
             }
         }
+    }
+
+    private fun setupSearchViewMotion() {
+        binding.recyclerViewDevice.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val deltaY = abs(dy)
+                if (dy > 0) {
+                    if (binding.customViewSearchView.bottom > binding.layoutToolbar.cardViewContainer.bottom) {
+                        binding.customViewSearchView.bottom -= deltaY
+                        binding.customViewSearchView.top -= deltaY
+                    }
+                } else {
+                    if (binding.customViewSearchView.bottom < searchViewMaxBottom){
+                        binding.customViewSearchView.bottom += deltaY
+                        binding.customViewSearchView.top += deltaY
+                    } else {
+                        binding.customViewSearchView.bottom = searchViewMaxBottom
+                        binding.customViewSearchView.top = (searchViewMaxBottom - searchViewHeight)
+                    }
+                }
+            }
+        })
     }
 
     private fun handleBackAction() {

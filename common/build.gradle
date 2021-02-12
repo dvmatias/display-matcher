@@ -30,6 +30,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -41,4 +44,5 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.junit_ext
     androidTestImplementation libs.espresso_core
+    implementation libs.constraintlayout
 }

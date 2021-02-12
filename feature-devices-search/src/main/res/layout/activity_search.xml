@@ -7,78 +7,15 @@
     android:background="@color/white"
     tools:context=".ui.SearchActivity">
 
-    <View
-        android:id="@+id/viewSearchShape"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        android:background="@drawable/shape_search_background_active"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@id/barrier"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextSearch"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autofillHints="@null"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:hint="Search for..."
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:paddingStart="4dp"
-        android:textColor="#989898"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/viewSearchShape"
-        app:layout_constraintEnd_toStartOf="@id/imageViewClearSearchButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/imageViewBackButton"
-        app:layout_constraintTop_toTopOf="@id/viewSearchShape"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/imageViewClearSearchButton"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="8dp"
-        android:clickable="true"
-        android:contentDescription="@null"
-        android:elevation="2dp"
-        android:focusable="true"
-        android:padding="8dp"
-        android:src="@drawable/ic_clear_search_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewSearchShape"
-        app:layout_constraintEnd_toEndOf="@+id/viewSearchShape"
-        app:layout_constraintTop_toTopOf="@+id/viewSearchShape" />
-
-    <ImageView
-        android:id="@+id/imageViewBackButton"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="14dp"
-        android:alpha="0.7"
-        android:clickable="true"
-        android:contentDescription="@null"
-        android:elevation="2dp"
-        android:focusable="true"
-        android:padding="8dp"
-        android:src="@drawable/ic_back_black_24dp"
-        app:layout_constraintBottom_toTopOf="@id/barrier"
-        app:layout_constraintStart_toStartOf="@id/viewSearchShape"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
+    <com.cmdv.common.views.CustomSearchView
+        android:id="@+id/customViewSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="viewSearchShape, imageViewBackButton, editTextSearch" />
+        android:layout_marginTop="12dp"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:view_type="SEARCH"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

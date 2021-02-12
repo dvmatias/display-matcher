@@ -247,7 +247,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier"></FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
 
     <FrameLayout
         android:id="@+id/fameCompareFragmentContainer"
@@ -256,5 +256,5 @@
         android:layout_marginTop="16dp"
         android:background="#58E133"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"></FrameLayout>
+        app:layout_constraintTop_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

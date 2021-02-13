@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.cmdv.feature.databinding.ItemImageBinding
 
-class ImagesViewPagerAdapter(private val context: Context, pager: ViewPager2) : RecyclerView.Adapter<ImagesViewPagerAdapter.ImageViewHolder>() {
+class ImagesViewPagerAdapter(private val context: Context) : RecyclerView.Adapter<ImagesViewPagerAdapter.ImageViewHolder>() {
     private lateinit var binding: ItemImageBinding
     private var items: ArrayList<String> = arrayListOf()
+    private lateinit var listener: () -> Unit
 
     fun setItems(images: ArrayList<String>) {
         items.apply {
@@ -22,20 +22,24 @@ class ImagesViewPagerAdapter(private val context: Context, pager: ViewPager2) : 
         notifyDataSetChanged()
     }
 
+    fun setOnClickListener(function: () -> Unit) {
+        listener = function
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         binding = ItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ImageViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(context, items[position])
+        holder.bind(context, items[position], listener)
     }
 
     override fun getItemCount(): Int = items.size
-
     class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(context: Context, imageUrl: String) {
+        fun bind(context: Context, imageUrl: String, function: () -> Unit) {
             val circularProgressDrawable = CircularProgressDrawable(context)
             circularProgressDrawable.strokeCap = Paint.Cap.ROUND
             circularProgressDrawable.strokeWidth = 7f
@@ -45,6 +49,8 @@ class ImagesViewPagerAdapter(private val context: Context, pager: ViewPager2) : 
                 .load(imageUrl)
                 .placeholder(circularProgressDrawable)
                 .into(binding.imageView)
+
+            binding.imageView.setOnClickListener { function.invoke() }
         }
 
     }

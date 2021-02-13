@@ -101,7 +101,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideLineMid"
         app:layout_constraintTop_toTopOf="@+id/viewPagerDeviceImages"
-        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         tools:text="Moto G9 Play" />
 
     <TextView
@@ -110,7 +111,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewDisplaySize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
@@ -207,10 +207,11 @@
     <TextView
         android:id="@+id/textViewTechnology"
         style="@style/ResumeSubtitle.Info"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewCapacity"
         tools:text="Li-Po" />

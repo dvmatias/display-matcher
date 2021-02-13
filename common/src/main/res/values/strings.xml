@@ -1,11 +1,17 @@
 <resources>
     <string name="title_manufacturers">Manufacturers</string>
-    <string name="placeholder_item_device_release">%1s %2s</string>
-    <string name="text_item_device_release_status_released">Released</string>
-    <string name="text_item_device_release_status_not_released">Exp. Release</string>
-    <string name="text_item_device_release_status_delayed">Release Delayed</string>
-    <string name="placeholder_item_device_display_size">%1s\"</string>
 
+    <!--  DEVICE ITEM  -->
+    <string name="placeholder_item_device_release_available">Released on %1s</string>
+    <string name="text_item_device_release_status_cancelled">Cancelled</string>
+    <string name="text_item_device_release_status_discontinued">Discontinued</string>
+    <string name="text_item_device_release_status_rumored">Rumored</string>
+    <string name="placeholder_item_device_release_status_coming_soon">Expected on %1s</string>
+    <string name="text_item_device_release_status_delayed">Delayed</string>
+    <string name="placeholder_item_device_display_size">%1s\"</string>
+    <string name="placeholder_item_device_camera">%1sMP"</string>
+
+    <!--  DEVICE DETAILS  -->
     <string name="placeholder_device_detail_display_size">%1s\"</string>
     <string name="placeholder_device_detail_display_resolution">%1s pixels</string>
     <string name="placeholder_device_detail_ram">%1sGB</string>

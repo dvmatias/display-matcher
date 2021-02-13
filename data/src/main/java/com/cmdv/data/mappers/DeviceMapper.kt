@@ -54,7 +54,7 @@ private const val FIELD_DENSITY = "density"
 private const val FIELD_LAUNCH = "launch"
 private const val FIELD_RELEASE = "release"
 private const val FIELD_ANNOUNCED = "announced"
-private const val FIELD_EXPECTED = "released"
+private const val FIELD_EXPECTED = "expected"
 private const val FIELD_RELEASED = "released"
 private const val FIELD_STATUS = "status"
 private const val FIELD_NETWORK = "network"
@@ -191,7 +191,7 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         val releaseMap: Map<String, Any> = launchMap[FIELD_RELEASE] as Map<String, Any>
 
         fun getReleaseStatus(): ReleaseStatus =
-            when (launchMap[FIELD_STATUS]) {
+            when (releaseMap[FIELD_STATUS]) {
                 ReleaseStatus.RUMORED.status -> ReleaseStatus.RUMORED
                 ReleaseStatus.COMING_SOON.status -> ReleaseStatus.COMING_SOON
                 ReleaseStatus.CANCELLED.status -> ReleaseStatus.CANCELLED
@@ -203,8 +203,8 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         return DeviceModel.LaunchModel(
             announced = DateHelper.getDateFromTimestamp(launchMap[FIELD_ANNOUNCED] as Timestamp) ?: Date(),
             DeviceModel.LaunchModel.ReleaseModel(
-                expected = DateHelper.getDateFromTimestamp(releaseMap[FIELD_EXPECTED] as Timestamp) ?: Date(),
-                released = DateHelper.getDateFromTimestamp(releaseMap[FIELD_RELEASED] as Timestamp) ?: Date(),
+                expected = DateHelper.getDateFromTimestamp(releaseMap[FIELD_EXPECTED] as Timestamp),
+                released = DateHelper.getDateFromTimestamp(releaseMap[FIELD_RELEASED] as Timestamp),
                 getReleaseStatus()
             )
         )

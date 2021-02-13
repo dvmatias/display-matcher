@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cmdv.core.helpers.StringHelper
+import com.cmdv.data.helpers.DateHelper
+import com.cmdv.data.helpers.DateHelper.PATTERN_YYYY_MMMM
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus
 import com.cmdv.feature.R
@@ -48,8 +50,8 @@ class DeviceRecyclerViewAdapter(
             this.device = device
 
             setDeviceName()
-            setReleaseDate(context)
             setDeviceImage(context)
+            setReleaseDate(context)
             setResume(context)
             setClickListener(listener)
         }
@@ -59,20 +61,37 @@ class DeviceRecyclerViewAdapter(
         }
 
         private fun setReleaseDate(context: Context) {
-//
-//
-//
-//            val releaseStatusText = when (device.launch.release.status) {
-//                ReleaseStatus.RELEASED -> context.getString(R.string.text_item_device_release_status_released)
-//                ReleaseStatus.NOT_RELEASED -> context.getString(R.string.text_item_device_release_status_not_released)
-//                ReleaseStatus.DELAYED -> context.getString(R.string.text_item_device_release_status_delayed)
-//            }
-//            binding.textViewReleaseDate.text =
-//                context.getString(
-//                    R.string.placeholder_item_device_release,
-//                    releaseStatusText,
-//                    StringHelper.capitalizeFirstLetterOnly(device.dateRelease),
-//                )
+            binding.textViewReleaseDate.text = device.launch.release.released?.let { releaseDate ->
+                // release date not null, has been released
+                when (device.launch.release.status) {
+                    ReleaseStatus.AVAILABLE ->
+                        context.getString(
+                            R.string.placeholder_item_device_release_available,
+                            DateHelper.getFormattedDateFromDate(releaseDate, PATTERN_YYYY_MMMM)
+                        )
+                    ReleaseStatus.CANCELLED -> context.getString(R.string.text_item_device_release_status_cancelled)
+                    ReleaseStatus.DISCONTINUED -> context.getString(R.string.text_item_device_release_status_discontinued)
+                    else -> ""
+                }
+            } ?: kotlin.run {
+                // device not released yet
+                when (device.launch.release.status) {
+                    ReleaseStatus.RUMORED -> context.getString(R.string.text_item_device_release_status_rumored)
+                    ReleaseStatus.COMING_SOON ->
+                        device.launch.release.expected?.let { expectedDate ->
+                            if (DateHelper.isInTheFuture(expectedDate)) {
+                                context.getString(
+                                    R.string.placeholder_item_device_release_status_coming_soon,
+                                    DateHelper.getFormattedDateFromDate(expectedDate, PATTERN_YYYY_MMMM)
+                                )
+                            } else {
+                                context.getString(R.string.text_item_device_release_status_delayed)
+                            }
+                        } ?: kotlin.run{ "" }
+                    else -> ""
+                }
+            }
+
         }
 
         private fun setDeviceImage(context: Context) {
@@ -84,8 +103,12 @@ class DeviceRecyclerViewAdapter(
         private fun setResume(context: Context) {
             with(device.resume) {
                 binding.textViewDisplay.text = context.getString(R.string.placeholder_item_device_display_size, display)
-                binding.textViewCamera.text = camera
-                binding.textViewRam.text = ram
+                binding.textViewCamera.text =
+                    context.getString(
+                        R.string.placeholder_item_device_camera,
+                        camera.replace("+", "-").replace("MP", "").replace(" ", "").trim { it <= ' ' }
+                    )
+                binding.textViewRam.text = ram.replace("/", "-").trim { it <= ' ' }
                 binding.textViewCapacity.text = capacity
             }
         }

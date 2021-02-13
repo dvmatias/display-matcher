@@ -8,20 +8,23 @@ object DateHelper {
 
     private const val THOUSAND = 1000L
     const val PATTERN_MMMM_D_YYYY: String = "MMMM d, yyyy"
+    const val PATTERN_YYYY_MMMM: String = "yyyy, MMMM"
 
     fun getFormattedDateFromSeconds(seconds: Long?, pattern: String): String =
         seconds?.let {
             SimpleDateFormat(pattern, Locale.getDefault()).format(seconds * THOUSAND)
         } ?: kotlin.run { "" }
 
+    fun getFormattedDateFromDate(source: Date, pattern: String): String =
+        SimpleDateFormat(pattern, Locale.getDefault()).format(source)
+
     fun getDateFromTimestamp(timestamp: Timestamp): Date? {
         val dateString = getFormattedDateFromSeconds(timestamp.seconds, PATTERN_MMMM_D_YYYY)
         return SimpleDateFormat(PATTERN_MMMM_D_YYYY, Locale.getDefault()).parse(dateString)
     }
 
-    fun isInTheFuture(source: String, pattern: String): Boolean {
-        val sourceDate: Date? = SimpleDateFormat(pattern, Locale.getDefault()).parse(source)
-        return Date().before(sourceDate)
-    }
+    fun isInTheFuture(source: Date): Boolean =
+        Date().before(source)
+
 
 }

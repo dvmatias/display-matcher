@@ -74,8 +74,8 @@ data class DeviceModel(
         val release: ReleaseModel
     ) {
         data class ReleaseModel(
-            val expected: Date,
-            val released: Date,
+            val expected: Date?,
+            val released: Date?,
             val status: ReleaseStatus
         )
     }

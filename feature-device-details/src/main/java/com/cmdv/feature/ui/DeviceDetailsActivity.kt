@@ -5,7 +5,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import androidx.viewpager2.widget.CompositePageTransformer
 import com.bumptech.glide.Glide
 import com.cmdv.common.utils.Constants
 import com.cmdv.core.helpers.DimensHelper
@@ -16,6 +18,7 @@ import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature.R
 import com.cmdv.feature.databinding.ActivityDeviceDetailsMainBinding
+import com.cmdv.feature.ui.adapters.ImagesViewPagerAdapter
 import com.cmdv.feature.ui.fragments.InfoFragment
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
@@ -32,8 +35,15 @@ class DeviceDetailsActivity : AppCompatActivity() {
 
     private lateinit var deviceId: String
     private lateinit var manufacturerId: String
+    private lateinit var device: DeviceModel
+    private lateinit var pagerAdapter: ImagesViewPagerAdapter
+    private val mainConstraint = ConstraintSet()
+    private val infoConstraint = ConstraintSet()
+    private val compareConstraint = ConstraintSet()
     private var isLoadFinished = false
-    private var device: DeviceModel? = null
+    private var isMainState = true
+    private var isInfoState = false
+    private var isCompareState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +52,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
 
         getExtras()
         initViews()
+        setupPager()
         addConstraintSetAnimation()
         observeData()
     }
@@ -56,64 +67,96 @@ class DeviceDetailsActivity : AppCompatActivity() {
         binding.imageViewBackButton.setOnClickListener { finish() }
     }
 
+    private fun setupPager() {
+        pagerAdapter = ImagesViewPagerAdapter(this)
+        binding.viewPagerDeviceImages.adapter = pagerAdapter
+
+        val transformer = CompositePageTransformer()
+        transformer.addTransformer { page, position ->
+            val r = 1 - kotlin.math.abs(position)
+            page.scaleY = (0.55f + r * 0.45F)
+            page.scaleX = (0.55f + r * 0.45F)
+        }
+        binding.viewPagerDeviceImages.apply {
+            clipToPadding = false
+            clipChildren = false
+            offscreenPageLimit = 3
+            getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            setPageTransformer(transformer)
+        }
+    }
+
     private fun addConstraintSetAnimation() {
-        val mainConstraint = ConstraintSet()
         mainConstraint.clone(binding.root)
-
-        val infoConstraint = ConstraintSet()
         infoConstraint.clone(this, R.layout.activity_device_details_info)
-
-        val compareConstraint = ConstraintSet()
         compareConstraint.clone(this, R.layout.activity_device_details_compare)
 
-        binding.imageViewDevice.setOnClickListener {
+        pagerAdapter.setOnClickListener { transitionMain() }
+        binding.imageButtonInfo.setOnClickListener { transitionInfo() }
+        binding.imageViewCompareButton.setOnClickListener { transitionCompare() }
+    }
+
+    private fun transitionMain() {
+        if (!isMainState) {
             TransitionManager.beginDelayedTransition(binding.root)
             mainConstraint.applyTo(binding.root)
             if (isLoadFinished) hideLoading()
 
+            val nameTextSizeStart = binding.textViewDeviceName.textSize
+            val nameTextSizeEnd = DimensHelper.spToPx(this, 20F)
+            TextAnimationHelper.animateTextSize(this, nameTextSizeStart, nameTextSizeEnd, ANIM_DURATION, binding.textViewDeviceName)
+            val titleTextSizeStart = binding.textViewDisplaySize.textSize
+            val titleTextSizeEnd = DimensHelper.spToPx(this, 18F)
             TextAnimationHelper.animateTextSize(
                 this,
-                binding.textViewDeviceName.textSize,
-                DimensHelper.spToPx(this, 20F),
+                titleTextSizeStart,
+                titleTextSizeEnd,
                 ANIM_DURATION,
-                binding.textViewDeviceName
-            )
-
-            TextAnimationHelper.animateTextSize(
-                this,
-                binding.textViewDisplaySize.textSize,
-                DimensHelper.spToPx(this, 18F),
-                ANIM_DURATION,
-                binding.textViewDisplaySize, binding.textViewCameraPhoto, binding.textViewRam, binding.textViewCapacity
+                binding.textViewDisplaySize,
+                binding.textViewCameraPhoto,
+                binding.textViewRam,
+                binding.textViewCapacity
             )
         }
+        isMainState = true
+        isInfoState = false
+        isCompareState = false
+    }
 
-        binding.imageButtonInfo.setOnClickListener {
+    private fun transitionInfo() {
+        if (!isInfoState) {
             TransitionManager.beginDelayedTransition(binding.root)
             infoConstraint.applyTo(binding.root)
 
+            val nameTextSizeStart = binding.textViewDeviceName.textSize
+            val nameTextSizeEnd = DimensHelper.spToPx(this, 16F)
+            TextAnimationHelper.animateTextSize(this, nameTextSizeStart, nameTextSizeEnd, ANIM_DURATION, binding.textViewDeviceName)
+            val titleTextSizeStart = binding.textViewDisplaySize.textSize
+            val titleTextSizeEnd = DimensHelper.spToPx(this, 14F)
             TextAnimationHelper.animateTextSize(
                 this,
-                binding.textViewDeviceName.textSize,
-                DimensHelper.spToPx(this, 16F),
+                titleTextSizeStart,
+                titleTextSizeEnd,
                 ANIM_DURATION,
-                binding.textViewDeviceName
+                binding.textViewDisplaySize,
+                binding.textViewCameraPhoto,
+                binding.textViewRam,
+                binding.textViewCapacity
             )
-
-            TextAnimationHelper.animateTextSize(
-                this,
-                binding.textViewDisplaySize.textSize,
-                DimensHelper.spToPx(this, 14F),
-                ANIM_DURATION,
-                binding.textViewDisplaySize, binding.textViewCameraPhoto, binding.textViewRam, binding.textViewCapacity
-            )
-
         }
+        isMainState = false
+        isInfoState = true
+        isCompareState = false
+    }
 
-        binding.imageViewCompareButton.setOnClickListener {
+    private fun transitionCompare() {
+        if (!isCompareState) {
             TransitionManager.beginDelayedTransition(binding.root)
             compareConstraint.applyTo(binding.root)
         }
+        isMainState = false
+        isInfoState = false
+        isCompareState = true
     }
 
     private fun hideLoading() {
@@ -133,7 +176,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
         })
         viewModel.deviceLiveData.observe(this, {
             if (it.status == LiveDataStatusWrapper.Status.SUCCESS) {
-                device = it.data
+                device = it.data!!
                 setResume()
                 inflateInfoFragment()
             }
@@ -155,37 +198,24 @@ class DeviceDetailsActivity : AppCompatActivity() {
     }
 
     private fun setResume() {
-        device?.let {
-            binding.textViewDeviceName.text = StringHelper.getDeviceFullName(it)
-            setImage()
+        with(device) {
+            binding.textViewDeviceName.text = StringHelper.getDeviceFullName(this)
+            setImages()
             setReleaseStatus()
-            setDisplay(it.resume)
-            setCamera(it.resume)
-            setRam(it.resume)
-            setBattery(it.resume)
+            setDisplay(resume)
+            setCamera(resume)
+            setRam(resume)
+            setBattery(resume)
         }
+
     }
 
-    private fun setImage() {
-        device?.let {
-            Glide.with(this@DeviceDetailsActivity).load(it.thumbnail).into(binding.imageViewDevice)
-        }
+    private fun setImages() {
+        pagerAdapter.setItems(device.images)
     }
 
     private fun setReleaseStatus() {
-        device?.let {
-//            val releaseStatusText = when (it.releaseStatus) {
-//                ReleaseStatus.RELEASED -> getString(R.string.text_item_device_release_status_released)
-//                ReleaseStatus.NOT_RELEASED -> getString(R.string.text_item_device_release_status_not_released)
-//                ReleaseStatus.DELAYED -> getString(R.string.text_item_device_release_status_delayed)
-//            }
-//            binding.textViewRelease.text =
-//                getString(
-//                    R.string.placeholder_item_device_release,
-//                    releaseStatusText,
-//                    StringHelper.capitalizeFirstLetterOnly(it.dateRelease),
-//                )
-        }
+        binding.textViewRelease.text = StringHelper.getReleaseDateString(this, device.launch.release)
     }
 
     private fun setDisplay(resume: DeviceModel.ResumeModel) {

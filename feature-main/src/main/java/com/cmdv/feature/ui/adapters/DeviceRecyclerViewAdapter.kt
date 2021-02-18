@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cmdv.core.helpers.StringHelper
-import com.cmdv.data.helpers.DateHelper
-import com.cmdv.data.helpers.DateHelper.PATTERN_YYYY_MMMM
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus
 import com.cmdv.feature.R
@@ -23,9 +21,16 @@ class DeviceRecyclerViewAdapter(
     fun setItems(devices: List<DeviceModel>) {
         items.apply {
             clear()
-            addAll(devices.sortedByDescending { it.launch.release.released })
+            addAll(getOrderedDeviceList(devices))
         }
         notifyDataSetChanged()
+    }
+
+    private fun getOrderedDeviceList(devices: List<DeviceModel>) : List<DeviceModel> {
+        val released = devices.filter { it.launch.release.status == ReleaseStatus.AVAILABLE }.sortedByDescending { it.launch.release.released }
+        val announced = devices.filter { it.launch.release.status == ReleaseStatus.COMING_SOON && it.launch.release.expected != null }.sortedByDescending { it.launch.release.expected }
+        val rumored = devices.filter { it.launch.release.status == ReleaseStatus.RUMORED && it.launch.announced == null }.sortedByDescending { it.launch.release.expected }
+        return rumored.plus(announced).plus(released)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {
@@ -61,37 +66,7 @@ class DeviceRecyclerViewAdapter(
         }
 
         private fun setReleaseDate(context: Context) {
-            binding.textViewReleaseDate.text = device.launch.release.released?.let { releaseDate ->
-                // release date not null, has been released
-                when (device.launch.release.status) {
-                    ReleaseStatus.AVAILABLE ->
-                        context.getString(
-                            R.string.placeholder_item_device_release_available,
-                            DateHelper.getFormattedDateFromDate(releaseDate, PATTERN_YYYY_MMMM)
-                        )
-                    ReleaseStatus.CANCELLED -> context.getString(R.string.text_item_device_release_status_cancelled)
-                    ReleaseStatus.DISCONTINUED -> context.getString(R.string.text_item_device_release_status_discontinued)
-                    else -> ""
-                }
-            } ?: kotlin.run {
-                // device not released yet
-                when (device.launch.release.status) {
-                    ReleaseStatus.RUMORED -> context.getString(R.string.text_item_device_release_status_rumored)
-                    ReleaseStatus.COMING_SOON ->
-                        device.launch.release.expected?.let { expectedDate ->
-                            if (DateHelper.isInTheFuture(expectedDate)) {
-                                context.getString(
-                                    R.string.placeholder_item_device_release_status_coming_soon,
-                                    DateHelper.getFormattedDateFromDate(expectedDate, PATTERN_YYYY_MMMM)
-                                )
-                            } else {
-                                context.getString(R.string.text_item_device_release_status_delayed)
-                            }
-                        } ?: kotlin.run{ "" }
-                    else -> ""
-                }
-            }
-
+            binding.textViewReleaseDate.text = StringHelper.getReleaseDateString(context, device.launch.release)
         }
 
         private fun setDeviceImage(context: Context) {

@@ -1,0 +1,18 @@
+<resources>
+    <string name="title_manufacturers">Fabricantes</string>
+
+    <!--  DEVICE ITEM  -->
+    <string name="placeholder_item_device_release_available">Lanzado %1s</string>
+    <string name="text_item_device_release_status_cancelled">Cancelado</string>
+    <string name="text_item_device_release_status_discontinued">Discontinuado</string>
+    <string name="text_item_device_release_status_rumored">Rumoreado</string>
+    <string name="placeholder_item_device_release_status_coming_soon">Esperado %1s</string>
+    <string name="text_item_device_release_status_delayed">Retrazado</string>
+    <string name="placeholder_item_device_display_size">%1s\"</string>
+    <string name="placeholder_item_device_camera">%1sMP"</string>
+
+    <!--  DEVICE DETAILS  -->
+    <string name="placeholder_device_detail_display_size">%1s\"</string>
+    <string name="placeholder_device_detail_display_resolution">%1s pixeles</string>
+    <string name="placeholder_device_detail_ram">%1sGB</string>
+</resources>

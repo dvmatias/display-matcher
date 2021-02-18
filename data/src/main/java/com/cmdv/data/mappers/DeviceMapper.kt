@@ -17,6 +17,7 @@ private const val DEFAULT_BOOLEAN_VALUE = false
 
 private const val FIELD_MANUFACTURER_ID = "manufacturer_id"
 private const val FIELD_RESUME = "resume"
+private const val FIELD_NAME = "name"
 private const val FIELD_DISPLAY = "display"
 private const val FIELD_RESOLUTION = "resolution"
 private const val FIELD_CAMERA = "camera"
@@ -26,7 +27,6 @@ private const val FIELD_CHIPSET = "chipset"
 private const val FIELD_CAPACITY = "capacity"
 private const val FIELD_TECHNOLOGY = "technology"
 private const val FIELD_MODEL = "model"
-private const val FIELD_NAME = "name"
 private const val FIELD_VARIANT = "variant"
 private const val FIELD_VERSION = "version"
 private const val FIELD_THUMBNAIL = "thumbnail"
@@ -107,6 +107,7 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         val mapModel = e.getMap<String, String>(FIELD_RESUME)
 
         return DeviceModel.ResumeModel(
+            mapModel.getString(FIELD_NAME),
             mapModel.getString(FIELD_DISPLAY),
             mapModel.getString(FIELD_RESOLUTION),
             mapModel.getString(FIELD_CAMERA),
@@ -197,11 +198,11 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
                 ReleaseStatus.CANCELLED.status -> ReleaseStatus.CANCELLED
                 ReleaseStatus.AVAILABLE.status -> ReleaseStatus.AVAILABLE
                 ReleaseStatus.DISCONTINUED.status -> ReleaseStatus.DISCONTINUED
-                else -> ReleaseStatus.DISCONTINUED
+                else -> throw IllegalStateException("Device Release Status illegal state exception.")
             }
 
         return DeviceModel.LaunchModel(
-            announced = DateHelper.getDateFromTimestamp(launchMap[FIELD_ANNOUNCED] as Timestamp) ?: Date(),
+            announced = DateHelper.getDateFromTimestamp(launchMap[FIELD_ANNOUNCED] as Timestamp),
             DeviceModel.LaunchModel.ReleaseModel(
                 expected = DateHelper.getDateFromTimestamp(releaseMap[FIELD_EXPECTED] as Timestamp),
                 released = DateHelper.getDateFromTimestamp(releaseMap[FIELD_RELEASED] as Timestamp),

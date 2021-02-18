@@ -12,7 +12,10 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.cmdv.common.adapters.FilterType
 import com.cmdv.common.utils.Constants
+import com.cmdv.common.views.CustomFilterSelectorView
+import com.cmdv.common.views.FilterReleaseStatusListDialogFragment
 import com.cmdv.core.navigatior.Navigator
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ManufacturerModel
@@ -32,11 +35,19 @@ class DevicesFragment : Fragment() {
     private lateinit var viewModel: DevicesFragmentViewModel
     private lateinit var binding: FragmentDevicesBinding
     private val navigator: Navigator by inject()
+
+    @Suppress("SpellCheckingInspection")
     private val gson: Gson by inject()
     private lateinit var deviceAdapter: DeviceRecyclerViewAdapter
     private var manufacturer: ManufacturerModel? = null
     private val searchViewMaxBottom by lazy { binding.customViewSearchView.bottom - binding.layoutToolbar.cardViewContainer.bottom + binding.layoutToolbar.cardViewContainer.height }
     private val searchViewHeight by lazy { binding.customViewSearchView.height }
+
+    private val filterClickListener = object : CustomFilterSelectorView.OnFilterClickListener {
+        override fun onFilterClick(filterType: FilterType) {
+            showBottomSheetFilter(filterType)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +88,7 @@ class DevicesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         activity?.let { context ->
-            deviceAdapter = DeviceRecyclerViewAdapter(context, ::deviceClickListener)
+            deviceAdapter = DeviceRecyclerViewAdapter(context, ::deviceClickListener, filterClickListener)
             binding.recyclerViewDevice.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = deviceAdapter
@@ -96,7 +107,7 @@ class DevicesFragment : Fragment() {
                         binding.customViewSearchView.top -= deltaY
                     }
                 } else {
-                    if (binding.customViewSearchView.bottom < searchViewMaxBottom){
+                    if (binding.customViewSearchView.bottom < searchViewMaxBottom) {
                         binding.customViewSearchView.bottom += deltaY
                         binding.customViewSearchView.top += deltaY
                     } else {
@@ -136,7 +147,7 @@ class DevicesFragment : Fragment() {
     private fun setInfoStateView(devices: List<DeviceModel>) {
         binding.group.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
-        deviceAdapter.setItems(devices)
+        deviceAdapter.setItems(devices = devices)
     }
 
     private fun setErrorStateView() {
@@ -161,6 +172,14 @@ class DevicesFragment : Fragment() {
     private fun goToSearchDevice() {
         activity?.let {
             navigator.toSearchDevicesActivity(it, bundle = null, options = null, finish = false)
+        }
+    }
+
+    private fun showBottomSheetFilter(filterType: FilterType) {
+        activity?.let {
+            val bottomSheetDialog: FilterReleaseStatusListDialogFragment =
+                FilterReleaseStatusListDialogFragment.newInstance(2, filterType)
+            bottomSheetDialog.show(it.supportFragmentManager, "Bottom Sheet Dialog Fragment")
         }
     }
 

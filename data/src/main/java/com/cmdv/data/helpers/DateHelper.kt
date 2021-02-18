@@ -7,7 +7,8 @@ import java.util.*
 object DateHelper {
 
     private const val THOUSAND = 1000L
-    const val PATTERN_MMMM_D_YYYY: String = "MMMM d, yyyy"
+    const val PATTERN_MMMM_D_YYYY: String = "MMMM d yyyy"
+    const val PATTERN_MMMM_YYYY: String = "MMMM yyyy"
     const val PATTERN_YYYY_MMMM: String = "yyyy, MMMM"
     const val PATTERN_YYYY_MMMM_DD: String = "yyyy, MMMM dd"
 
@@ -25,8 +26,7 @@ object DateHelper {
         return SimpleDateFormat(PATTERN_MMMM_D_YYYY, Locale.getDefault()).parse(dateString)
     }
 
-    fun isInTheFuture(source: Date): Boolean =
-        Date().before(source)
-
+    fun isInTheFuture(sourceDate: Date, markDate: Date? = Date()): Boolean =
+        Date().before(sourceDate)
 
 }

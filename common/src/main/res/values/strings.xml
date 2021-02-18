@@ -1,6 +1,37 @@
 <resources>
     <string name="title_manufacturers">Manufacturers</string>
 
+    <!-- DEVICES FILTERS -->
+    <string-array name="labels_filter_release_status">
+        <item>All</item>
+        <item>Available</item>
+        <item>Upcoming</item>
+        <item>Rumored</item>
+        <item>Canceled</item>
+    </string-array>
+
+    <string-array name="labels_filter_categories">
+        <item>Filters</item>
+        <item>SO version</item>
+        <item>Camera</item>
+        <item>Dual-Sim</item>
+        <item>Screen size</item>
+        <item>Resolution</item>
+        <item>Battery capacity</item>
+        <item>Internal capacity</item>
+    </string-array>
+
+    <integer-array name="icons_filter_categories">
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+    </integer-array>
+
     <!--  DEVICE ITEM  -->
     <string name="placeholder_item_device_release_available">Released %1s</string>
     <string name="text_item_device_release_status_cancelled">Cancelled</string>

@@ -1,6 +1,37 @@
 <resources>
     <string name="title_manufacturers">Fabricantes</string>
 
+    <!-- DEVICES FILTERS -->
+    <string-array name="labels_filter_release_status">
+        <item>Todos</item>
+        <item>Disponibles</item>
+        <item>Próximamente</item>
+        <item>Rumoreados</item>
+        <item>Cancelados</item>
+    </string-array>
+
+    <string-array name="labels_filter_categories">
+        <item>Filtros</item>
+        <item>Versión del SO</item>
+        <item>Cámara</item>
+        <item>Dual-Sim</item>
+        <item>Tamaño de la pantalla</item>
+        <item>Resolución</item>
+        <item>Capacidad de la batería</item>
+        <item>Capacidad interna</item>
+    </string-array>
+
+    <integer-array name="icons_filter_categories">
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+    </integer-array>
+
     <!--  DEVICE ITEM  -->
     <string name="placeholder_item_device_release_available">Lanzado %1s</string>
     <string name="text_item_device_release_status_cancelled">Cancelado</string>

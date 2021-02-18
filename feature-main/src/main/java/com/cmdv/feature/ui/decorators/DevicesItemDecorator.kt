@@ -8,7 +8,7 @@ import com.cmdv.core.helpers.DimensHelper
 class DevicesItemDecorator : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        outRect.top = DimensHelper.dpToPx(view.context, 66F).toInt()
+        outRect.top = DimensHelper.dpToPx(view.context, 72F).toInt()
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.set(0, outRect.top, 0, 0)
         } else {

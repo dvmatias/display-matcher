@@ -2,6 +2,7 @@ package com.cmdv.core.helpers
 
 import android.content.Context
 import com.cmdv.core.R
+import com.cmdv.core.extensions.capitalizeFirstLetters
 import com.cmdv.data.helpers.DateHelper
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus
@@ -19,7 +20,7 @@ object StringHelper {
 
     fun getReleaseDateString(context: Context, release: DeviceModel.LaunchModel.ReleaseModel) =
         release.released?.let { releaseDate ->
-            when (release.status) {
+            val result = when (release.status) {
                 ReleaseStatus.AVAILABLE ->
                     context.getString(
                         R.string.placeholder_item_device_release_available,
@@ -29,15 +30,16 @@ object StringHelper {
                 ReleaseStatus.DISCONTINUED -> context.getString(R.string.text_item_device_release_status_discontinued)
                 else -> ""
             }
+            result.capitalizeFirstLetters()
         } ?: kotlin.run {
-            when (release.status) {
+            val result = when (release.status) {
                 ReleaseStatus.RUMORED -> context.getString(R.string.text_item_device_release_status_rumored)
                 ReleaseStatus.COMING_SOON ->
                     release.expected?.let { expectedDate ->
-                        if (DateHelper.isInTheFuture(expectedDate)) {
+                        if (DateHelper.isInTheFuture(sourceDate = expectedDate)) {
                             context.getString(
                                 R.string.placeholder_item_device_release_status_coming_soon,
-                                DateHelper.getFormattedDateFromDate(expectedDate, DateHelper.PATTERN_MMMM_D_YYYY)
+                                DateHelper.getFormattedDateFromDate(expectedDate, DateHelper.PATTERN_MMMM_YYYY)
                             )
                         } else {
                             context.getString(R.string.text_item_device_release_status_delayed)
@@ -45,12 +47,7 @@ object StringHelper {
                     } ?: kotlin.run { "" }
                 else -> ""
             }
+            result.capitalizeFirstLetters()
         }
-
-    fun capitalizeFirstLetterOnly(text: String): String =
-        if (text.isNotEmpty())
-            text.substring(0, 1).capitalize(Locale.getDefault()) + text.substring(1).toLowerCase(Locale.getDefault())
-        else
-            ""
 
 }

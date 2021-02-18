@@ -18,6 +18,7 @@ data class DeviceModel(
     val platform: PlatformModel?
 ) {
     data class ResumeModel(
+        val name: String,
         val display: String,
         val resolution: String,
         val camera: String,
@@ -70,7 +71,7 @@ data class DeviceModel(
     }
 
     data class LaunchModel(
-        val announced: Date,
+        val announced: Date?,
         val release: ReleaseModel
     ) {
         data class ReleaseModel(

@@ -23,7 +23,7 @@ object StringHelper {
                 ReleaseStatus.AVAILABLE ->
                     context.getString(
                         R.string.placeholder_item_device_release_available,
-                        DateHelper.getFormattedDateFromDate(releaseDate, DateHelper.PATTERN_YYYY_MMMM_DD)
+                        DateHelper.getFormattedDateFromDate(releaseDate, DateHelper.PATTERN_MMMM_D_YYYY)
                     )
                 ReleaseStatus.CANCELLED -> context.getString(R.string.text_item_device_release_status_cancelled)
                 ReleaseStatus.DISCONTINUED -> context.getString(R.string.text_item_device_release_status_discontinued)
@@ -37,7 +37,7 @@ object StringHelper {
                         if (DateHelper.isInTheFuture(expectedDate)) {
                             context.getString(
                                 R.string.placeholder_item_device_release_status_coming_soon,
-                                DateHelper.getFormattedDateFromDate(expectedDate, DateHelper.PATTERN_YYYY_MMMM)
+                                DateHelper.getFormattedDateFromDate(expectedDate, DateHelper.PATTERN_MMMM_D_YYYY)
                             )
                         } else {
                             context.getString(R.string.text_item_device_release_status_delayed)

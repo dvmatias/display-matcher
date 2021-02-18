@@ -2,11 +2,11 @@
     <string name="title_manufacturers">Manufacturers</string>
 
     <!--  DEVICE ITEM  -->
-    <string name="placeholder_item_device_release_available">Released on %1s</string>
+    <string name="placeholder_item_device_release_available">Released %1s</string>
     <string name="text_item_device_release_status_cancelled">Cancelled</string>
     <string name="text_item_device_release_status_discontinued">Discontinued</string>
     <string name="text_item_device_release_status_rumored">Rumored</string>
-    <string name="placeholder_item_device_release_status_coming_soon">Expected on %1s</string>
+    <string name="placeholder_item_device_release_status_coming_soon">Expected %1s</string>
     <string name="text_item_device_release_status_delayed">Delayed</string>
     <string name="placeholder_item_device_display_size">%1s\"</string>
     <string name="placeholder_item_device_camera">%1sMP"</string>

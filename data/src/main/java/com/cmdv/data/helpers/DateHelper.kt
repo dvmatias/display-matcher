@@ -20,6 +20,7 @@ object DateHelper {
         SimpleDateFormat(pattern, Locale.getDefault()).format(source)
 
     fun getDateFromTimestamp(timestamp: Timestamp): Date? {
+        if (timestamp.seconds == 0L && timestamp.nanoseconds == 0) return null
         val dateString = getFormattedDateFromSeconds(timestamp.seconds, PATTERN_MMMM_D_YYYY)
         return SimpleDateFormat(PATTERN_MMMM_D_YYYY, Locale.getDefault()).parse(dateString)
     }

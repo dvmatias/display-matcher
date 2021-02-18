@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cmdv.core.helpers.StringHelper
 import com.cmdv.domain.models.DeviceModel
+import com.cmdv.domain.models.ReleaseStatus
 import com.cmdv.feature.R
 import com.cmdv.feature.databinding.ItemDeviceBinding
 
@@ -20,9 +21,16 @@ class DeviceRecyclerViewAdapter(
     fun setItems(devices: List<DeviceModel>) {
         items.apply {
             clear()
-            addAll(devices.sortedByDescending { it.launch.release.released })
+            addAll(getOrderedDeviceList(devices))
         }
         notifyDataSetChanged()
+    }
+
+    private fun getOrderedDeviceList(devices: List<DeviceModel>) : List<DeviceModel> {
+        val released = devices.filter { it.launch.release.status == ReleaseStatus.AVAILABLE }.sortedByDescending { it.launch.release.released }
+        val announced = devices.filter { it.launch.release.status == ReleaseStatus.COMING_SOON && it.launch.release.expected != null }.sortedByDescending { it.launch.release.expected }
+        val rumored = devices.filter { it.launch.release.status == ReleaseStatus.RUMORED && it.launch.announced == null }.sortedByDescending { it.launch.release.expected }
+        return rumored.plus(announced).plus(released)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {

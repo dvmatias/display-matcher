@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':core')
+
     api libs.kotlin_stdlib
     api libs.core_ktx
     api libs.appcompat

@@ -8,13 +8,18 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.cmdv.common.R
 import com.cmdv.common.databinding.SearchViewCustomBinding
+import com.cmdv.common.listeners.SimpleTextWatcher
+import com.cmdv.core.extensions.hideKeyboard
+import com.cmdv.core.extensions.showKeyboard
+
 
 enum class SearchViewType(val value: Int) {
     BUTTON(0),
     SEARCH(1)
 }
 
-enum class SearchViewState {
+enum class SearchState {
+    NONE,
     FOR_INPUT,
     FOR_SEARCH,
     SEARCHING
@@ -22,6 +27,10 @@ enum class SearchViewState {
 
 class CustomSearchView : ConstraintLayout {
     private var binding: SearchViewCustomBinding = SearchViewCustomBinding.inflate(LayoutInflater.from(context))
+    private lateinit var viewType: SearchViewType
+    private lateinit var searchState: SearchState
+    private var listener: SearchViewListener? = null
+    private var searchText: String = ""
 
     constructor(context: Context) : super(context) {
         initView(context, null, null)
@@ -39,6 +48,10 @@ class CustomSearchView : ConstraintLayout {
         addView(binding.root)
     }
 
+    fun setListener(listener: SearchViewListener) {
+        this.listener = listener
+    }
+
     private fun initView(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int?) {
         val a: TypedArray = context.obtainStyledAttributes(
             attributeSet,
@@ -46,19 +59,88 @@ class CustomSearchView : ConstraintLayout {
             defStyleAttr ?: 1,
             0
         )
-        setButtonType(a.getInt(R.styleable.CustomSearchView_view_type, 0))
+        viewType =
+            when (a.getInt(R.styleable.CustomSearchView_view_type, 0)) {
+                SearchViewType.BUTTON.value -> SearchViewType.BUTTON
+                SearchViewType.SEARCH.value -> SearchViewType.SEARCH
+                else -> throw IllegalAccessException("You must define a vuew type for this element.")
+            }
+        setupViewsForButtonOrSearchMode()
+        initViews()
+        initSearchState()
+
         a.recycle()
     }
 
-    private fun setButtonType(viewType: Int) {
+    private fun setupViewsForButtonOrSearchMode() {
         when (viewType) {
-            SearchViewType.BUTTON.value -> binding.containerSearch.visibility = View.GONE
-            SearchViewType.SEARCH.value -> binding.containerButton.visibility = View.GONE
+            SearchViewType.BUTTON -> binding.containerSearch.visibility = View.GONE
+            SearchViewType.SEARCH -> binding.containerButton.visibility = View.GONE
+        }
+    }
+
+    private fun initViews() {
+        binding.imageViewBackButton.setOnClickListener {
+            hideKeyboard()
+            listener?.onBackButtonClick()
+        }
+        binding.imageViewClearSearchButton.setOnClickListener { listener?.onClearSearchButtonClick() }
+        binding.editTextSearch.addTextChangedListener(object : SimpleTextWatcher() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchText = s.toString()
+                if (searchText.isEmpty()) {
+                    setSearchState(SearchState.FOR_INPUT)
+                } else {
+                    setSearchState(SearchState.FOR_SEARCH)
+                }
+            }
+        })
+    }
+
+    private fun initSearchState() {
+        when (viewType) {
+            SearchViewType.SEARCH -> setSearchState(SearchState.FOR_INPUT)
+            else -> setSearchState(SearchState.NONE)
+        }
+    }
+
+    private fun setSearchState(searchState: SearchState) {
+        this.searchState = searchState
+        setupView()
+    }
+
+    private fun setupView() {
+        when (searchState) {
+            SearchState.NONE -> {
+            }
+            SearchState.FOR_INPUT -> {
+                binding.imageViewClearSearchButton.visibility = View.GONE
+                binding.editTextSearch.text.clear()
+            }
+            SearchState.FOR_SEARCH -> {
+                binding.imageViewClearSearchButton.visibility = View.VISIBLE
+            }
+            SearchState.SEARCHING -> {
+            }
         }
     }
 
     fun setButtonStateListener(listener: OnClickListener) {
         binding.viewBackgroundButton.setOnClickListener { listener.onClick(it) }
+    }
+
+    fun clearSearch() {
+        setSearchState(SearchState.FOR_INPUT)
+    }
+
+    fun focus() {
+        binding.editTextSearch.requestFocus()
+        showKeyboard()
+    }
+
+    interface SearchViewListener {
+        fun onBackButtonClick()
+        fun onClearSearchButtonClick()
     }
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -8,11 +9,11 @@
         android:id="@+id/containerSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="visible">
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/viewBackgroundSearch"
@@ -52,12 +53,13 @@
             android:layout_height="0dp"
             android:autofillHints="@null"
             android:background="@null"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center_vertical"
-            android:hint="Search for..."
+            android:hint="@string/text_search_for_hint"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:paddingStart="4dp"
-            android:textColor="#989898"
+            android:textColorHint="@color/text_hint"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/viewBackgroundSearch"
             app:layout_constraintEnd_toStartOf="@id/imageViewClearSearchButton"
@@ -91,7 +93,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
 
         <View
             android:id="@+id/viewBackgroundButton"
@@ -117,9 +120,9 @@
             android:elevation="2dp"
             android:gravity="center_vertical"
             android:paddingStart="12dp"
-            android:text="Search for..."
-            android:textColor="#989898"
-            android:textSize="14sp"
+            android:text="@string/text_search_for_hint"
+            android:textColor="@color/text_hint"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/viewBackgroundButton"
             app:layout_constraintEnd_toEndOf="@id/viewBackgroundButton"
             app:layout_constraintStart_toStartOf="@id/viewBackgroundButton"

@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.cmdv.common.adapters.FilterType
 import com.cmdv.common.utils.Constants
 import com.cmdv.common.views.CustomFilterSelectorView
-import com.cmdv.common.views.FilterReleaseStatusListDialogFragment
+import com.cmdv.common.views.FilterBottomSheetFragment
 import com.cmdv.core.navigatior.Navigator
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ManufacturerModel
@@ -177,8 +177,8 @@ class DevicesFragment : Fragment() {
 
     private fun showBottomSheetFilter(filterType: FilterType) {
         activity?.let {
-            val bottomSheetDialog: FilterReleaseStatusListDialogFragment =
-                FilterReleaseStatusListDialogFragment.newInstance(2, filterType)
+            val bottomSheetDialog: FilterBottomSheetFragment =
+                FilterBottomSheetFragment.newInstance(2, filterType)
             bottomSheetDialog.show(it.supportFragmentManager, "Bottom Sheet Dialog Fragment")
         }
     }

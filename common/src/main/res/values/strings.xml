@@ -1,7 +1,10 @@
 <resources>
     <string name="title_manufacturers">Manufacturers</string>
 
-    <!-- DEVICES FILTERS -->
+    <!-- DEVICES FILTER -->
+    <string name="text_release_status_filter_bottom_sheet_title">Release Status</string>
+    <string name="text_categories_filter_bottom_sheet_title">Categories</string>
+
     <string-array name="labels_filter_release_status">
         <item>All</item>
         <item>Available</item>
@@ -11,14 +14,14 @@
     </string-array>
 
     <string-array name="labels_filter_categories">
-        <item>Filters</item>
-        <item>SO version</item>
+        <item>All Categories</item>
+        <item>SO Version</item>
         <item>Camera</item>
         <item>Dual-Sim</item>
-        <item>Screen size</item>
+        <item>Screen Size</item>
         <item>Resolution</item>
-        <item>Battery capacity</item>
-        <item>Internal capacity</item>
+        <item>Battery Capacity</item>
+        <item>Internal Capacity</item>
     </string-array>
 
     <integer-array name="icons_filter_categories">

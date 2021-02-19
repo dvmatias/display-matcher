@@ -1,7 +1,10 @@
 <resources>
     <string name="title_manufacturers">Fabricantes</string>
 
-    <!-- DEVICES FILTERS -->
+    <!-- DEVICES FILTER -->
+    <string name="text_release_status_filter_bottom_sheet_title">Estado de Lanzamiento</string>
+    <string name="text_categories_filter_bottom_sheet_title">Categorías</string>
+
     <string-array name="labels_filter_release_status">
         <item>Todos</item>
         <item>Disponibles</item>
@@ -11,14 +14,14 @@
     </string-array>
 
     <string-array name="labels_filter_categories">
-        <item>Filtros</item>
+        <item>Todas las categorías</item>
         <item>Versión del SO</item>
         <item>Cámara</item>
         <item>Dual-Sim</item>
-        <item>Tamaño de la pantalla</item>
+        <item>Tamaño de la Pantalla</item>
         <item>Resolución</item>
-        <item>Capacidad de la batería</item>
-        <item>Capacidad interna</item>
+        <item>Capacidad de la Batería</item>
+        <item>Capacidad Interna</item>
     </string-array>
 
     <integer-array name="icons_filter_categories">

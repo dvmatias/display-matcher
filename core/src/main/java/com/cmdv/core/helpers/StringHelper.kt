@@ -2,7 +2,7 @@ package com.cmdv.core.helpers
 
 import android.content.Context
 import com.cmdv.core.R
-import com.cmdv.core.extensions.capitalizeFirstLetters
+import com.cmdv.common.extensions.capitalizeFirstLetters
 import com.cmdv.data.helpers.DateHelper
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus

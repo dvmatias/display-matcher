@@ -3,7 +3,7 @@ package com.cmdv.feature.ui.fragments.manufacturers
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cmdv.core.extensions.cancelIfActive
+import com.cmdv.common.extensions.cancelIfActive
 import com.cmdv.data.services.FirebaseManufacturerServiceImpl
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper

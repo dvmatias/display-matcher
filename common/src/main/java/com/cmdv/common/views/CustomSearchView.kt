@@ -5,12 +5,13 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.cmdv.common.R
 import com.cmdv.common.databinding.SearchViewCustomBinding
+import com.cmdv.common.extensions.hideKeyboard
+import com.cmdv.common.extensions.showKeyboard
 import com.cmdv.common.listeners.SimpleTextWatcher
-import com.cmdv.core.extensions.hideKeyboard
-import com.cmdv.core.extensions.showKeyboard
 
 
 enum class SearchViewType(val value: Int) {
@@ -85,16 +86,31 @@ class CustomSearchView : ConstraintLayout {
             listener?.onBackButtonClick()
         }
         binding.imageViewClearSearchButton.setOnClickListener { listener?.onClearSearchButtonClick() }
-        binding.editTextSearch.addTextChangedListener(object : SimpleTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchText = s.toString()
-                if (searchText.isEmpty()) {
-                    setSearchState(SearchState.FOR_INPUT)
+        setupEditText()
+    }
+
+    private fun setupEditText() {
+        binding.editTextSearch.apply {
+            addTextChangedListener(object : SimpleTextWatcher() {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    searchText = s.toString()
+                    if (searchText.isEmpty()) {
+                        setSearchState(SearchState.FOR_INPUT)
+                    } else {
+                        setSearchState(SearchState.FOR_SEARCH)
+                    }
+                }
+            })
+            setOnEditorActionListener { v, actionId, event ->
+                if ((actionId and EditorInfo.IME_MASK_ACTION) == EditorInfo.IME_ACTION_SEARCH && searchText.isNotEmpty()) {
+                    hideKeyboard()
+                    listener?.onSearchClick(searchText)
+                    true
                 } else {
-                    setSearchState(SearchState.FOR_SEARCH)
+                    false
                 }
             }
-        })
+        }
     }
 
     private fun initSearchState() {
@@ -141,6 +157,7 @@ class CustomSearchView : ConstraintLayout {
     interface SearchViewListener {
         fun onBackButtonClick()
         fun onClearSearchButtonClick()
+        fun onSearchClick(searchText: String)
     }
 
 }

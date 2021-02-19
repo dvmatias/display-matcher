@@ -1,4 +1,4 @@
-package com.cmdv.core.extensions
+package com.cmdv.common.extensions
 
 import android.content.Context
 import android.view.View

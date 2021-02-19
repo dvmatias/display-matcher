@@ -3,10 +3,17 @@
     <color name="colorPrimary">#45b291</color>
     <color name="colorPrimaryDark">#008263</color>
     <color name="colorAccent">#FF6200EE</color>
-    <color name="color_filter_selected_background">#E3D6F4</color>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
+    <color name="color_filter_selected_background">@color/main_50</color>
+    <color name="main_50">#E3F2FD</color>
+    <color name="main_100">#BBDEFB</color>
+    <color name="main_200">#90CAF9</color>
+    <color name="main_300">#64B5F6</color>
+    <color name="main_400">#42A5F5</color>
+    <color name="main_500">#2196F3</color>
+    <color name="main_600">#1E88E5</color>
+    <color name="main_700">#1976D2</color>
+    <color name="main_800">#1565C0</color>
+    <color name="main_900">#0D47A1</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
@@ -14,9 +21,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
 
+    <color name="divider">#DADCE0</color>
     <color name="text_label">#202124</color>
     <color name="text_label_filter_none">#5f6368</color>
-    <color name="text_label_filter_selected">@color/colorAccent</color>
+    <color name="text_label_filter_selected">@color/main_900</color>
+    <color name="tint_icon_filter_selected">@color/text_label_filter_selected</color>
     <color name="item_recycler_stroke">#2C5A5A5A</color>
     <color name="light_blue_400">#FF29B6F6</color>
     <color name="light_blue_600">#FF039BE5</color>

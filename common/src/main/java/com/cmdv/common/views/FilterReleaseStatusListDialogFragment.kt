@@ -9,6 +9,7 @@ import com.cmdv.common.R
 import com.cmdv.common.adapters.FilterRecyclerViewAdapter
 import com.cmdv.common.adapters.FilterType
 import com.cmdv.common.databinding.FragmentFilterReleaseStatusListDialogListDialogBinding
+import com.cmdv.common.decorators.FilterItemDecorator
 import com.cmdv.common.utils.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -39,7 +40,8 @@ class FilterReleaseStatusListDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = FilterRecyclerViewAdapter(items, FilterType.RELEASE_STATUS, 0)
+            adapter = FilterRecyclerViewAdapter(activity!!, items, FilterType.RELEASE_STATUS, 0)
+            addItemDecoration(FilterItemDecorator(activity!!))
         }
     }
 

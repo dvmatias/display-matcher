@@ -17,7 +17,7 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="drawableEndCompat">@drawable/ic_expand_filter_18dp</item>
-        <item name="drawableTint">@color/colorAccent</item>
+        <item name="drawableTint">@color/tint_icon_filter_selected</item>
     </style>
 
 </resources>

@@ -85,7 +85,10 @@ class CustomSearchView : ConstraintLayout {
             hideKeyboard()
             listener?.onBackButtonClick()
         }
-        binding.imageViewClearSearchButton.setOnClickListener { listener?.onClearSearchButtonClick() }
+        binding.imageViewClearSearchButton.setOnClickListener {
+            listener?.onClearSearchButtonClick()
+            focus()
+        }
         setupEditText()
     }
 

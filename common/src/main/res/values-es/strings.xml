@@ -52,4 +52,5 @@
 
     <!--  DEVICE SEARCH  -->
     <string name="text_search_for_hint">Buscar…</string>
+    <string name="text_recent_title">Recientes</string>
 </resources>

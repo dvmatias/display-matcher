@@ -8,7 +8,7 @@
     android:layout_marginTop="18dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/containerRecentSearch"
+    app:layout_constraintTop_toBottomOf="@id/layoutRecentSearches"
     tools:showIn="@layout/activity_search">
 
     <TextView

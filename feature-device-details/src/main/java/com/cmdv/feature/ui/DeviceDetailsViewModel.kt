@@ -55,7 +55,7 @@ class DeviceDetailsViewModel : ViewModel() {
         }
         getDeviceJob.cancelIfActive()
         getDeviceJob = viewModelScope.launch {
-            FirebaseDeviceServiceImpl.getDevice(id).collect {
+            FirebaseDeviceServiceImpl.getDeviceById(id).collect {
                 mutableDeviceLiveData.value = it
                 isDeviceGetFinished = it.status == LiveDataStatusWrapper.Status.SUCCESS
                 setFinishLoadStatus()

@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cmdv.common.extensions.cancelIfActive
 import com.cmdv.data.services.FirebaseDeviceServiceImpl
-import com.cmdv.data.services.FirebaseManufacturerServiceImpl
 import com.cmdv.domain.models.DeviceModel
-import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -23,7 +21,7 @@ class DevicesFragmentViewModel : ViewModel() {
     fun getDevices(manufacturerId: String) {
         getDevicesJob.cancelIfActive()
         getDevicesJob = viewModelScope.launch {
-            FirebaseDeviceServiceImpl.getDevices(manufacturerId).collect { devicesStatusWrapper ->
+            FirebaseDeviceServiceImpl.getDevicesByManufacturer(manufacturerId).collect { devicesStatusWrapper ->
                 mutableDevicesLiveData.value = devicesStatusWrapper
             }
         }

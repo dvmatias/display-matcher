@@ -53,6 +53,10 @@ class CustomSearchView : ConstraintLayout {
         this.listener = listener
     }
 
+    fun setSearchTerm(searchTerm: String) {
+        binding.editTextSearch.setText(searchTerm)
+    }
+
     private fun initView(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int?) {
         val a: TypedArray = context.obtainStyledAttributes(
             attributeSet,
@@ -105,10 +109,10 @@ class CustomSearchView : ConstraintLayout {
                     listener?.onQueryChanged(query)
                 }
             })
-            setOnEditorActionListener { v, actionId, event ->
+            setOnEditorActionListener { _, actionId, _ ->
                 if ((actionId and EditorInfo.IME_MASK_ACTION) == EditorInfo.IME_ACTION_SEARCH && query.isNotEmpty()) {
                     hideKeyboard()
-                    listener?.onSearchClick(query)
+                    performSearch(query)
                     true
                 } else {
                     false
@@ -145,6 +149,10 @@ class CustomSearchView : ConstraintLayout {
         }
     }
 
+    fun performSearch(searchTerm: String) {
+        listener?.onSearchClick(searchTerm)
+    }
+
     fun setButtonStateListener(listener: OnClickListener) {
         binding.viewBackgroundButton.setOnClickListener { listener.onClick(it) }
     }
@@ -159,10 +167,10 @@ class CustomSearchView : ConstraintLayout {
     }
 
     interface SearchViewListener {
-        fun onQueryChanged(query: String)
+        fun onQueryChanged(searchTerm: String)
         fun onBackButtonClick()
         fun onClearSearchButtonClick()
-        fun onSearchClick(query: String)
+        fun onSearchClick(searchTerm: String)
     }
 
 }

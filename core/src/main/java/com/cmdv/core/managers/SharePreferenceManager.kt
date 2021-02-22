@@ -5,7 +5,7 @@ import com.cmdv.domain.models.RecentSearchModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
-import java.util.*
+import kotlin.collections.ArrayList
 
 private const val SHARED_PREFS_RECENT_SEARCH_NAME = "recent_search_name"
 
@@ -56,7 +56,7 @@ class SharePreferenceManager(private val context: Context) {
         prefs.edit().putString(SHARED_PREFS_RECENT_SEARCH_KEY, recentSearchesString).apply()
     }
 
-    fun getRecentSearch(): ArrayList<RecentSearchModel> {
+    fun getAllRecentSearches(): ArrayList<RecentSearchModel> {
         val prefs = context.getSharedPreferences(SHARED_PREFS_RECENT_SEARCH_NAME, Context.MODE_PRIVATE)
         val storedJsonString = prefs.getString(SHARED_PREFS_RECENT_SEARCH_KEY, "")
 
@@ -69,5 +69,15 @@ class SharePreferenceManager(private val context: Context) {
         return recentSearches
     }
 
+    fun findRecentSearchesFromQueryOrderedByNewestToOldest(query: String): List<RecentSearchModel> =
+        findAllRecentSearchesFromQuery(query).sortedWith(compareByDescending { it.date })
+
+    private fun findAllRecentSearchesFromQuery(query: String): ArrayList<RecentSearchModel> {
+        val suggestionsSearches = arrayListOf<RecentSearchModel>()
+        getAllRecentSearches().forEach {
+            it.takeIf { it.query.contains(query) }?.let { suggestionsSearches.add(it) }
+        }
+        return suggestionsSearches
+    }
 
 }

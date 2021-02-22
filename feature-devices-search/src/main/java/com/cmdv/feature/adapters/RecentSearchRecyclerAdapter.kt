@@ -8,16 +8,19 @@ import com.cmdv.domain.models.RecentSearchModel
 import com.cmdv.feature.databinding.ItemRecentSearchBinding
 import java.util.*
 
+const val MAX_RECENT_SEARCHES_TO_SHOW = 6
+const val MAX_SIMILAR_RECENT_SEARCHES_TO_SHOW = 2
+
 class RecentSearchRecyclerAdapter(
-    context: Context,
     private val listener: RecentSearchListener
 ) : RecyclerView.Adapter<RecentSearchRecyclerAdapter.RecentSearchViewHolder>() {
 
     private val items: ArrayList<RecentSearchModel> = arrayListOf()
 
-    fun setItems(recentSearches: ArrayList<RecentSearchModel>) {
+    fun setItems(recentSearches: List<RecentSearchModel>, isSimilarRecentSearches: Boolean) {
+        val maxItemsToShow = if (isSimilarRecentSearches) MAX_SIMILAR_RECENT_SEARCHES_TO_SHOW else MAX_RECENT_SEARCHES_TO_SHOW
         items.clear()
-        items.addAll(recentSearches.subList(0, 5))
+        items.addAll(recentSearches.let { if (recentSearches.size > maxItemsToShow) it.subList(0, maxItemsToShow) else it })
         notifyDataSetChanged()
     }
 

@@ -102,6 +102,7 @@ class CustomSearchView : ConstraintLayout {
                     } else {
                         setSearchState(SearchState.FOR_SEARCH)
                     }
+                    listener?.onQueryChanged(query)
                 }
             })
             setOnEditorActionListener { v, actionId, event ->
@@ -158,6 +159,7 @@ class CustomSearchView : ConstraintLayout {
     }
 
     interface SearchViewListener {
+        fun onQueryChanged(query: String)
         fun onBackButtonClick()
         fun onClearSearchButtonClick()
         fun onSearchClick(query: String)

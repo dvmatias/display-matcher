@@ -1,6 +1,7 @@
 package com.cmdv.feature.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,23 +10,37 @@ import com.cmdv.core.managers.SharePreferenceManager
 import com.cmdv.domain.models.RecentSearchModel
 import com.cmdv.feature.adapters.RecentSearchRecyclerAdapter
 import com.cmdv.feature.databinding.ActivitySearchBinding
-import com.cmdv.feature.databinding.LayoutRecentSearchBinding
 import java.util.*
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var mergeRecentSearchBinding: LayoutRecentSearchBinding
+
     private lateinit var recentSearchAdapter: RecentSearchRecyclerAdapter
     private val sharePreferenceManager: SharePreferenceManager = SharePreferenceManager(this)
 
+    /**
+     * Interface to catch "recent searches" events.
+     */
     private val recentSearchListener = object : RecentSearchRecyclerAdapter.RecentSearchListener {
         override fun onRecentSearchClick(query: String) {
             Toast.makeText(this@SearchActivity, "Click on $query", Toast.LENGTH_SHORT).show()
         }
     }
 
+    /**
+     * Interface to catch [CustomSearchView] events.
+     */
     private val searchViewListener = object : CustomSearchView.SearchViewListener {
+        override fun onQueryChanged(query: String) {
+            if (query.isNotEmpty()) {
+                val similarRecentSearches = sharePreferenceManager.findRecentSearchesFromQueryOrderedByNewestToOldest(query)
+                setRecentSearches(similarRecentSearches, true)
+            } else {
+                setRecentSearches(sharePreferenceManager.getAllRecentSearches(), false)
+            }
+        }
+
         override fun onBackButtonClick() {
             finish()
         }
@@ -43,11 +58,16 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
-        mergeRecentSearchBinding = LayoutRecentSearchBinding.bind(binding.root)
         setContentView(binding.root)
 
+        initViews()
         setupSearchView()
         setupRecentSearchRecyclerView()
+    }
+
+    private fun initViews() {
+        showRecentSearches(true)
+        binding.layoutSuggestions.containerSuggestion.visibility = View.GONE
     }
 
     private fun setupSearchView() {
@@ -58,17 +78,25 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupRecentSearchRecyclerView() {
-        recentSearchAdapter = RecentSearchRecyclerAdapter(this, recentSearchListener)
-        mergeRecentSearchBinding.recyclerViewRecentSearch.apply {
+        recentSearchAdapter = RecentSearchRecyclerAdapter(recentSearchListener)
+        binding.layoutRecentSearches.recyclerViewRecentSearch.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = recentSearchAdapter
         }
-        showRecentSearch()
+        setRecentSearches(sharePreferenceManager.getAllRecentSearches(), false)
     }
 
-    private fun showRecentSearch() {
-        val recentSearch = sharePreferenceManager.getRecentSearch()
-        recentSearchAdapter.setItems(recentSearch)
+    private fun setRecentSearches(recentSearches: List<RecentSearchModel>, isSimilarRecentSearches: Boolean) {
+        if (recentSearches.isEmpty()) {
+            showRecentSearches(false)
+        } else {
+            showRecentSearches(true)
+            recentSearchAdapter.setItems(recentSearches, isSimilarRecentSearches)
+        }
+    }
+
+    private fun showRecentSearches(show: Boolean) {
+        binding.layoutRecentSearches.containerRecentSearch.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun saveSearch(query: String) {

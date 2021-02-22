@@ -30,7 +30,13 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <include layout="@layout/layout_recent_search" />
+            <include
+                android:id="@+id/layoutRecentSearches"
+                layout="@layout/layout_recent_search" />
+
+            <include
+                android:id="@+id/layoutSuggestions"
+                layout="@layout/layout_suggestion_search" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

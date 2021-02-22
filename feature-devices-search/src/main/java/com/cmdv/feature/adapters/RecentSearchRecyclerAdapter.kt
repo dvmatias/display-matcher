@@ -4,21 +4,20 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.cmdv.domain.models.RecentSearchModel
 import com.cmdv.feature.databinding.ItemRecentSearchBinding
 import java.util.*
 
 class RecentSearchRecyclerAdapter(
-    context: Context
+    context: Context,
+    private val listener: RecentSearchListener
 ) : RecyclerView.Adapter<RecentSearchRecyclerAdapter.RecentSearchViewHolder>() {
 
-    private val items: ArrayList<String> = arrayListOf()
+    private val items: ArrayList<RecentSearchModel> = arrayListOf()
 
-    fun setItems(recentSearch: HashMap<String, Date>) {
+    fun setItems(recentSearches: ArrayList<RecentSearchModel>) {
         items.clear()
-        // TODO order by date
-        recentSearch.entries.forEach { entry ->
-            items.add(entry.key)
-        }
+        items.addAll(recentSearches.subList(0, 5))
         notifyDataSetChanged()
     }
 
@@ -32,7 +31,7 @@ class RecentSearchRecyclerAdapter(
         )
 
     override fun onBindViewHolder(holder: RecentSearchViewHolder, position: Int) {
-        holder.bindItem(items[position])
+        holder.bindItem(items[position], listener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -41,10 +40,16 @@ class RecentSearchRecyclerAdapter(
         private val itemBinding: ItemRecentSearchBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bindItem(searchText: String) {
-            itemBinding.textViewRecentSearch.text = searchText
+        fun bindItem(recentSearch: RecentSearchModel, listener: RecentSearchListener) {
+            itemBinding.textViewRecentSearch.text = recentSearch.query
+            itemBinding.container.setOnClickListener { listener.onRecentSearchClick(recentSearch.query) }
+
         }
 
+    }
+
+    interface RecentSearchListener {
+        fun onRecentSearchClick(query: String)
     }
 
 }

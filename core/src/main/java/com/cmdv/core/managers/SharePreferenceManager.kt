@@ -1,12 +1,11 @@
 package com.cmdv.core.managers
 
 import android.content.Context
-import android.util.Log
+import com.cmdv.domain.models.RecentSearchModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import java.util.*
-import kotlin.collections.HashMap
 
 private const val SHARED_PREFS_RECENT_SEARCH_NAME = "recent_search_name"
 
@@ -20,44 +19,54 @@ class SharePreferenceManager(private val context: Context) {
      * Store up top 10 search-text/date (key/values) in json format.
      * Existent search-text will generate a date (value) update.
      */
-    fun addRecentSearch(searchText: String) {
-        val text = searchText.toLowerCase(Locale.ROOT)
+    fun addRecentSearch(recentSearch: RecentSearchModel) {
         val prefs = context.getSharedPreferences(SHARED_PREFS_RECENT_SEARCH_NAME, Context.MODE_PRIVATE)
 
         val storedJsonString = prefs.getString(SHARED_PREFS_RECENT_SEARCH_KEY, "")
-        val type: Type = object : TypeToken<HashMap<String?, String?>?>() {}.type
-        var recentMap: HashMap<String, Date>? = gson.fromJson(storedJsonString, type)
-        if (recentMap == null) {
-            recentMap = HashMap()
+        val type: Type = object : TypeToken<ArrayList<RecentSearchModel>>() {}.type
+        var recentSearches: ArrayList<RecentSearchModel>? = gson.fromJson(storedJsonString, type)
+        if (recentSearches == null) {
+            recentSearches = arrayListOf()
         }
 
-        Log.d("Shit!", "")
-        recentMap.run {
-            val isAlreadyRecent = containsKey(text)
-            if (!isAlreadyRecent) {
-                Log.d("Shit!", "No existe.")
-                if (size == 10) {
-                    // TODO Delete oldest
+        val currentQuery = recentSearch.query
+        val sortedRecentSearches: MutableList<RecentSearchModel> = mutableListOf()
+        if (recentSearches.isNotEmpty()) {
+            sortedRecentSearches.addAll(recentSearches.sortedWith(compareBy { it.date }))
+        }
+
+        var exists = false
+        sortedRecentSearches.forEach { if (it.query == currentQuery) exists = true }
+        if (exists) {
+            for (i in 0 until sortedRecentSearches.size) {
+                if (sortedRecentSearches[i].query == currentQuery) {
+                    sortedRecentSearches.removeAt(i)
+                    sortedRecentSearches.add(i, recentSearch)
                 }
-                this[text] = Date()
+            }
+        } else {
+            if (sortedRecentSearches.size == 200) {
+                sortedRecentSearches[199] = recentSearch
             } else {
-                this[text] = Date()
+                sortedRecentSearches.add(recentSearch)
             }
         }
-        val recentMapString: String = gson.toJson(recentMap, type)
-        prefs.edit().putString(SHARED_PREFS_RECENT_SEARCH_KEY, recentMapString).apply()
+
+        val recentSearchesString: String = gson.toJson(sortedRecentSearches.sortedWith(compareByDescending { it.date }) as MutableList, type)
+        prefs.edit().putString(SHARED_PREFS_RECENT_SEARCH_KEY, recentSearchesString).apply()
     }
 
-    fun getRecentSearch() : HashMap<String, Date> {
+    fun getRecentSearch(): ArrayList<RecentSearchModel> {
         val prefs = context.getSharedPreferences(SHARED_PREFS_RECENT_SEARCH_NAME, Context.MODE_PRIVATE)
         val storedJsonString = prefs.getString(SHARED_PREFS_RECENT_SEARCH_KEY, "")
-        val type: Type = object : TypeToken<HashMap<String?, String?>?>() {}.type
-        var recentMap: HashMap<String, Date>? = gson.fromJson(storedJsonString, type)
-        if (recentMap == null) {
-            recentMap = HashMap()
+
+        val type: Type = object : TypeToken<ArrayList<RecentSearchModel>?>() {}.type
+        var recentSearches: ArrayList<RecentSearchModel>? = gson.fromJson(storedJsonString, type)
+        if (recentSearches == null) {
+            recentSearches = arrayListOf()
         }
 
-        return recentMap
+        return recentSearches
     }
 
 

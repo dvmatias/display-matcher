@@ -24,6 +24,7 @@
     <color name="divider">#DADCE0</color>
 
     <color name="text_label">#202124</color>
+    <color name="text_description">#35373A</color>
     <color name="text_label_filter_none">#5f6368</color>
     <color name="text_label_filter_selected">@color/main_900</color>
     <color name="text_hint">#989898</color>

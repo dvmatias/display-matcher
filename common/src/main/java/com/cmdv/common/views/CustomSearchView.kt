@@ -31,7 +31,7 @@ class CustomSearchView : ConstraintLayout {
     private lateinit var viewType: SearchViewType
     private lateinit var searchState: SearchState
     private var listener: SearchViewListener? = null
-    private var searchText: String = ""
+    private var query: String = ""
 
     constructor(context: Context) : super(context) {
         initView(context, null, null)
@@ -96,8 +96,8 @@ class CustomSearchView : ConstraintLayout {
         binding.editTextSearch.apply {
             addTextChangedListener(object : SimpleTextWatcher() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    searchText = s.toString()
-                    if (searchText.isEmpty()) {
+                    query = s.toString()
+                    if (query.isEmpty()) {
                         setSearchState(SearchState.FOR_INPUT)
                     } else {
                         setSearchState(SearchState.FOR_SEARCH)
@@ -105,9 +105,9 @@ class CustomSearchView : ConstraintLayout {
                 }
             })
             setOnEditorActionListener { v, actionId, event ->
-                if ((actionId and EditorInfo.IME_MASK_ACTION) == EditorInfo.IME_ACTION_SEARCH && searchText.isNotEmpty()) {
+                if ((actionId and EditorInfo.IME_MASK_ACTION) == EditorInfo.IME_ACTION_SEARCH && query.isNotEmpty()) {
                     hideKeyboard()
-                    listener?.onSearchClick(searchText)
+                    listener?.onSearchClick(query)
                     true
                 } else {
                     false
@@ -160,7 +160,7 @@ class CustomSearchView : ConstraintLayout {
     interface SearchViewListener {
         fun onBackButtonClick()
         fun onClearSearchButtonClick()
-        fun onSearchClick(searchText: String)
+        fun onSearchClick(query: String)
     }
 
 }

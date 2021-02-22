@@ -42,8 +42,10 @@ class SuggestionSearchRecyclerAdapter(
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bindItem(suggestionSearch: DeviceModel, listener: SuggestionListener) {
-            itemBinding.textViewSuggestionSearch.text = StringHelper.getDeviceFullName(suggestionSearch)
-            itemBinding.container.setOnClickListener { listener.onSuggestionSearchClick(suggestionSearch.resume.name) }
+            StringHelper.getDeviceFullName(suggestionSearch).let { suggestionText: String ->
+                itemBinding.textViewSuggestionSearch.text = suggestionText
+                itemBinding.container.setOnClickListener { listener.onSuggestionSearchClick(suggestionText) }
+            }
         }
 
     }

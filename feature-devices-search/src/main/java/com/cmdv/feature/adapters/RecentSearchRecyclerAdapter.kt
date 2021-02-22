@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cmdv.domain.models.RecentSearchModel
 import com.cmdv.feature.databinding.ItemRecentSearchBinding
+import com.cmdv.feature.ui.SearchActivityViewState
 import java.util.*
 
 const val MAX_RECENT_SEARCHES_TO_SHOW = 5
@@ -16,8 +17,8 @@ class RecentSearchRecyclerAdapter(
 
     private val items: ArrayList<RecentSearchModel> = arrayListOf()
 
-    fun setItems(recentSearches: List<RecentSearchModel>, isShowingSuggestionSearches: Boolean) {
-        val maxItemsToShow = if (isShowingSuggestionSearches) MAX_SIMILAR_RECENT_SEARCHES_TO_SHOW else MAX_RECENT_SEARCHES_TO_SHOW
+    fun setItems(recentSearches: List<RecentSearchModel>, state: SearchActivityViewState) {
+        val maxItemsToShow = if (state == SearchActivityViewState.SUGGESTION_SEARCHES) MAX_SIMILAR_RECENT_SEARCHES_TO_SHOW else MAX_RECENT_SEARCHES_TO_SHOW
         items.clear()
         items.addAll(recentSearches.let { if (recentSearches.size > maxItemsToShow) it.subList(0, maxItemsToShow) else it })
         notifyDataSetChanged()

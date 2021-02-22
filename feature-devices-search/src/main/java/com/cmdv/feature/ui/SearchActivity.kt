@@ -1,8 +1,8 @@
 package com.cmdv.feature.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.common.utils.Constants
@@ -10,6 +10,7 @@ import com.cmdv.common.views.CustomSearchView
 import com.cmdv.core.managers.SharePreferenceManager
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.RecentSearchModel
+import com.cmdv.feature.adapters.DevicesRecyclerAdapter
 import com.cmdv.feature.adapters.RecentSearchRecyclerAdapter
 import com.cmdv.feature.adapters.SuggestionSearchRecyclerAdapter
 import com.cmdv.feature.databinding.ActivitySearchBinding
@@ -25,12 +26,16 @@ enum class SearchActivityViewState {
 class SearchActivity : AppCompatActivity() {
     private val viewModel: SearchViewModel by viewModel()
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var recentSearchAdapter: RecentSearchRecyclerAdapter
 
+    private lateinit var recentSearchAdapter: RecentSearchRecyclerAdapter
     private lateinit var suggestionSearchAdapter: SuggestionSearchRecyclerAdapter
+    private lateinit var devicesAdapter: DevicesRecyclerAdapter
     private val sharePreferenceManager: SharePreferenceManager = SharePreferenceManager(this)
     private lateinit var manufacturerId: String
-    private var isShowingSuggestionSearches: Boolean = false
+
+    private var recentSearches: List<RecentSearchModel> = listOf()
+    private var suggestionSearches: List<DeviceModel> = listOf()
+    private var devices: List<DeviceModel> = listOf()
 
     /**
      * Interface to catch "recent searches" events.
@@ -57,19 +62,27 @@ class SearchActivity : AppCompatActivity() {
     }
 
     /**
+     * Interface to catch "devices" events.
+     */
+    private val deviceListener = object : DevicesRecyclerAdapter.DeviceListener {
+        override fun onDeviceClick(deviceId: String) {
+            Toast.makeText(this@SearchActivity, "Device with ID: $deviceId", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
      * Interface to catch [CustomSearchView] events.
      */
     private val searchViewListener = object : CustomSearchView.SearchViewListener {
         override fun onQueryChanged(searchTerm: String) {
             if (searchTerm.isNotEmpty()) {
-                setViewState(SearchActivityViewState.SUGGESTION_SEARCHES)
                 val similarRecentSearches = sharePreferenceManager.findRecentSearchesFromQueryOrderedByNewestToOldest(searchTerm)
                 setRecentSearches(similarRecentSearches)
                 getSuggestions(searchTerm)
             } else {
-                setViewState(SearchActivityViewState.RECENT_SEARCHES)
                 setRecentSearches(sharePreferenceManager.getAllRecentSearches())
-                setSuggestions(null)
+                setSuggestions(listOf())
+                setViewState(SearchActivityViewState.RECENT_SEARCHES)
             }
         }
 
@@ -93,10 +106,11 @@ class SearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getExtras()
-        initViews()
         setupSearchView()
         setupRecentSearchRecyclerView()
         setupSuggestionRecyclerView()
+        setupDevicesRecyclerView()
+        initViews()
     }
 
     private fun getExtras() {
@@ -120,7 +134,7 @@ class SearchActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = recentSearchAdapter
         }
-        setRecentSearches(sharePreferenceManager.getAllRecentSearches())
+        recentSearches = sharePreferenceManager.getAllRecentSearches()
     }
 
     private fun setupSuggestionRecyclerView() {
@@ -131,38 +145,44 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupDevicesRecyclerView() {
+        devicesAdapter = DevicesRecyclerAdapter(this, deviceListener)
+        binding.layoutDevices.recyclerDevices.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = devicesAdapter
+        }
+    }
+
     private fun getSuggestions(searchTerm: String) {
         viewModel.devicesFoundedByNameLiveData.observe(this, {
-            it.data?.let { suggestionsSearches -> setSuggestions(suggestionsSearches) }
+            it.data?.let { suggestionsSearches ->
+                setSuggestions(suggestionsSearches)
+                setViewState(SearchActivityViewState.SUGGESTION_SEARCHES)
+            }
         })
         viewModel.searchDevicesByName(searchTerm, manufacturerId)
     }
 
     private fun searchDevices(searchTerm: String) {
         viewModel.devicesFoundedByNameLiveData.observe(this, {
-            it.data?.let { foundedDevices -> setFoundedDevices(foundedDevices) }
+            it.data?.let { foundedDevices ->
+                setFoundedDevices(foundedDevices)
+                setViewState(SearchActivityViewState.SEARCHING)
+            }
         })
         viewModel.searchDevicesByName(searchTerm, manufacturerId)
     }
 
     private fun setRecentSearches(recentSearches: List<RecentSearchModel>) {
-        if (recentSearches.isEmpty()) {
-            recentSearchAdapter.setItems(listOf(), isShowingSuggestionSearches)
-        } else {
-            recentSearchAdapter.setItems(recentSearches, isShowingSuggestionSearches)
-        }
+        this.recentSearches = recentSearches
     }
 
-    private fun setSuggestions(suggestions: List<DeviceModel>?) {
-        if (suggestions == null || suggestions.isEmpty()) {
-            suggestionSearchAdapter.setItems(listOf())
-        } else {
-            suggestionSearchAdapter.setItems(suggestions)
-        }
+    private fun setSuggestions(suggestions: List<DeviceModel>) {
+        this.suggestionSearches = suggestions
     }
 
     private fun setFoundedDevices(devices: List<DeviceModel>) {
-        Log.d("Shit!", "asdsa")
+        this.devices = devices
     }
 
     private fun saveSearch(query: String) {
@@ -177,25 +197,48 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setViewState(state: SearchActivityViewState) {
         fun showRecentSearchesView(show: Boolean) {
-            binding.layoutRecentSearches.containerRecentSearch.visibility = if (show) View.VISIBLE else View.GONE
+            if (show && !recentSearches.isNullOrEmpty()) {
+                binding.layoutRecentSearches.containerRecentSearch.visibility = View.VISIBLE
+                recentSearchAdapter.setItems(recentSearches, state)
+            } else {
+                binding.layoutRecentSearches.containerRecentSearch.visibility = View.GONE
+                recentSearchAdapter.setItems(listOf(), state)
+            }
         }
 
         fun showSuggestionView(show: Boolean) {
-            binding.layoutSuggestionSearches.containerSuggestion.visibility = if (show) View.VISIBLE else View.GONE
-            isShowingSuggestionSearches = show
+            if (show && !suggestionSearches.isNullOrEmpty()) {
+                binding.layoutSuggestionSearches.containerSuggestion.visibility = View.VISIBLE
+                suggestionSearchAdapter.setItems(suggestionSearches)
+            } else {
+                binding.layoutSuggestionSearches.containerSuggestion.visibility = View.GONE
+                suggestionSearchAdapter.setItems(listOf())
+            }
         }
+
+        fun showDevicesView(show: Boolean) {
+            if (show && !devices.isNullOrEmpty()) {
+                binding.layoutDevices.containerDevices.visibility = View.VISIBLE
+            } else {
+                binding.layoutDevices.containerDevices.visibility = View.GONE
+            }
+        }
+
         when (state) {
             SearchActivityViewState.RECENT_SEARCHES -> {
                 showRecentSearchesView(true)
                 showSuggestionView(false)
+                showDevicesView(false)
             }
             SearchActivityViewState.SUGGESTION_SEARCHES -> {
                 showRecentSearchesView(true)
                 showSuggestionView(true)
+                showDevicesView(false)
             }
             SearchActivityViewState.SEARCHING -> {
                 showRecentSearchesView(false)
                 showSuggestionView(false)
+                showDevicesView(true)
             }
 
         }

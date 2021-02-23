@@ -2,24 +2,27 @@ package com.cmdv.feature.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.common.utils.Constants
 import com.cmdv.common.views.CustomSearchView
 import com.cmdv.core.helpers.StringHelper
 import com.cmdv.core.managers.SharePreferenceManager
+import com.cmdv.core.navigatior.Navigator
 import com.cmdv.domain.models.RecentSearchModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature.adapters.DeviceRecyclerAdapter
 import com.cmdv.feature.adapters.RecentAndSuggestedSearchRecyclerAdapter
 import com.cmdv.feature.databinding.ActivitySearchBinding
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class SearchActivity : AppCompatActivity() {
     private val viewModel: SearchViewModel by viewModel()
     private lateinit var binding: ActivitySearchBinding
+    private val navigator: Navigator by inject()
 
     private var searchTerm = ""
     private lateinit var recentAndSuggestedSearchAdapter: RecentAndSuggestedSearchRecyclerAdapter
@@ -51,7 +54,16 @@ class SearchActivity : AppCompatActivity() {
      */
     private val deviceListener = object : DeviceRecyclerAdapter.DeviceListener {
         override fun onDeviceClick(deviceId: String) {
-            Toast.makeText(this@SearchActivity, "Device with ID: $deviceId", Toast.LENGTH_SHORT).show()
+            val bundle = bundleOf(
+                Constants.EXTRA_DEVICE_ID_KEY to deviceId,
+                Constants.EXTRA_MANUFACTURER_ID_KEY to manufacturerId
+            )
+            navigator.toDeviceDetailsActivity(
+                origin = this@SearchActivity,
+                bundle = bundle,
+                options = null,
+                finish = true
+            )
         }
     }
 

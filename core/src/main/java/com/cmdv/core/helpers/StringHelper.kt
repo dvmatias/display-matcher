@@ -11,10 +11,10 @@ object StringHelper {
 
     fun getDeviceFullName(device: DeviceModel): String {
         val builder = StringBuilder()
-        if (device.model.name.isNotEmpty()) builder.append(device.model.name)
-        if (device.model.version.isNotEmpty()) builder.append(" ${device.model.version}")
-        if (device.model.variant.isNotEmpty()) builder.append(" ${device.model.variant}")
-        return builder.toString()
+        if (device.model.name.isNotEmpty()) builder.append("${device.model.name} ")
+        if (device.model.version.isNotEmpty()) builder.append("${device.model.version} ")
+        if (device.model.variant.isNotEmpty()) builder.append(device.model.variant)
+        return builder.toString().trim { it <= ' ' }
     }
 
     fun getReleaseDateString(context: Context, release: DeviceModel.LaunchModel.ReleaseModel) =

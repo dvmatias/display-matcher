@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/viewBackgroundSearch"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/shape_search_background_active"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewBackButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:clickable="true"
+            android:contentDescription="@null"
+            android:elevation="2dp"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_back_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/viewBackgroundSearch"
+            app:layout_constraintStart_toStartOf="@id/viewBackgroundSearch"
+            app:layout_constraintTop_toTopOf="@id/viewBackgroundSearch" />
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autofillHints="@null"
+            android:background="@null"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:hint="@string/text_search_for_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingStart="4dp"
+            android:textColorHint="@color/text_hint"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/viewBackgroundSearch"
+            app:layout_constraintEnd_toStartOf="@id/imageViewClearSearchButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/imageViewBackButton"
+            app:layout_constraintTop_toTopOf="@id/viewBackgroundSearch"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imageViewClearSearchButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:contentDescription="@null"
+            android:elevation="2dp"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_clear_search_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/viewBackgroundSearch"
+            app:layout_constraintEnd_toEndOf="@+id/viewBackgroundSearch"
+            app:layout_constraintTop_toTopOf="@+id/viewBackgroundSearch" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+        <View
+            android:id="@+id/viewBackgroundButton"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/selector_search_button"
+            android:clickable="true"
+            android:elevation="1dp"
+            android:focusable="true"
+            android:translationZ="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="2dp"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:text="@string/text_search_for_hint"
+            android:textColor="@color/text_hint"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/viewBackgroundButton"
+            app:layout_constraintEnd_toEndOf="@id/viewBackgroundButton"
+            app:layout_constraintStart_toStartOf="@id/viewBackgroundButton"
+            app:layout_constraintTop_toTopOf="@id/viewBackgroundButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

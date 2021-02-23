@@ -14,9 +14,9 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name="com.cmdv.feature_main.ui.MainActivity"
+            android:name="com.cmdv.feature.ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar.LightStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +24,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.cmdv.feature.ui.DeviceDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar.LightStatusBar" />
+        <activity android:name="com.cmdv.feature.ui.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar.LightStatusBar" />
     </application>
 
 </manifest>

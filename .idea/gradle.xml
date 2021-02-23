@@ -16,6 +16,8 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/feature-device-details" />
+            <option value="$PROJECT_DIR$/feature-devices-search" />
             <option value="$PROJECT_DIR$/feature-main" />
           </set>
         </option>

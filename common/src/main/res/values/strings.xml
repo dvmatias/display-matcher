@@ -1,7 +1,56 @@
 <resources>
     <string name="title_manufacturers">Manufacturers</string>
-    <string name="item_device_release_placeholder">%1s %2s</string>
-    <string name="item_device_release_status_released">Released</string>
-    <string name="item_device_release_status_not_released">Exp. Release</string>
-    <string name="item_device_release_status_delayed">Release Delayed</string>
+
+    <!-- DEVICES FILTER -->
+    <string name="text_release_status_filter_bottom_sheet_title">Release Status</string>
+    <string name="text_categories_filter_bottom_sheet_title">Categories</string>
+
+    <string-array name="labels_filter_release_status">
+        <item>All</item>
+        <item>Available</item>
+        <item>Upcoming</item>
+        <item>Rumored</item>
+        <item>Canceled</item>
+    </string-array>
+
+    <string-array name="labels_filter_categories">
+        <item>All Categories</item>
+        <item>SO Version</item>
+        <item>Camera</item>
+        <item>Dual-Sim</item>
+        <item>Screen Size</item>
+        <item>Resolution</item>
+        <item>Battery Capacity</item>
+        <item>Internal Capacity</item>
+    </string-array>
+
+    <integer-array name="icons_filter_categories">
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+    </integer-array>
+
+    <!--  DEVICE ITEM  -->
+    <string name="placeholder_item_device_release_available">Released %1s</string>
+    <string name="text_item_device_release_status_cancelled">Cancelled</string>
+    <string name="text_item_device_release_status_discontinued">Discontinued</string>
+    <string name="text_item_device_release_status_rumored">Rumored</string>
+    <string name="placeholder_item_device_release_status_coming_soon">Expected %1s</string>
+    <string name="text_item_device_release_status_delayed">Delayed</string>
+    <string name="placeholder_item_device_display_size">%1s\"</string>
+    <string name="placeholder_item_device_camera">%1sMP"</string>
+
+    <!--  DEVICE DETAILS  -->
+    <string name="placeholder_device_detail_display_size">%1s\"</string>
+    <string name="placeholder_device_detail_display_resolution">%1s pixels</string>
+    <string name="placeholder_device_detail_ram">%1sGB</string>
+
+    <!--  DEVICE SEARCH  -->
+    <string name="text_search_for_hint">Search for…</string>
+    <string name="text_recent_title">Recent</string>
 </resources>

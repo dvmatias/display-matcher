@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".ui.DeviceDetailsActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineMid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <ImageView
+        android:id="@+id/imageViewBackButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:elevation="2dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_back_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLoading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/background_light"
+        android:elevation="1dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="8dp"
+            android:indeterminateDrawable="@drawable/layer_list_loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/imageViewCompareButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        android:src="@drawable/ic_compare_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewManufacturer"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toStartOf="@id/textViewManufacturer"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewBackButton"
+        tools:src="@drawable/motorola" />
+
+    <TextView
+        android:id="@+id/textViewManufacturer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewManufacturer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewManufacturer"
+        app:layout_constraintTop_toTopOf="@+id/imageViewManufacturer"
+        tools:text="Motorola" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerDeviceImages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintDimensionRatio="1:0.8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewManufacturer" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="viewPagerDeviceImages" />
+
+    <TextView
+        android:id="@+id/textViewDeviceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/cereal_medium"
+        android:textColor="#202124"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewRelease"
+        app:layout_constraintStart_toStartOf="@+id/guideLineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerDeviceImages"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Moto G9 Play" />
+
+    <TextView
+        android:id="@+id/textViewRelease"
+        style="@style/ResumeSubtitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDisplaySize"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDeviceName"
+        tools:text="Released January 14, 2021" />
+
+    <TextView
+        android:id="@+id/textViewDisplaySize"
+        style="@style/ResumeTitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDisplayResolution"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRelease"
+        tools:text="6.8" />
+
+    <TextView
+        android:id="@+id/textViewDisplayResolution"
+        style="@style/ResumeSubtitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCameraPhoto"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDisplaySize"
+        tools:text="1080x2540 pixels" />
+
+    <TextView
+        android:id="@+id/textViewCameraPhoto"
+        style="@style/ResumeTitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCameraVideo"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDisplayResolution"
+        tools:text="48MP" />
+
+    <TextView
+        android:id="@+id/textViewCameraVideo"
+        style="@style/ResumeSubtitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewRam"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCameraPhoto"
+        tools:text="3020p" />
+
+    <TextView
+        android:id="@+id/textViewRam"
+        style="@style/ResumeTitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textViewChipSet"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCameraVideo"
+        tools:text="4/6GB Ram" />
+
+    <TextView
+        android:id="@+id/textViewChipSet"
+        style="@style/ResumeSubtitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/textViewCapacity"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRam"
+        tools:text="Snapdragon 870 5G" />
+
+    <TextView
+        android:id="@+id/textViewCapacity"
+        style="@style/ResumeTitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTechnology"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewChipSet"
+        tools:text="10000mAh" />
+
+    <TextView
+        android:id="@+id/textViewTechnology"
+        style="@style/ResumeSubtitle.Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCapacity"
+        tools:text="Li-Po" />
+
+    <ImageButton
+        android:id="@+id/imageButtonInfo"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:contentDescription="@null"
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewRelease"
+        app:layout_constraintEnd_toStartOf="@id/guideLineRight"
+        app:layout_constraintTop_toTopOf="@+id/textViewDeviceName"
+        app:srcCompat="@drawable/ic_list_24dp" />
+
+    <FrameLayout
+        android:id="@+id/fameInfoFragmentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="#ff9800"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/fameCompareFragmentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="#58E133"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

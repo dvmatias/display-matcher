@@ -45,4 +45,8 @@ dependencies {
     api libs.koin
     api libs.koin_scope
     api libs.koin_view_model
+    implementation libs.lifecycle_livedata_ktx
+    implementation libs.lifecycle_viewmodel_ktx
+    // Gson
+    implementation libs.gson
 }

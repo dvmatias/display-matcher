@@ -1,0 +1,56 @@
+<resources>
+    <string name="title_manufacturers">Fabricantes</string>
+
+    <!-- DEVICES FILTER -->
+    <string name="text_release_status_filter_bottom_sheet_title">Estado de Lanzamiento</string>
+    <string name="text_categories_filter_bottom_sheet_title">Categorías</string>
+
+    <string-array name="labels_filter_release_status">
+        <item>Todos</item>
+        <item>Disponibles</item>
+        <item>Próximamente</item>
+        <item>Rumoreados</item>
+        <item>Cancelados</item>
+    </string-array>
+
+    <string-array name="labels_filter_categories">
+        <item>Todas las categorías</item>
+        <item>Versión del SO</item>
+        <item>Cámara</item>
+        <item>Dual-Sim</item>
+        <item>Tamaño de la Pantalla</item>
+        <item>Resolución</item>
+        <item>Capacidad de la Batería</item>
+        <item>Capacidad Interna</item>
+    </string-array>
+
+    <integer-array name="icons_filter_categories">
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+        <item>@drawable/ic_back_accent_24dp</item>
+    </integer-array>
+
+    <!--  DEVICE ITEM  -->
+    <string name="placeholder_item_device_release_available">Lanzado %1s</string>
+    <string name="text_item_device_release_status_cancelled">Cancelado</string>
+    <string name="text_item_device_release_status_discontinued">Discontinuado</string>
+    <string name="text_item_device_release_status_rumored">Rumoreado</string>
+    <string name="placeholder_item_device_release_status_coming_soon">Esperado %1s</string>
+    <string name="text_item_device_release_status_delayed">Retrazado</string>
+    <string name="placeholder_item_device_display_size">%1s\"</string>
+    <string name="placeholder_item_device_camera">%1sMP"</string>
+
+    <!--  DEVICE DETAILS  -->
+    <string name="placeholder_device_detail_display_size">%1s\"</string>
+    <string name="placeholder_device_detail_display_resolution">%1s pixeles</string>
+    <string name="placeholder_device_detail_ram">%1sGB</string>
+
+    <!--  DEVICE SEARCH  -->
+    <string name="text_search_for_hint">Buscar…</string>
+    <string name="text_recent_title">Recientes</string>
+</resources>

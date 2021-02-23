@@ -1,3 +1,5 @@
+include ':feature-devices-search'
+include ':feature-device-details'
 include ':common'
 include ':domain'
 include ':data'

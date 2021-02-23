@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="22dp"
+    android:paddingTop="14dp"
+    android:paddingEnd="22dp"
+    android:paddingBottom="14dp">
+
+    <ImageView
+        android:id="@+id/imageViewThumbnail"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="#202124"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageViewThumbnail"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Device Model" />
+
+
+    <TextView
+        android:id="@+id/textViewReleaseDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="Release Date"
+        android:textColor="#5f6368"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/textViewName"
+        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+
+    <TextView
+        android:id="@+id/textViewCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="#5f6368"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewThumbnail"
+        app:layout_constraintEnd_toStartOf="@id/textViewRam"
+        app:layout_constraintStart_toStartOf="@+id/textViewName"
+        tools:text="64MP" />
+
+    <TextView
+        android:id="@+id/textViewRam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:includeFontPadding="false"
+        android:textColor="#5f6368"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@id/textViewCapacity"
+        app:layout_constraintStart_toEndOf="@+id/textViewCamera"
+        app:layout_constraintTop_toTopOf="@+id/textViewCamera"
+        tools:text="4/6GB" />
+
+    <TextView
+        android:id="@+id/textViewCapacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:includeFontPadding="false"
+        android:textColor="#5f6368"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewRam"
+        app:layout_constraintTop_toTopOf="@+id/textViewRam"
+        tools:text="5000mAh" />
+</androidx.constraintlayout.widget.ConstraintLayout>

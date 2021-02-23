@@ -2,11 +2,10 @@ package com.cmdv.core.helpers
 
 import android.content.Context
 import com.cmdv.core.R
-import com.cmdv.core.extensions.capitalizeFirstLetters
+import com.cmdv.common.extensions.capitalizeFirstLetters
 import com.cmdv.data.helpers.DateHelper
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus
-import java.util.*
 
 object StringHelper {
 
@@ -15,7 +14,7 @@ object StringHelper {
         if (device.model.name.isNotEmpty()) builder.append("${device.model.name} ")
         if (device.model.version.isNotEmpty()) builder.append("${device.model.version} ")
         if (device.model.variant.isNotEmpty()) builder.append(device.model.variant)
-        return builder.toString()
+        return builder.toString().trim { it <= ' ' }
     }
 
     fun getReleaseDateString(context: Context, release: DeviceModel.LaunchModel.ReleaseModel) =

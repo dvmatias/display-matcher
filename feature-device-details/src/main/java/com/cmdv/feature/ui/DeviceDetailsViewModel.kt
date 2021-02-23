@@ -3,7 +3,7 @@ package com.cmdv.feature.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cmdv.core.extensions.cancelIfActive
+import com.cmdv.common.extensions.cancelIfActive
 import com.cmdv.data.services.FirebaseDeviceServiceImpl
 import com.cmdv.data.services.FirebaseManufacturerServiceImpl
 import com.cmdv.domain.models.DeviceModel
@@ -55,7 +55,7 @@ class DeviceDetailsViewModel : ViewModel() {
         }
         getDeviceJob.cancelIfActive()
         getDeviceJob = viewModelScope.launch {
-            FirebaseDeviceServiceImpl.getDevice(id).collect {
+            FirebaseDeviceServiceImpl.getDeviceById(id).collect {
                 mutableDeviceLiveData.value = it
                 isDeviceGetFinished = it.status == LiveDataStatusWrapper.Status.SUCCESS
                 setFinishLoadStatus()

@@ -171,7 +171,10 @@ class DevicesFragment : Fragment() {
 
     private fun goToSearchDevice() {
         activity?.let {
-            navigator.toSearchDevicesActivity(it, bundle = null, options = null, finish = false)
+            val bundle = bundleOf(
+                Constants.EXTRA_MANUFACTURER_ID_KEY to manufacturer?.id,
+            )
+            navigator.toSearchDevicesActivity(it, bundle, options = null, finish = false)
         }
     }
 

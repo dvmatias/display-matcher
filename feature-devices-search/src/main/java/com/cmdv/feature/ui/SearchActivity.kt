@@ -7,56 +7,41 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.common.utils.Constants
 import com.cmdv.common.views.CustomSearchView
+import com.cmdv.core.helpers.StringHelper
 import com.cmdv.core.managers.SharePreferenceManager
-import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.RecentSearchModel
-import com.cmdv.feature.adapters.DevicesRecyclerAdapter
-import com.cmdv.feature.adapters.RecentSearchRecyclerAdapter
-import com.cmdv.feature.adapters.SuggestionSearchRecyclerAdapter
+import com.cmdv.domain.utils.LiveDataStatusWrapper
+import com.cmdv.feature.adapters.DeviceRecyclerAdapter
+import com.cmdv.feature.adapters.RecentAndSuggestedSearchRecyclerAdapter
 import com.cmdv.feature.databinding.ActivitySearchBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
-
-enum class SearchActivityViewState {
-    RECENT_SEARCHES,
-    SUGGESTION_SEARCHES,
-    SEARCHING
-}
 
 class SearchActivity : AppCompatActivity() {
     private val viewModel: SearchViewModel by viewModel()
     private lateinit var binding: ActivitySearchBinding
 
-    private lateinit var recentSearchAdapter: RecentSearchRecyclerAdapter
-    private lateinit var suggestionSearchAdapter: SuggestionSearchRecyclerAdapter
-    private lateinit var devicesAdapter: DevicesRecyclerAdapter
+    private var searchTerm = ""
+    private lateinit var recentAndSuggestedSearchAdapter: RecentAndSuggestedSearchRecyclerAdapter
+    private lateinit var deviceAdapter: DeviceRecyclerAdapter
     private val sharePreferenceManager: SharePreferenceManager = SharePreferenceManager(this)
     private lateinit var manufacturerId: String
 
-    private var recentSearches: List<RecentSearchModel> = listOf()
-    private var suggestionSearches: List<DeviceModel> = listOf()
-    private var devices: List<DeviceModel> = listOf()
-
     /**
-     * Interface to catch "recent searches" events.
+     * Interface to catch event over recent searches and suggested searches.
      */
-    private val recentSearchListener = object : RecentSearchRecyclerAdapter.RecentSearchListener {
+    private val recentAndSuggestionListener = object : RecentAndSuggestedSearchRecyclerAdapter.RecentAndSuggestionListener {
         override fun onRecentSearchClick(recentSearchTerm: String) {
             binding.customViewSearchView.apply {
                 setSearchTerm(recentSearchTerm)
-                performSearch(recentSearchTerm)
+                performSearch()
             }
         }
-    }
 
-    /**
-     * Interface to catch "suggestion searches" events.
-     */
-    private val suggestionSearchListener = object : SuggestionSearchRecyclerAdapter.SuggestionListener {
         override fun onSuggestionSearchClick(suggestionsSearchTerm: String) {
             binding.customViewSearchView.apply {
                 setSearchTerm(suggestionsSearchTerm)
-                performSearch(suggestionsSearchTerm)
+                performSearch()
             }
         }
     }
@@ -64,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
     /**
      * Interface to catch "devices" events.
      */
-    private val deviceListener = object : DevicesRecyclerAdapter.DeviceListener {
+    private val deviceListener = object : DeviceRecyclerAdapter.DeviceListener {
         override fun onDeviceClick(deviceId: String) {
             Toast.makeText(this@SearchActivity, "Device with ID: $deviceId", Toast.LENGTH_SHORT).show()
         }
@@ -75,14 +60,17 @@ class SearchActivity : AppCompatActivity() {
      */
     private val searchViewListener = object : CustomSearchView.SearchViewListener {
         override fun onQueryChanged(searchTerm: String) {
-            if (searchTerm.isNotEmpty()) {
-                val similarRecentSearches = sharePreferenceManager.findRecentSearchesFromQueryOrderedByNewestToOldest(searchTerm)
-                setRecentSearches(similarRecentSearches)
-                getSuggestions(searchTerm)
+            this@SearchActivity.searchTerm = searchTerm
+            binding.recyclerViewDevices.visibility = View.GONE
+            binding.recyclerViewRecentAndSuggestion.visibility = View.VISIBLE
+            if (searchTerm.isEmpty()) {
+                // Show 5 newest recent searches
+                showRecentAndSuggestedSearches(
+                    sharePreferenceManager.getAllRecentSearches().map { it.query },
+                    null
+                )
             } else {
-                setRecentSearches(sharePreferenceManager.getAllRecentSearches())
-                setSuggestions(listOf())
-                setViewState(SearchActivityViewState.RECENT_SEARCHES)
+                viewModel.searchDevicesByName(searchTerm, manufacturerId)
             }
         }
 
@@ -94,9 +82,11 @@ class SearchActivity : AppCompatActivity() {
             binding.customViewSearchView.clearSearch()
         }
 
-        override fun onSearchClick(searchTerm: String) {
-            saveSearch(searchTerm)
-            searchDevices(searchTerm)
+        override fun onSearchClick() {
+            binding.recyclerViewDevices.visibility = View.VISIBLE
+            binding.recyclerViewRecentAndSuggestion.visibility = View.GONE
+            saveSearch()
+            viewModel.searchDevicesByName(searchTerm, manufacturerId)
         }
     }
 
@@ -107,10 +97,17 @@ class SearchActivity : AppCompatActivity() {
 
         getExtras()
         setupSearchView()
-        setupRecentSearchRecyclerView()
-        setupSuggestionRecyclerView()
+        setupRecentAndSuggestedSearchRecyclerView()
         setupDevicesRecyclerView()
         initViews()
+
+        observeOnSuggestedSearches()
+        observeOnDevices()
+
+        showRecentAndSuggestedSearches(
+            sharePreferenceManager.getAllRecentSearches().map { it.query },
+            null
+        )
     }
 
     private fun getExtras() {
@@ -118,7 +115,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        setViewState(SearchActivityViewState.RECENT_SEARCHES)
+        binding.recyclerViewRecentAndSuggestion.visibility = View.VISIBLE
+        binding.recyclerViewDevices.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun setupSearchView() {
@@ -128,119 +127,62 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecentSearchRecyclerView() {
-        recentSearchAdapter = RecentSearchRecyclerAdapter(recentSearchListener)
-        binding.layoutRecentSearches.recyclerViewRecentSearch.apply {
+    private fun setupRecentAndSuggestedSearchRecyclerView() {
+        recentAndSuggestedSearchAdapter = RecentAndSuggestedSearchRecyclerAdapter(this, recentAndSuggestionListener)
+        binding.recyclerViewRecentAndSuggestion.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = recentSearchAdapter
-        }
-        recentSearches = sharePreferenceManager.getAllRecentSearches()
-    }
-
-    private fun setupSuggestionRecyclerView() {
-        suggestionSearchAdapter = SuggestionSearchRecyclerAdapter(suggestionSearchListener)
-        binding.layoutSuggestionSearches.recyclerViewSuggestionSearch.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = suggestionSearchAdapter
+            adapter = recentAndSuggestedSearchAdapter
         }
     }
 
     private fun setupDevicesRecyclerView() {
-        devicesAdapter = DevicesRecyclerAdapter(this, deviceListener)
-        binding.layoutDevices.recyclerDevices.apply {
+        deviceAdapter = DeviceRecyclerAdapter(this, deviceListener)
+        binding.recyclerViewDevices.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = devicesAdapter
+            adapter = deviceAdapter
         }
     }
 
-    private fun getSuggestions(searchTerm: String) {
+    private fun observeOnSuggestedSearches() {
         viewModel.devicesFoundedByNameLiveData.observe(this, {
-            it.data?.let { suggestionsSearches ->
-                setSuggestions(suggestionsSearches)
-                setViewState(SearchActivityViewState.SUGGESTION_SEARCHES)
+            it.data?.let { suggestedSearches ->
+                val similarRecentSearches = sharePreferenceManager.findRecentSearchesFromQueryOrderedByNewestToOldest(searchTerm)
+                showRecentAndSuggestedSearches(
+                    similarRecentSearches.map { recentSearch -> recentSearch.query },
+                    suggestedSearches.map { device -> StringHelper.getDeviceFullName(device) }
+                )
             }
         })
-        viewModel.searchDevicesByName(searchTerm, manufacturerId)
     }
 
-    private fun searchDevices(searchTerm: String) {
+    private fun showRecentAndSuggestedSearches(recentSearches: List<String>?, suggestedSearches: List<String>?) {
+        recentAndSuggestedSearchAdapter.setItems(recentSearches, suggestedSearches)
+    }
+
+    private fun observeOnDevices() {
         viewModel.devicesFoundedByNameLiveData.observe(this, {
-            it.data?.let { foundedDevices ->
-                setFoundedDevices(foundedDevices)
-                setViewState(SearchActivityViewState.SEARCHING)
+            if (it.status == LiveDataStatusWrapper.Status.LOADING) {
+                showLoading(true)
+            } else {
+                showLoading(false)
+                it.data?.let { devices ->
+                    deviceAdapter.setItems(devices)
+                }
             }
         })
-        viewModel.searchDevicesByName(searchTerm, manufacturerId)
     }
 
-    private fun setRecentSearches(recentSearches: List<RecentSearchModel>) {
-        this.recentSearches = recentSearches
+    private fun showLoading(show: Boolean) {
+        binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    private fun setSuggestions(suggestions: List<DeviceModel>) {
-        this.suggestionSearches = suggestions
-    }
-
-    private fun setFoundedDevices(devices: List<DeviceModel>) {
-        this.devices = devices
-    }
-
-    private fun saveSearch(query: String) {
+    private fun saveSearch() {
         val recentSearch = RecentSearchModel(
-            query,
+            searchTerm,
             Date(),
-            true,
+            true, // TODO
             ""
         )
         sharePreferenceManager.addRecentSearch(recentSearch)
-    }
-
-    private fun setViewState(state: SearchActivityViewState) {
-        fun showRecentSearchesView(show: Boolean) {
-            if (show && !recentSearches.isNullOrEmpty()) {
-                binding.layoutRecentSearches.containerRecentSearch.visibility = View.VISIBLE
-                recentSearchAdapter.setItems(recentSearches, state)
-            } else {
-                binding.layoutRecentSearches.containerRecentSearch.visibility = View.GONE
-                recentSearchAdapter.setItems(listOf(), state)
-            }
-        }
-
-        fun showSuggestionView(show: Boolean) {
-            if (show && !suggestionSearches.isNullOrEmpty()) {
-                binding.layoutSuggestionSearches.containerSuggestion.visibility = View.VISIBLE
-                suggestionSearchAdapter.setItems(suggestionSearches)
-            } else {
-                binding.layoutSuggestionSearches.containerSuggestion.visibility = View.GONE
-                suggestionSearchAdapter.setItems(listOf())
-            }
-        }
-
-        fun showDevicesView(show: Boolean) {
-            if (show && !devices.isNullOrEmpty()) {
-                binding.layoutDevices.containerDevices.visibility = View.VISIBLE
-            } else {
-                binding.layoutDevices.containerDevices.visibility = View.GONE
-            }
-        }
-
-        when (state) {
-            SearchActivityViewState.RECENT_SEARCHES -> {
-                showRecentSearchesView(true)
-                showSuggestionView(false)
-                showDevicesView(false)
-            }
-            SearchActivityViewState.SUGGESTION_SEARCHES -> {
-                showRecentSearchesView(true)
-                showSuggestionView(true)
-                showDevicesView(false)
-            }
-            SearchActivityViewState.SEARCHING -> {
-                showRecentSearchesView(false)
-                showSuggestionView(false)
-                showDevicesView(true)
-            }
-
-        }
     }
 }

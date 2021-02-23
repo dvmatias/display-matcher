@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.cmdv.common.databinding.ItemDeviceBinding
 import com.cmdv.common.views.CustomFilterSelectorView
 import com.cmdv.core.helpers.StringHelper
 import com.cmdv.data.helpers.DateHelper
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ReleaseStatus
 import com.cmdv.feature.R
+import com.cmdv.feature.databinding.ItemDeviceBinding
 import com.cmdv.feature.databinding.ItemFilterHeaderBinding
 import com.cmdv.feature.databinding.ItemLoadingFooterBinding
 

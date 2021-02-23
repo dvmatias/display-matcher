@@ -111,8 +111,7 @@ class CustomSearchView : ConstraintLayout {
             })
             setOnEditorActionListener { _, actionId, _ ->
                 if ((actionId and EditorInfo.IME_MASK_ACTION) == EditorInfo.IME_ACTION_SEARCH && query.isNotEmpty()) {
-                    hideKeyboard()
-                    performSearch(query)
+                    performSearch()
                     true
                 } else {
                     false
@@ -149,8 +148,10 @@ class CustomSearchView : ConstraintLayout {
         }
     }
 
-    fun performSearch(searchTerm: String) {
-        listener?.onSearchClick(searchTerm)
+    fun performSearch() {
+        binding.editTextSearch.clearFocus()
+        hideKeyboard()
+        listener?.onSearchClick()
     }
 
     fun setButtonStateListener(listener: OnClickListener) {
@@ -170,7 +171,7 @@ class CustomSearchView : ConstraintLayout {
         fun onQueryChanged(searchTerm: String)
         fun onBackButtonClick()
         fun onClearSearchButtonClick()
-        fun onSearchClick(searchTerm: String)
+        fun onSearchClick()
     }
 
 }

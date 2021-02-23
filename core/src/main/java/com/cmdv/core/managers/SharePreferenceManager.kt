@@ -75,7 +75,7 @@ class SharePreferenceManager(private val context: Context) {
     private fun findAllRecentSearchesFromQuery(query: String): ArrayList<RecentSearchModel> {
         val suggestionsSearches = arrayListOf<RecentSearchModel>()
         getAllRecentSearches().forEach {
-            it.takeIf { it.query.contains(query) }?.let { suggestionsSearches.add(it) }
+            it.takeIf { it.query.contains(query,true) }?.let { suggestionsSearches.add(it) }
         }
         return suggestionsSearches
     }

@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.cmdv.common.FilterType
 import com.cmdv.common.R
-import com.cmdv.common.adapters.FilterType
 import com.cmdv.common.databinding.FilterSelectorViewCustomBinding
 
 enum class FilterStatus {

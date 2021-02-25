@@ -1,24 +1,26 @@
-package com.cmdv.common.views
+package com.cmdv.feature.ui.fragments.filter
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cmdv.common.FilterType
 import com.cmdv.common.R
-import com.cmdv.common.adapters.FilterRecyclerViewAdapter
-import com.cmdv.common.adapters.FilterType
 import com.cmdv.common.databinding.FragmentFilterBottomSheetBinding
 import com.cmdv.common.decorators.FilterItemDecorator
 import com.cmdv.common.utils.Constants
+import com.cmdv.core.managers.DeviceFiltersManager
+import com.cmdv.domain.models.FilterModel
+import com.cmdv.feature.ui.adapters.FilterRecyclerViewAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.koin.android.ext.android.inject
 
 class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentFilterBottomSheetBinding
-    private lateinit var releaseStatusLabels: Array<out String>
-    private lateinit var categoriesLabels: Array<out String>
-    private lateinit var categoriesIcons: IntArray
-    private var items: MutableMap<String, Int?> = mutableMapOf()
+    private val deviceFiltersManager: DeviceFiltersManager by inject()
+
+    private lateinit var filters: List<FilterModel>
     private lateinit var filterAdapter: FilterRecyclerViewAdapter
 
     private var selectedPosition: Int? = null
@@ -44,13 +46,8 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         binding = FragmentFilterBottomSheetBinding.inflate(inflater, container, false)
 
         getExtras()
-
-        releaseStatusLabels = activity?.resources?.getStringArray(R.array.labels_filter_release_status) ?: arrayOf()
-        categoriesLabels = context?.resources?.getStringArray(R.array.labels_filter_categories) ?: arrayOf()
-        categoriesIcons = context?.resources?.getIntArray(R.array.icons_filter_categories) ?: intArrayOf()
-
+        setFilters()
         setTitle()
-        setItems()
         return binding.root
     }
 
@@ -64,12 +61,19 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         selectedPosition = arguments?.getInt(Constants.ARG_FILTER_SELECTED_POSITION)
     }
 
+    private fun setFilters() {
+        filters = when (filterType) {
+            FilterType.RELEASE_STATUS -> deviceFiltersManager.releaseStatusFilters
+            FilterType.CATEGORY -> deviceFiltersManager.categoryFilters
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        filterAdapter = FilterRecyclerViewAdapter(activity!!, items, filterType, selectedPosition ?: 0, filterClickListener)
+        filterAdapter = FilterRecyclerViewAdapter(requireContext(), filters, filterType, selectedPosition ?: 0, filterClickListener)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = filterAdapter
-            addItemDecoration(FilterItemDecorator(activity!!))
+            addItemDecoration(FilterItemDecorator(requireContext()))
         }
     }
 
@@ -79,25 +83,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                 FilterType.RELEASE_STATUS -> context?.resources?.getString(R.string.text_release_status_filter_bottom_sheet_title)
                 FilterType.CATEGORY -> context?.resources?.getString(R.string.text_categories_filter_bottom_sheet_title)
             }
-    }
-
-    private fun setItems() {
-        when (filterType) {
-            FilterType.RELEASE_STATUS -> getReleaseStatusItems()
-            FilterType.CATEGORY -> getCategoryItems()
-        }
-    }
-
-    private fun getReleaseStatusItems() {
-        releaseStatusLabels.forEach { key ->
-            items[key] = null
-        }
-    }
-
-    private fun getCategoryItems() {
-        categoriesLabels.forEach { key ->
-            items[key] = null
-        }
     }
 
     fun setListener(listener: BottomSheetFilterListener) {

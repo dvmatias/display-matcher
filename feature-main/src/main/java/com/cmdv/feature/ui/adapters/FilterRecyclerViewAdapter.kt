@@ -1,4 +1,4 @@
-package com.cmdv.common.adapters
+package com.cmdv.feature.ui.adapters
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -6,18 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.cmdv.common.FilterType
 import com.cmdv.common.R
 import com.cmdv.common.databinding.ItemCategoryFilterBinding
 import com.cmdv.common.databinding.ItemReleaseStatusFilterBinding
+import com.cmdv.domain.models.FilterModel
 
-enum class FilterType(val type: Int) {
-    RELEASE_STATUS(0),
-    CATEGORY(1)
-}
 
 class FilterRecyclerViewAdapter(
     private val context: Context,
-    private val items: Map<String, Int?>,
+    private val items: List<FilterModel>,
     private val filterType: FilterType,
     private val selectedPosition: Int,
     private val listener: FilterClickListener
@@ -41,9 +39,22 @@ class FilterRecyclerViewAdapter(
         val isSelected = position == selectedPosition
         when (this.filterType) {
             FilterType.RELEASE_STATUS -> {
-                (holder as ReleaseStatusFilterViewHolder).bindItem(position, items.entries.elementAt(position), selector, listener, isSelected)
+                (holder as ReleaseStatusFilterViewHolder).bindItem(
+                    position,
+                    items[position],
+                    selector,
+                    listener,
+                    isSelected
+                )
             }
-            FilterType.CATEGORY -> (holder as CategoryFilterViewHolder).bindItem(position, items.entries.elementAt(position), selector, listener, isSelected)
+            FilterType.CATEGORY ->
+                (holder as CategoryFilterViewHolder).bindItem(
+                    position,
+                    items[position],
+                    selector,
+                    listener,
+                    isSelected
+                )
         }
     }
 
@@ -63,12 +74,12 @@ class FilterRecyclerViewAdapter(
     internal class ReleaseStatusFilterViewHolder(private val binding: ItemReleaseStatusFilterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindItem(
             position: Int,
-            item: Map.Entry<String, Int?>,
+            item: FilterModel,
             selector: Drawable?,
             listener: FilterClickListener,
             isSelected: Boolean
         ) {
-            binding.textViewFilterName.text = item.key
+            binding.textViewFilterName.text = item.label
             binding.container.background = selector
             binding.container.isSelected = isSelected
             binding.container.setOnClickListener { listener.onReleaseStatusFilterSelected(position) }
@@ -81,12 +92,12 @@ class FilterRecyclerViewAdapter(
     internal class CategoryFilterViewHolder(private val binding: ItemCategoryFilterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindItem(
             position: Int,
-            item: Map.Entry<String, Int?>,
+            item: FilterModel,
             selector: Drawable?,
             listener: FilterClickListener,
             isSelected: Boolean
         ) {
-            binding.textViewFilterName.text = item.key
+            binding.textViewFilterName.text = item.label
             binding.container.background = selector
             binding.container.isSelected = isSelected
             binding.container.setOnClickListener { listener.onCategoryFilterSelected(position) }

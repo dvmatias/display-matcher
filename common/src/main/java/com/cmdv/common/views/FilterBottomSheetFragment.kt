@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cmdv.common.R
 import com.cmdv.common.adapters.FilterRecyclerViewAdapter
@@ -20,7 +19,23 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var categoriesLabels: Array<out String>
     private lateinit var categoriesIcons: IntArray
     private var items: MutableMap<String, Int?> = mutableMapOf()
-    private var filterType: Int? = null
+    private lateinit var filterAdapter: FilterRecyclerViewAdapter
+
+    private var selectedPosition: Int? = null
+    private lateinit var filterType: FilterType
+    private lateinit var listener: BottomSheetFilterListener
+
+    private val filterClickListener = object : FilterRecyclerViewAdapter.FilterClickListener {
+        override fun onReleaseStatusFilterSelected(position: Int) {
+            listener.onReleaseStatusFilterSelected(position)
+            this@FilterBottomSheetFragment.dismiss()
+        }
+
+        override fun onCategoryFilterSelected(position: Int) {
+            listener.onCategoryFilterSelected(position)
+            this@FilterBottomSheetFragment.dismiss()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,23 +43,33 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     ): View {
         binding = FragmentFilterBottomSheetBinding.inflate(inflater, container, false)
 
+        getExtras()
+
         releaseStatusLabels = activity?.resources?.getStringArray(R.array.labels_filter_release_status) ?: arrayOf()
         categoriesLabels = context?.resources?.getStringArray(R.array.labels_filter_categories) ?: arrayOf()
         categoriesIcons = context?.resources?.getIntArray(R.array.icons_filter_categories) ?: intArrayOf()
 
-        filterType = arguments?.getInt(Constants.ARG_FILTER_TYPE)
-        filterType?.let {
-            setTitle()
-            setItems()
-        }
-
+        setTitle()
+        setItems()
+        selectedPosition?.let { setSelected(it) }
         return binding.root
     }
 
+    private fun getExtras() {
+        filterType =
+            when (arguments?.getInt(Constants.ARG_FILTER_TYPE)) {
+                FilterType.RELEASE_STATUS.type -> FilterType.RELEASE_STATUS
+                FilterType.CATEGORY.type -> FilterType.CATEGORY
+                else -> throw IllegalAccessException("")
+            }
+        selectedPosition = arguments?.getInt(Constants.ARG_FILTER_SELECTED_POSITION)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        filterAdapter = FilterRecyclerViewAdapter(activity!!, items, filterType, selectedPosition ?: 0, filterClickListener)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = FilterRecyclerViewAdapter(activity!!, items, FilterType.RELEASE_STATUS, 0)
+            adapter = filterAdapter
             addItemDecoration(FilterItemDecorator(activity!!))
         }
     }
@@ -52,18 +77,19 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     private fun setTitle() {
         binding.textViewTitle.text =
             when (filterType) {
-                FilterType.RELEASE_STATUS.type -> context?.resources?.getString(R.string.text_release_status_filter_bottom_sheet_title)
-                FilterType.CATEGORY.type -> context?.resources?.getString(R.string.text_categories_filter_bottom_sheet_title)
-                else -> throw IllegalStateException("Wrong filter type")
+                FilterType.RELEASE_STATUS -> context?.resources?.getString(R.string.text_release_status_filter_bottom_sheet_title)
+                FilterType.CATEGORY -> context?.resources?.getString(R.string.text_categories_filter_bottom_sheet_title)
             }
     }
 
     private fun setItems() {
         when (filterType) {
-            FilterType.RELEASE_STATUS.type -> getReleaseStatusItems()
-            FilterType.CATEGORY.type -> getCategoryItems()
-            else -> throw IllegalStateException("Wrong filter type")
+            FilterType.RELEASE_STATUS -> getReleaseStatusItems()
+            FilterType.CATEGORY -> getCategoryItems()
         }
+    }
+
+    private fun setSelected(selectedPosition: Int) {
     }
 
     private fun getReleaseStatusItems() {
@@ -78,9 +104,16 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    fun setListener(listener: BottomSheetFilterListener) {
+        this.listener = listener
+    }
+
     companion object {
 
-        fun newInstance(selectedPosition: Int, filterType: FilterType): FilterBottomSheetFragment =
+        fun newInstance(
+            selectedPosition: Int,
+            filterType: FilterType
+        ): FilterBottomSheetFragment =
             FilterBottomSheetFragment().apply {
                 arguments = Bundle().apply {
                     putInt(Constants.ARG_FILTER_SELECTED_POSITION, selectedPosition)
@@ -88,5 +121,10 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                 }
             }
 
+    }
+
+    interface BottomSheetFilterListener {
+        fun onReleaseStatusFilterSelected(position: Int)
+        fun onCategoryFilterSelected(position: Int)
     }
 }

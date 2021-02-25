@@ -1,9 +1,9 @@
 package com.cmdv.displaymatcher
 
 import android.app.Application
+import com.cmdv.core.managers.DeviceFiltersManager
 import com.cmdv.core.navigatior.Navigator
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class DisplayMatcherApp : Application() {
@@ -13,6 +13,7 @@ class DisplayMatcherApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initKoin()
+        setupDeviceFilters()
     }
 
     private fun initKoin() {
@@ -22,4 +23,9 @@ class DisplayMatcherApp : Application() {
             modules(appModule, viewModelModule, librariesModule)
         }
     }
+
+    private fun setupDeviceFilters() {
+        DeviceFiltersManager.init(this)
+    }
+
 }

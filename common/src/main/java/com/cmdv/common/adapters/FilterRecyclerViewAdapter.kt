@@ -19,7 +19,8 @@ class FilterRecyclerViewAdapter(
     private val context: Context,
     private val items: Map<String, Int?>,
     private val filterType: FilterType,
-    private val selectedPosition: Int
+    private val selectedPosition: Int,
+    private val listener: FilterClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -37,16 +38,17 @@ class FilterRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val selector: Drawable? = getSelectorDrawable(position)
+        val isSelected = position == selectedPosition
         when (this.filterType) {
             FilterType.RELEASE_STATUS -> {
-                (holder as ReleaseStatusFilterViewHolder).bindItem(items.entries.elementAt(position), selector)
+                (holder as ReleaseStatusFilterViewHolder).bindItem(position, items.entries.elementAt(position), selector, listener, isSelected)
             }
-            FilterType.CATEGORY -> (holder as CategoryFilterViewHolder).bindItem()
+            FilterType.CATEGORY -> (holder as CategoryFilterViewHolder).bindItem(position, items.entries.elementAt(position), selector, listener, isSelected)
         }
     }
 
     private fun getSelectorDrawable(position: Int): Drawable? =
-        when(position) {
+        when (position) {
             0 -> ContextCompat.getDrawable(context, R.drawable.selector_item_filter_bottom_sheet_top)
             (itemCount - 1) -> ContextCompat.getDrawable(context, R.drawable.selector_item_filter_bottom_sheet_bottom)
             else -> ContextCompat.getDrawable(context, R.drawable.selector_item_filter_bottom_sheet_middle)
@@ -59,9 +61,17 @@ class FilterRecyclerViewAdapter(
      * Item release status filter view holder class.
      */
     internal class ReleaseStatusFilterViewHolder(private val binding: ItemReleaseStatusFilterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItem(item: Map.Entry<String, Int?>, selector: Drawable?) {
+        fun bindItem(
+            position: Int,
+            item: Map.Entry<String, Int?>,
+            selector: Drawable?,
+            listener: FilterClickListener,
+            isSelected: Boolean
+        ) {
             binding.textViewFilterName.text = item.key
             binding.container.background = selector
+            binding.container.isSelected = isSelected
+            binding.container.setOnClickListener { listener.onReleaseStatusFilterSelected(position) }
         }
     }
 
@@ -69,8 +79,22 @@ class FilterRecyclerViewAdapter(
      * Item category filter view holder class.
      */
     internal class CategoryFilterViewHolder(private val binding: ItemCategoryFilterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindItem() {
-
+        fun bindItem(
+            position: Int,
+            item: Map.Entry<String, Int?>,
+            selector: Drawable?,
+            listener: FilterClickListener,
+            isSelected: Boolean
+        ) {
+            binding.textViewFilterName.text = item.key
+            binding.container.background = selector
+            binding.container.isSelected = isSelected
+            binding.container.setOnClickListener { listener.onCategoryFilterSelected(position) }
         }
+    }
+
+    interface FilterClickListener {
+        fun onReleaseStatusFilterSelected(position: Int)
+        fun onCategoryFilterSelected(position: Int)
     }
 }

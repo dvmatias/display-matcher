@@ -51,7 +51,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
         setTitle()
         setItems()
-        selectedPosition?.let { setSelected(it) }
         return binding.root
     }
 
@@ -87,9 +86,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             FilterType.RELEASE_STATUS -> getReleaseStatusItems()
             FilterType.CATEGORY -> getCategoryItems()
         }
-    }
-
-    private fun setSelected(selectedPosition: Int) {
     }
 
     private fun getReleaseStatusItems() {

@@ -2,6 +2,8 @@
 
 package com.cmdv.displaymatcher
 
+import com.cmdv.core.managers.DeviceFiltersManager
+import com.cmdv.core.managers.SharePreferenceManager
 import com.cmdv.core.navigatior.Navigator
 import com.cmdv.feature.ui.DeviceDetailsViewModel
 import com.cmdv.feature.ui.SearchViewModel
@@ -20,4 +22,9 @@ val viewModelModule = module {
 
 val librariesModule = module {
     single { Gson() }
+}
+
+val managersModule = module {
+    single { SharePreferenceManager(get()) }
+    single { DeviceFiltersManager(get(), get()) }
 }

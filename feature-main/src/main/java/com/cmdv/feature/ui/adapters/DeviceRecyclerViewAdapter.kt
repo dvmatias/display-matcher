@@ -17,19 +17,21 @@ import com.cmdv.feature.databinding.ItemDeviceBinding
 import com.cmdv.feature.databinding.ItemFilterHeaderBinding
 import com.cmdv.feature.databinding.ItemLoadingFooterBinding
 
+enum class ViewType(val viewType: Int) {
+    HEADER_FILTER(0),
+    DEVICE(1),
+    FOOTER_LOADING(2)
+}
+
 class DeviceRecyclerViewAdapter(
     private val context: Context,
     private val listener: ((String) -> Unit)?,
-    private val filterClickListener: CustomFilterSelectorView.OnFilterClickListener
+    private val filterSelectorListener: CustomFilterSelectorView.FilterSelectorListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    enum class ViewType(val viewType: Int) {
-        HEADER_FILTER(0),
-        DEVICE(1),
-        FOOTER_LOADING(2)
-    }
-
     private val items: ArrayList<DeviceModel> = arrayListOf()
+    private var filterReleaseStatusSelectedPosition: Int = 0
+    private var filterCategorySelectedPosition: Int = 0
     private var isMoreItems = false
 
     fun setItems(devices: List<DeviceModel>, isMoreDevices: Boolean = false) {
@@ -39,6 +41,15 @@ class DeviceRecyclerViewAdapter(
             addAll(getOrderedDeviceList(devices))
         }
         notifyDataSetChanged()
+    }
+
+    fun setFilterStatus(
+        filterReleaseStatusSelectedPosition: Int,
+        filterCategorySelectedPosition: Int
+    ) {
+        this.filterReleaseStatusSelectedPosition = filterReleaseStatusSelectedPosition
+        this.filterCategorySelectedPosition = filterCategorySelectedPosition
+        notifyItemRangeChanged(0, 1)
     }
 
     fun addItems(devices: List<DeviceModel>, isMoreDevices: Boolean) {
@@ -76,7 +87,7 @@ class DeviceRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            ViewType.HEADER_FILTER.viewType -> (holder as HeaderFilterViewHolder).bindItem(filterClickListener)
+            ViewType.HEADER_FILTER.viewType -> (holder as HeaderFilterViewHolder).bindItem(filterSelectorListener, filterReleaseStatusSelectedPosition, filterCategorySelectedPosition)
             ViewType.DEVICE.viewType -> (holder as DeviceViewHolder).bindItem(items[position - 1], context, listener)
             ViewType.FOOTER_LOADING.viewType -> (holder as FooterLoadingViewHolder).bindItem()
         }
@@ -89,8 +100,14 @@ class DeviceRecyclerViewAdapter(
      */
     class HeaderFilterViewHolder(private val binding: ItemFilterHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindItem(filterClickListener: CustomFilterSelectorView.OnFilterClickListener) {
-            binding.filterSelector.setupListeners(filterClickListener)
+        fun bindItem(
+            filterSelectorListener: CustomFilterSelectorView.FilterSelectorListener,
+            filterReleaseStatusSelectedPosition: Int,
+            filterCategorySelectedPosition: Int
+        ) {
+            binding.filterSelector.setupListeners(filterSelectorListener)
+            binding.filterSelector.setFilterReleaseStatusSelectedPosition(filterReleaseStatusSelectedPosition)
+            binding.filterSelector.setFilterCategorySelectedPosition(filterCategorySelectedPosition)
         }
 
     }

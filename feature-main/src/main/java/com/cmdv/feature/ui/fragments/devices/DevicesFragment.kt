@@ -12,16 +12,17 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.cmdv.common.adapters.FilterType
+import com.cmdv.common.FilterType
 import com.cmdv.common.utils.Constants
 import com.cmdv.common.views.CustomFilterSelectorView
-import com.cmdv.common.views.FilterBottomSheetFragment
+import com.cmdv.core.managers.DeviceFiltersManager
 import com.cmdv.core.navigatior.Navigator
 import com.cmdv.domain.models.DeviceModel
 import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature.R
 import com.cmdv.feature.databinding.FragmentDevicesBinding
+import com.cmdv.feature.ui.fragments.filter.FilterBottomSheetFragment
 import com.cmdv.feature.ui.adapters.DeviceRecyclerViewAdapter
 import com.cmdv.feature.ui.decorators.DevicesItemDecorator
 import com.google.gson.Gson
@@ -35,6 +36,7 @@ class DevicesFragment : Fragment() {
     private lateinit var viewModel: DevicesFragmentViewModel
     private lateinit var binding: FragmentDevicesBinding
     private val navigator: Navigator by inject()
+    private val deviceFiltersManager: DeviceFiltersManager by inject()
 
     @Suppress("SpellCheckingInspection")
     private val gson: Gson by inject()
@@ -43,16 +45,37 @@ class DevicesFragment : Fragment() {
     private val searchViewMaxBottom by lazy { binding.customViewSearchView.bottom - binding.layoutToolbar.cardViewContainer.bottom + binding.layoutToolbar.cardViewContainer.height }
     private val searchViewHeight by lazy { binding.customViewSearchView.height }
 
-    private val filterClickListener = object : CustomFilterSelectorView.OnFilterClickListener {
+    /**
+     *
+     */
+    private val filterSelectorListener = object : CustomFilterSelectorView.FilterSelectorListener {
         override fun onFilterClick(filterType: FilterType) {
-            showBottomSheetFilter(filterType)
+            showBottomSheetFilter(
+                filterType,
+                when (filterType) {
+                    FilterType.RELEASE_STATUS -> deviceFiltersManager.getDeviceReleaseStatusFilterSelectedPosition()
+                    FilterType.CATEGORY -> deviceFiltersManager.getDeviceCategoryFilterSelectedPosition()
+                }
+            )
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    /**
+     *
+     */
+    private val bottomSheetFilterListener = object : FilterBottomSheetFragment.BottomSheetFilterListener {
+        override fun onReleaseStatusFilterSelected(position: Int) {
+            deviceFiltersManager.setDeviceReleaseStatusFilterSelectedPosition(position)
+            setFilterStatus()
+        }
+
+        override fun onCategoryFilterSelected(position: Int) {
+            deviceFiltersManager.setDeviceCategoryFilterSelectedPosition(position)
+            setFilterStatus()
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDevicesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -88,7 +111,7 @@ class DevicesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         activity?.let { context ->
-            deviceAdapter = DeviceRecyclerViewAdapter(context, ::deviceClickListener, filterClickListener)
+            deviceAdapter = DeviceRecyclerViewAdapter(context, ::deviceClickListener, filterSelectorListener)
             binding.recyclerViewDevice.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = deviceAdapter
@@ -148,6 +171,14 @@ class DevicesFragment : Fragment() {
         binding.group.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
         deviceAdapter.setItems(devices = devices)
+        setFilterStatus()
+    }
+
+    private fun setFilterStatus() {
+        deviceAdapter.setFilterStatus(
+            deviceFiltersManager.getDeviceReleaseStatusFilterSelectedPosition(),
+            deviceFiltersManager.getDeviceCategoryFilterSelectedPosition(),
+        )
     }
 
     private fun setErrorStateView() {
@@ -178,10 +209,11 @@ class DevicesFragment : Fragment() {
         }
     }
 
-    private fun showBottomSheetFilter(filterType: FilterType) {
+    private fun showBottomSheetFilter(filterType: FilterType, selectedPosition: Int) {
         activity?.let {
             val bottomSheetDialog: FilterBottomSheetFragment =
-                FilterBottomSheetFragment.newInstance(2, filterType)
+                FilterBottomSheetFragment.newInstance(selectedPosition, filterType)
+            bottomSheetDialog.setListener(bottomSheetFilterListener)
             bottomSheetDialog.show(it.supportFragmentManager, "Bottom Sheet Dialog Fragment")
         }
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CustomSearchView">
-        <attr name="view_type" format="enum">
+        <attr name="search_view_type" format="enum">
             <enum name="BUTTON" value="0"/>
             <enum name="SEARCH" value="1"/>
         </attr>

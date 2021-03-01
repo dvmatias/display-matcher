@@ -8,13 +8,13 @@
         android:name="path"
         android:pathData="M 3.458 6.702 L 20.541 6.702 M 3.458 12 L 13.568 12"
         android:strokeWidth="2.5"
-        android:strokeColor="#303030"
+        android:strokeColor="@color/main_400"
         android:strokeLineCap="round" />
 
     <path
         android:name="path"
         android:pathData="M 3.458 17.298 L 8.513 17.298"
         android:strokeWidth="2.5"
-        android:strokeColor="#ACE346"
+        android:strokeColor="@color/main_400"
         android:strokeLineCap="round" />
 </vector>

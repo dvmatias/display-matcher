@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomDeviceInfoEntryView">
+        <attr name="device_info_entry_view_type" format="enum">
+            <enum name="SIMPLE" value="0" />
+            <enum name="MULTIPLE" value="0" />
+            <enum name="BOOLEAN" value="0" />
+        </attr>
+    </declare-styleable>
+</resources>

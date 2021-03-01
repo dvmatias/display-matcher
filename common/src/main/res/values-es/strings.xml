@@ -49,6 +49,8 @@
     <string name="placeholder_device_detail_display_size">%1s\"</string>
     <string name="placeholder_device_detail_display_resolution">%1s pixeles</string>
     <string name="placeholder_device_detail_ram">%1sGB</string>
+    <string name="text_device_detail_info_general_title">General</string>
+    <string name="text_device_detail_info_brand_subtitle">Marca</string>
 
     <!--  DEVICE SEARCH  -->
     <string name="text_search_for_hint">Buscar…</string>

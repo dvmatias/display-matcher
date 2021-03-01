@@ -8,6 +8,7 @@ import java.lang.Exception
 private const val DEFAULT_VALUE = ""
 private const val FIELD_NAME = "name"
 private const val FIELD_SHORT_NAME = "short_name"
+private const val FIELD_DISPLAY_NAME = "display_name"
 private const val FIELD_IMAGE_URL = "image_url"
 
 object ManufacturerMapper : BaseMapper<DocumentSnapshot, ManufacturerModel>() {
@@ -16,8 +17,9 @@ object ManufacturerMapper : BaseMapper<DocumentSnapshot, ManufacturerModel>() {
         val id: String = e.id
         val name: String = e.getStringValue(FIELD_NAME)
         val shortName: String = e.getStringValue(FIELD_SHORT_NAME)
+        val displayName: String = e.getStringValue(FIELD_DISPLAY_NAME)
         val imageUrl: String = e.getStringValue(FIELD_IMAGE_URL)
-        return ManufacturerModel(id, name, shortName, imageUrl)
+        return ManufacturerModel(id, name, shortName, displayName, imageUrl)
     }
 
 }

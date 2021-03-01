@@ -4,5 +4,6 @@ data class ManufacturerModel(
     val id: String,
     val name: String,
     val shortName: String,
+    val displayName: String,
     val imageUrl: String
 )

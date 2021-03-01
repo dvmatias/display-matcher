@@ -36,6 +36,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
     private lateinit var deviceId: String
     private lateinit var manufacturerId: String
     private lateinit var device: DeviceModel
+    private lateinit var manufacturer: ManufacturerModel
     private lateinit var pagerAdapter: ImagesViewPagerAdapter
     private val mainConstraint = ConstraintSet()
     private val infoConstraint = ConstraintSet()
@@ -171,27 +172,28 @@ class DeviceDetailsActivity : AppCompatActivity() {
         showLoading()
         viewModel.manufacturerLiveData.observe(this, {
             if (it.status == LiveDataStatusWrapper.Status.SUCCESS) {
-                setManufacturerInfo(it.data)
+                manufacturer = it.data!!
+                setManufacturerInfo()
             }
         })
         viewModel.deviceLiveData.observe(this, {
             if (it.status == LiveDataStatusWrapper.Status.SUCCESS) {
                 device = it.data!!
                 setResume()
-                inflateInfoFragment()
             }
         })
         viewModel.isLoadFinishedLiveData.observe(this, { isLoadFinished ->
             if (isLoadFinished) {
                 this.isLoadFinished = isLoadFinished
+                inflateInfoFragment()
                 hideLoading()
             }
         })
         viewModel.getData(deviceId, manufacturerId)
     }
 
-    private fun setManufacturerInfo(manufacturer: ManufacturerModel?) {
-        manufacturer?.let {
+    private fun setManufacturerInfo() {
+        manufacturer.let {
             Glide.with(this@DeviceDetailsActivity).load(it.imageUrl).into(binding.imageViewManufacturer)
             binding.textViewManufacturer.text = it.name
         }
@@ -247,7 +249,11 @@ class DeviceDetailsActivity : AppCompatActivity() {
     }
 
     private fun inflateInfoFragment() {
-        val fragment = InfoFragment.newInstance(gson.toJson(device))
+        val fragment =
+            InfoFragment.newInstance(
+                gson.toJson(device),
+                gson.toJson(manufacturer)
+            )
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.add(binding.fameInfoFragmentContainer.id, fragment)
         transaction.commit()

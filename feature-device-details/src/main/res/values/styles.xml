@@ -31,4 +31,10 @@
 
     <style name="ResumeSubtitle.Compare">
     </style>
+
+    <style name="DeviceDetailTitle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/cereal_medium</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/text_label</item>
+    </style>
 </resources>

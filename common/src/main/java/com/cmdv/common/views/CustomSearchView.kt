@@ -65,7 +65,7 @@ class CustomSearchView : ConstraintLayout {
             0
         )
         viewType =
-            when (a.getInt(R.styleable.CustomSearchView_view_type, 0)) {
+            when (a.getInt(R.styleable.CustomSearchView_search_view_type, 0)) {
                 SearchViewType.BUTTON.value -> SearchViewType.BUTTON
                 SearchViewType.SEARCH.value -> SearchViewType.SEARCH
                 else -> throw IllegalAccessException("You must define a vuew type for this element.")

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.cmdv.common.R
 import com.cmdv.common.databinding.CustomDeviceInfoEntryViewBinding
@@ -17,7 +16,8 @@ enum class ViewType(val value: Int) {
 }
 
 class CustomDeviceInfoEntryView : ConstraintLayout {
-    private lateinit var binding: CustomDeviceInfoEntryViewBinding
+    private var binding: CustomDeviceInfoEntryViewBinding =
+        CustomDeviceInfoEntryViewBinding.inflate(LayoutInflater.from(context), this, false)
     private lateinit var viewType: ViewType
 
     constructor(context: Context) : super(context) {
@@ -33,7 +33,6 @@ class CustomDeviceInfoEntryView : ConstraintLayout {
     }
 
     init {
-        binding = CustomDeviceInfoEntryViewBinding.inflate(LayoutInflater.from(context), this, false)
         addView(binding.root)
     }
 

@@ -46,6 +46,10 @@
     <string name="placeholder_item_device_camera">%1sMP"</string>
 
     <!--  DEVICE DETAILS  -->
+    <string name="label_device_detail_bottom_nav_general">general</string>
+    <string name="label_device_detail_bottom_nav_hardware">hardware</string>
+    <string name="label_device_detail_bottom_nav_multimedia">media</string>
+    <string name="label_device_detail_bottom_nav_connectivity">conectividad</string>
     <string name="placeholder_device_detail_display_size">%1s\"</string>
     <string name="placeholder_device_detail_display_resolution">%1s pixeles</string>
     <string name="placeholder_device_detail_ram">%1sGB</string>

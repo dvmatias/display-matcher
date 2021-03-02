@@ -14,7 +14,7 @@ import com.cmdv.feature.databinding.FragmentInfoGeneralBinding
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
-class InfoFragment : Fragment() {
+class GeneralDetailFragment : Fragment() {
     private lateinit var binding: FragmentInfoBinding
     private lateinit var bindingGeneral: FragmentInfoGeneralBinding
 
@@ -49,7 +49,7 @@ class InfoFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(device: String, manufacturer: String) =
-            InfoFragment().apply {
+            GeneralDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(Constants.ARG_DEVICE_KEY, device)
                     putString(Constants.ARG_MANUFACTURER_KEY, manufacturer)

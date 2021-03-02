@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:layout_gravity="bottom"
+    android:background="@color/white"
+    android:fitsSystemWindows="false">
+
+    <ImageView
+        android:id="@+id/imageViewGeneral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_search_24dp"
+        android:tag="general"
+        app:layout_constraintBottom_toTopOf="@id/textViewGeneral"
+        app:layout_constraintEnd_toStartOf="@id/imageViewHardware"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textViewGeneral"
+        style="@style/BottomNavLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="general"
+        android:layout_marginTop="3dp"
+        android:text="@string/label_device_detail_bottom_nav_general"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/imageViewGeneral"
+        app:layout_constraintStart_toStartOf="@id/imageViewGeneral"
+        app:layout_constraintTop_toBottomOf="@id/imageViewGeneral" />
+
+    <ImageView
+        android:id="@+id/imageViewHardware"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_hardware_24dp"
+        android:tag="hardware"
+        app:layout_constraintBottom_toTopOf="@id/textViewHardware"
+        app:layout_constraintEnd_toStartOf="@id/imageViewMultimedia"
+        app:layout_constraintStart_toEndOf="@id/imageViewGeneral"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textViewHardware"
+        style="@style/BottomNavLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="hardware"
+        android:layout_marginTop="3dp"
+        android:text="@string/label_device_detail_bottom_nav_hardware"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/imageViewHardware"
+        app:layout_constraintStart_toStartOf="@id/imageViewHardware"
+        app:layout_constraintTop_toBottomOf="@id/imageViewHardware" />
+
+    <ImageView
+        android:id="@+id/imageViewMultimedia"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_multimedia_24dp"
+        android:tag="multimedia"
+        app:layout_constraintBottom_toTopOf="@id/textViewMultimedia"
+        app:layout_constraintEnd_toStartOf="@id/imageViewConnectivity"
+        app:layout_constraintStart_toEndOf="@id/imageViewHardware"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textViewMultimedia"
+        style="@style/BottomNavLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="multimedia"
+        android:layout_marginTop="3dp"
+        android:text="@string/label_device_detail_bottom_nav_multimedia"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/imageViewMultimedia"
+        app:layout_constraintStart_toStartOf="@id/imageViewMultimedia"
+        app:layout_constraintTop_toBottomOf="@id/imageViewMultimedia" />
+
+    <ImageView
+        android:id="@+id/imageViewConnectivity"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_connectivity_24dp"
+        android:tag="connectivity"
+        app:layout_constraintBottom_toTopOf="@id/textViewConnectivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageViewMultimedia"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textViewConnectivity"
+        style="@style/BottomNavLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:tag="connectivity"
+        android:text="@string/label_device_detail_bottom_nav_connectivity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/imageViewConnectivity"
+        app:layout_constraintStart_toStartOf="@id/imageViewConnectivity"
+        app:layout_constraintTop_toBottomOf="@id/imageViewConnectivity" />
+</androidx.constraintlayout.widget.ConstraintLayout>

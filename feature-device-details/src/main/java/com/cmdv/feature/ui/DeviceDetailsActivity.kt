@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -18,8 +17,12 @@ import com.cmdv.domain.models.ManufacturerModel
 import com.cmdv.domain.utils.LiveDataStatusWrapper
 import com.cmdv.feature.R
 import com.cmdv.feature.databinding.ActivityDeviceDetailsMainBinding
-import com.cmdv.feature.ui.adapters.ImagesViewPagerAdapter
-import com.cmdv.feature.ui.fragments.InfoFragment
+import com.cmdv.feature.ui.adapters.FragmentDetailViewPagerAdapter
+import com.cmdv.feature.ui.adapters.ImageViewPagerAdapter
+import com.cmdv.feature.ui.fragments.ConnectivityDetailFragment
+import com.cmdv.feature.ui.fragments.GeneralDetailFragment
+import com.cmdv.feature.ui.fragments.HardwareDetailFragment
+import com.cmdv.feature.ui.fragments.MultimediaDetailFragment
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,7 +40,8 @@ class DeviceDetailsActivity : AppCompatActivity() {
     private lateinit var manufacturerId: String
     private lateinit var device: DeviceModel
     private lateinit var manufacturer: ManufacturerModel
-    private lateinit var pagerAdapter: ImagesViewPagerAdapter
+    private var pagerAdapter = ImageViewPagerAdapter(this)
+    private var pagerDetailFragmentAdapter = FragmentDetailViewPagerAdapter(supportFragmentManager)
     private val mainConstraint = ConstraintSet()
     private val infoConstraint = ConstraintSet()
     private val compareConstraint = ConstraintSet()
@@ -53,7 +57,8 @@ class DeviceDetailsActivity : AppCompatActivity() {
 
         getExtras()
         initViews()
-        setupPager()
+        setupImagePager()
+        setupDetailFragmentPager()
         addConstraintSetAnimation()
         observeData()
     }
@@ -68,8 +73,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
         binding.imageViewBackButton.setOnClickListener { finish() }
     }
 
-    private fun setupPager() {
-        pagerAdapter = ImagesViewPagerAdapter(this)
+    private fun setupImagePager() {
         binding.viewPagerDeviceImages.adapter = pagerAdapter
 
         val transformer = CompositePageTransformer()
@@ -85,6 +89,14 @@ class DeviceDetailsActivity : AppCompatActivity() {
             getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             setPageTransformer(transformer)
         }
+    }
+
+    private fun setupDetailFragmentPager() {
+        binding.viewPagerDeviceDetailFragment.apply {
+            adapter = pagerDetailFragmentAdapter
+        }
+
+        binding.bottomNav.setupWithViewPager(binding.viewPagerDeviceDetailFragment)
     }
 
     private fun addConstraintSetAnimation() {
@@ -185,7 +197,7 @@ class DeviceDetailsActivity : AppCompatActivity() {
         viewModel.isLoadFinishedLiveData.observe(this, { isLoadFinished ->
             if (isLoadFinished) {
                 this.isLoadFinished = isLoadFinished
-                inflateInfoFragment()
+                setDetailsFragments()
                 hideLoading()
             }
         })
@@ -248,15 +260,22 @@ class DeviceDetailsActivity : AppCompatActivity() {
         binding.textViewTechnology.text = resume.technology
     }
 
-    private fun inflateInfoFragment() {
-        val fragment =
-            InfoFragment.newInstance(
-                gson.toJson(device),
-                gson.toJson(manufacturer)
+    private fun setDetailsFragments() {
+        val deviceArgString: String = gson.toJson(device)
+        val manufacturerArgString: String = gson.toJson(manufacturer)
+        val generalFragment = GeneralDetailFragment.newInstance(deviceArgString, manufacturerArgString)
+        val hardwareFragment = HardwareDetailFragment.newInstance(deviceArgString, manufacturerArgString)
+        val multimediaFragment = MultimediaDetailFragment.newInstance(deviceArgString, manufacturerArgString)
+        val connectivityFragment = ConnectivityDetailFragment.newInstance(deviceArgString, manufacturerArgString)
+
+        pagerDetailFragmentAdapter.setFragments(
+            arrayListOf(
+                generalFragment,
+                hardwareFragment,
+                multimediaFragment,
+                connectivityFragment
             )
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.add(binding.fameInfoFragmentContainer.id, fragment)
-        transaction.commit()
+        )
     }
 
 }

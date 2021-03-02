@@ -9,7 +9,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.cmdv.feature.databinding.ItemImageBinding
 
-class ImagesViewPagerAdapter(private val context: Context) : RecyclerView.Adapter<ImagesViewPagerAdapter.ImageViewHolder>() {
+class ImageViewPagerAdapter(private val context: Context) : RecyclerView.Adapter<ImageViewPagerAdapter.ImageViewHolder>() {
     private lateinit var binding: ItemImageBinding
     private var items: ArrayList<String> = arrayListOf()
     private lateinit var listener: () -> Unit
@@ -25,7 +25,6 @@ class ImagesViewPagerAdapter(private val context: Context) : RecyclerView.Adapte
     fun setOnClickListener(function: () -> Unit) {
         listener = function
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         binding = ItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)

@@ -15,7 +15,7 @@ class FragmentDetailViewPagerAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getItem(position: Int): androidx.fragment.app.Fragment {
+    override fun getItem(position: Int): Fragment {
         return fragmentList[position]
     }
 
@@ -23,7 +23,4 @@ class FragmentDetailViewPagerAdapter(
         return fragmentList.size
     }
 
-    fun addFragment(fragment: androidx.fragment.app.Fragment, title: String) {
-        fragmentList.add(fragment)
-    }
 }

@@ -42,7 +42,7 @@ buildscript {
                 koin                    : ('org.koin:koin-android:' + koin_version),
                 koin_scope              : ('org.koin:koin-android-scope:' + koin_version),
                 koin_view_model         : ('org.koin:koin-android-viewmodel:' + koin_version),
-                gson                        :('com.google.code.gson:gson:' + gson_version),
+                gson                    : ('com.google.code.gson:gson:' + gson_version),
         ]
     }
 

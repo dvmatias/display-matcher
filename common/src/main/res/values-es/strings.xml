@@ -50,11 +50,22 @@
     <string name="label_device_detail_bottom_nav_hardware">hardware</string>
     <string name="label_device_detail_bottom_nav_multimedia">media</string>
     <string name="label_device_detail_bottom_nav_connectivity">conectividad</string>
+
     <string name="placeholder_device_detail_display_size">%1s\"</string>
     <string name="placeholder_device_detail_display_resolution">%1s pixeles</string>
     <string name="placeholder_device_detail_ram">%1sGB</string>
+
     <string name="text_device_detail_info_general_title">General</string>
-    <string name="text_device_detail_info_brand_subtitle">Marca</string>
+
+    <string name="text_device_detail_info_brand_subtitle">marca</string>
+    <string name="text_device_detail_info_model_subtitle">modelo</string>
+    <string name="text_device_detail_info_launch_date_subtitle">fecha de lanzamiento</string>
+    <string name="text_device_detail_info_expected_date_subtitle">fecha esperada</string>
+    <string name="text_device_detail_info_body_type_subtitle">tipo de cuerpo</string>
+    <string name="text_device_detail_info_battery_capacity_subtitle">capacidad de la batería</string>
+    <string name="text_device_detail_info_battery_removable_subtitle">batería removible</string>
+    <string name="text_device_detail_info_fast_charge_subtitle">carga rápida</string>
+    <string name="text_device_detail_info_wireless_charge_subtitle">carga wireless</string>
 
     <!--  DEVICE SEARCH  -->
     <string name="text_search_for_hint">Buscar…</string>

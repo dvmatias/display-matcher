@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F5F5F8"
     tools:context=".ui.fragments.GeneralDetailFragment">
 
@@ -10,12 +11,88 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/container"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="12dp">
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:paddingTop="18dp">
 
-        <!-- GENERAL -->
-        <include layout="@layout/fragment_info_general" />
+        <TextView
+            android:id="@+id/textViewTitle"
+            style="@style/DeviceDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_device_detail_info_general_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryBrand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryBatteryCapacity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewTitle"/>
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryModel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryBatteryRemovable"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryBrand"/>
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryLaunch"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryModel"/>
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryBodyType"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryLaunch"/>
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryBatteryCapacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryBrand"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryBrand"/>
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryBatteryRemovable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/deviceInfoEntryBatteryCapacity"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryBatteryCapacity"/>
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryFastCharging"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/deviceInfoEntryBatteryCapacity"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryBatteryRemovable"/>
+
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryWirelessCharging"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/deviceInfoEntryBatteryCapacity"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryFastCharging"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

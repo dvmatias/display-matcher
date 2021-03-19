@@ -1,14 +1,467 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_device_detail_fragment"
     tools:context=".ui.fragments.HardwareDetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:paddingStart="22dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="22dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/textViewDisplayTitle"
+            style="@style/DeviceDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_device_detail_info_display_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- DISPLAY SIZE -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntrySize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryArea"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayTitle" />
+
+        <!-- DISPLAY AREA -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryArea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntrySize"
+            app:layout_constraintTop_toBottomOf="@id/textViewDisplayTitle" />
+
+        <!-- DISPLAY RESOLUTION -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryResolution"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryScreenToBody"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntrySize" />
+
+        <!-- DISPLAY SCREEN TO BODY RATIO -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryScreenToBody"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryResolution"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryResolution" />
+
+        <!-- DISPLAY RATIO -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryRatio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryDensity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryResolution" />
+
+        <!-- DISPLAY DENSITY -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryDensity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryRatio"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryRatio" />
+
+        <!-- DISPLAY TYPE -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryColors"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryRatio" />
+
+        <!-- DISPLAY COLORS -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryColors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryType"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryType" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="deviceInfoEntryColors, deviceInfoEntryType" />
+
+        <!-- BODY TITLE -->
+        <TextView
+            android:id="@+id/textViewBodyTitle"
+            style="@style/DeviceDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/text_device_detail_info_body_title"
+            app:layout_constraintTop_toBottomOf="@id/barrierDisplay" />
+
+        <!-- BODY BUILD FEATURES -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryBuildFeatures"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewBodyTitle" />
+
+        <!-- BODY BUILD -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryBuild"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryBuildFeatures" />
+
+        <!-- BODY WIDTH -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryWidth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryHeight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryBuild" />
+
+        <!-- BODY HEIGHT -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryHeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryWidth"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryWidth" />
+
+        <!-- BODY THICKNESS -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryThickness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryWeight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryWidth" />
+
+        <!-- BODY WEIGHT -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryThickness"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryThickness" />
+
+        <!-- BODY SIM -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntrySim"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryWeight" />
+
+        <!-- BATTERY TITLE -->
+        <TextView
+            android:id="@+id/textViewBatteryTitle"
+            style="@style/DeviceDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/text_device_detail_info_battery_title"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntrySim" />
+
+        <!-- BATTERY CAPACITY -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryCapacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryTechnology"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewBatteryTitle" />
+
+        <!-- BATTERY TECHNOLOGY -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryTechnology"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryCapacity"
+            app:layout_constraintTop_toBottomOf="@id/textViewBatteryTitle" />
+
+        <!-- BATTERY REMOVABLE -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryRemovable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryFastCharging"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryCapacity" />
+
+        <!-- BATTERY FAST CHARGING -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryFastCharging"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoWirelessCharging"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryRemovable"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryRemovable" />
+
+        <!-- BATTERY WIRELESS CHARGING -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoWirelessCharging"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryFastCharging"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryRemovable" />
+
+        <!-- BATTERY POWER DELIVERY -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryPowerDelivery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryStandBy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoWirelessCharging" />
+
+        <!-- BATTERY STAND-BY -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryStandBy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryPowerDelivery"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryPowerDelivery" />
+
+        <!-- BATTERY TALK TIME -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryTalkTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:device_info_entry_view_type="simple"
+            app:layout_constraintEnd_toEndOf="@id/deviceInfoEntryPowerDelivery"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryPowerDelivery" />
+
+        <!-- SENSORS TITLE -->
+        <TextView
+            android:id="@+id/textViewSensorTitle"
+            style="@style/DeviceDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/text_device_detail_info_sensors_title"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryTalkTime" />
+
+        <!-- SENSOR FINGERPRINT -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryFingerprint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryProximity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewSensorTitle" />
+
+        <!-- SENSOR PROXIMITY -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryProximity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoAccelerometer"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryFingerprint"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryFingerprint" />
+
+        <!-- SENSOR ACCELEROMETER -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoAccelerometer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryProximity"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryFingerprint" />
+
+        <!-- SENSOR MAGNETIC FIELD -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryMagneticField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryGyroscope"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryFingerprint" />
+
+        <!-- SENSOR GYROSCOPE -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryGyroscope"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoBarometer"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryMagneticField"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryMagneticField" />
+
+        <!-- SENSOR BAROMETER -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoBarometer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryGyroscope"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryMagneticField" />
+
+        <!-- SENSOR NFC -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryNfc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryAmbientLight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryMagneticField" />
+
+        <!-- SENSOR AMBIENT LIGHT -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryAmbientLight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryFaceUnlock"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryNfc"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryNfc" />
+
+        <!-- SENSOR FACE UNLOCK -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryFaceUnlock"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryAmbientLight"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryNfc" />
+
+        <!-- SENSOR HALL EFFECT -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryHallEffect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryPosture"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryNfc" />
+
+        <!-- SENSOR POSTURE -->
+        <com.cmdv.common.views.CustomDeviceInfoEntryView
+            android:id="@+id/deviceInfoEntryPosture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            app:device_info_entry_view_type="bool"
+            app:layout_constraintEnd_toStartOf="@id/deviceInfoEntryFaceUnlock"
+            app:layout_constraintStart_toEndOf="@id/deviceInfoEntryHallEffect"
+            app:layout_constraintTop_toTopOf="@id/deviceInfoEntryHallEffect" />
+
+        <!-- MEMORY TITLE -->
+        <TextView
+            android:id="@+id/textViewMemoryTitle"
+            style="@style/DeviceDetailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/text_device_detail_info_memory_title"
+            app:layout_constraintTop_toBottomOf="@id/deviceInfoEntryPosture" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

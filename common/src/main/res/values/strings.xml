@@ -42,7 +42,7 @@
     <string name="text_item_device_release_status_rumored">Rumored</string>
     <string name="placeholder_item_device_release_status_coming_soon">Expected %1s</string>
     <string name="text_item_device_release_status_delayed">Delayed</string>
-    <string name="placeholder_item_device_display_size">%1s\"</string>
+    <string name="placeholder_item_device_display_size">%1s in</string>
     <string name="placeholder_item_device_camera">%1sMP"</string>
 
     <!--  DEVICE DETAILS  -->
@@ -51,23 +51,77 @@
     <string name="label_device_detail_bottom_nav_multimedia">media</string>
     <string name="label_device_detail_bottom_nav_connectivity">connectivity</string>
 
-    <string name="placeholder_device_detail_display_size">%1s\"</string>
+    <string name="placeholder_device_detail_display_size">%1s in</string>
     <string name="placeholder_device_detail_display_resolution">%1s pixels</string>
     <string name="placeholder_device_detail_ram">%1sGB</string>
-
+    <!-- GENERAL -->
     <string name="text_device_detail_info_general_title">General</string>
-
     <string name="text_device_detail_info_brand_subtitle">brand</string>
     <string name="text_device_detail_info_model_subtitle">model</string>
     <string name="text_device_detail_info_launch_date_subtitle">launch date</string>
     <string name="text_device_detail_info_expected_date_subtitle">expected date</string>
     <string name="text_device_detail_info_body_type_subtitle">body type</string>
-    <string name="text_device_detail_info_battery_capacity_subtitle">battery capacity</string>
-    <string name="text_device_detail_info_battery_removable_subtitle">removable battery</string>
     <string name="text_device_detail_info_fast_charge_subtitle">fast charge</string>
     <string name="text_device_detail_info_wireless_charge_subtitle">wireless charge</string>
+    <!-- DISPLAY -->
+    <string name="text_device_detail_info_display_title">Display</string>
+    <string name="text_device_detail_info_size_subtitle">size</string>
+    <string name="text_device_detail_info_area_subtitle">area</string>
+    <string name="text_device_detail_info_resolution_subtitle">resolution</string>
+    <string name="text_device_detail_info_screen_to_body_subtitle">screen to body ratio</string>
+    <string name="text_device_detail_info_ratio_subtitle">ratio</string>
+    <string name="text_device_detail_info_density_subtitle">density</string>
+    <string name="text_device_detail_info_type_subtitle">type</string>
+    <string name="text_device_detail_info_colors_subtitle">colors</string>
+    <string name="placeholder_device_detail_info_size">%1$.1f in (%2$.1f cm)</string>
+    <string name="placeholder_device_detail_info_area">%1$.1f in2 (%2$.1f cm2)</string>
+    <string name="placeholder_device_detail_info_resolution">%1d x %2d pixels</string>
+    <string name="placeholder_device_detail_info_screen_to_body">~%1$.1f\%%</string>
+    <string name="placeholder_device_detail_info_density">%1d ppi</string>
+    <!-- BODY -->
+    <string name="text_device_detail_info_body_title">Body</string>
+    <string name="text_device_detail_info_build_features_subtitle">build features</string>
+    <string name="text_device_detail_info_build_subtitle">build</string>
+    <string name="text_device_detail_info_width_subtitle">width</string>
+    <string name="text_device_detail_info_height_subtitle">height</string>
+    <string name="text_device_detail_info_thickness_subtitle">thickness</string>
+    <string name="text_device_detail_info_weight_subtitle">weight</string>
+    <string name="text_device_detail_info_sim_subtitle">sim</string>
+    <string name="placeholder_device_detail_info_width">%1$.1f in (%2$.1f cm)</string>
+    <string name="placeholder_device_detail_info_height">%1$.1f in (%2$.1f cm)</string>
+    <string name="placeholder_device_detail_info_thickness">%1$.1f in (%2$.1f cm)</string>
+    <string name="placeholder_device_detail_info_weight">%1$.1f oz (%2$.1f g)</string>
+    <!-- BATTERY -->
+    <string name="text_device_detail_info_battery_title">Battery</string>
+    <string name="text_device_detail_info_battery_capacity_subtitle">battery capacity</string>
+    <string name="text_device_detail_info_battery_technology_subtitle">technology</string>
+    <string name="text_device_detail_info_battery_removable_subtitle">removable</string>
+    <string name="text_device_detail_info_battery_fast_charging_subtitle">fast charging</string>
+    <string name="text_device_detail_info_battery_wireless_charging_subtitle">wireless charging</string>
+    <string name="text_device_detail_info_battery_power_delivery_subtitle">power delivery</string>
+    <string name="text_device_detail_info_battery_stand_by_subtitle">stand-by</string>
+    <string name="text_device_detail_info_battery_talk_time_subtitle">talk time</string>
+    <!-- SENSORS -->
+    <string name="text_device_detail_info_sensors_title">Sensors</string>
+    <string name="text_device_detail_info_sensors_fingerprint_subtitle">fingerprint</string>
+    <string name="text_device_detail_info_sensors_proximity_subtitle">proximity</string>
+    <string name="text_device_detail_info_sensors_accelerometer_subtitle">accelerometer</string>
+    <string name="text_device_detail_info_sensors_magnetic_field_subtitle">magnetic field</string>
+    <string name="text_device_detail_info_sensors_gyroscope_subtitle">gyroscope</string>
+    <string name="text_device_detail_info_sensors_barometer_subtitle">barometer</string>
+    <string name="text_device_detail_info_sensors_nfc_subtitle">nfc</string>
+    <string name="text_device_detail_info_sensors_ambient_light_subtitle">ambient light</string>
+    <string name="text_device_detail_info_sensors_face_unlock_subtitle">face unlock</string>
+    <string name="text_device_detail_info_sensors_hall_effect_subtitle">hall effect</string>
+    <string name="text_device_detail_info_sensors_posture_subtitle">posture</string>
+    <!-- MEMORY -->
+    <string name="text_device_detail_info_memory_title">Memory</string>
 
     <!--  DEVICE SEARCH  -->
     <string name="text_search_for_hint">Search for…</string>
     <string name="text_recent_title">Recent</string>
+
+    <!-- VIEW DEVICE INFO ENTRY -->
+    <string name="text_device_info_entry_view_yes">YES</string>
+    <string name="text_device_info_entry_view_no">NO</string>
 </resources>

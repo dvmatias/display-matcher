@@ -210,18 +210,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textViewDeviceName"
         app:layout_constraintTop_toBottomOf="@+id/textViewCapacity"
         tools:text="Li-Po" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="viewPagerDeviceImages, textViewDeviceName, textViewRelease, textViewDisplaySize, textViewDisplayResolution, textViewCameraPhoto, textViewCameraVideo,textViewRam, textViewChipSet" />
 
     <ImageButton
         android:id="@+id/imageButtonInfo"
@@ -240,19 +232,27 @@
         android:id="@+id/containerInfo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier">
+        app:layout_constraintTop_toBottomOf="@id/viewPagerDeviceImages">
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager_device_detail_fragment"
+            android:id="@+id/viewPagerSectionsFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/custom_device_detail_bottom_nav_view_height"
             app:layout_constraintBottom_toTopOf="@id/bottomNav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_shadow"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.cmdv.common.views.CustomDeviceDetailBottomNavView
@@ -263,13 +263,4 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/fameCompareFragmentContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:background="#58E133"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

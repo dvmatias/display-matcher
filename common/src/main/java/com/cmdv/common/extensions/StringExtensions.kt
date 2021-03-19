@@ -1,5 +1,8 @@
 package com.cmdv.common.extensions
 
+import android.text.SpannableString
+import android.text.Spanned
+import java.lang.StringBuilder
 import java.util.*
 
 fun String.capitalizeFirstLetterOnly(): String =
@@ -23,3 +26,15 @@ fun String.capitalizeFirstLetters(): String =
     } else {
         ""
     }
+
+fun List<String>.parseListWithSymbol(symbol: String? = null): String {
+    val builder = StringBuilder()
+    for (i in this.indices) {
+        if (this.size > 1) {
+            symbol?.let { builder.append("$it ") }
+        }
+         builder.append(this[i])
+        if (i != this.lastIndex)  builder.append(System.getProperty("line.separator"))
+    }
+    return builder.toString()
+}

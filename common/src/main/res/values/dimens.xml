@@ -6,4 +6,5 @@
     <dimen name="list_item_spacing_half">8dp</dimen>
     <dimen name="bottom_margin">54dp</dimen>
     <dimen name="default_size">6dp</dimen>
+    <dimen name="custom_device_detail_bottom_nav_view_height">68dp</dimen>
 </resources>

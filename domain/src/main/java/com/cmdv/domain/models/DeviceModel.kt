@@ -15,7 +15,9 @@ data class DeviceModel(
     val display: DisplayModel,
     val launch: LaunchModel,
     val network: NetworkModel,
-    val platform: PlatformModel?
+    val platform: PlatformModel?,
+    val battery: BatteryModel,
+    val sensors: SensorsModel,
 ) {
     data class ResumeModel(
         val name: String,
@@ -95,6 +97,31 @@ data class DeviceModel(
         val cpu: ArrayList<String>,
         val gpu: ArrayList<String>,
         val chipset: ArrayList<String>
+    )
+
+    data class BatteryModel(
+        val capacity: Long,
+        val technology: String,
+        val removable: Boolean,
+        val fastCharging: Int,
+        val wirelessCharging: Int,
+        val powerDelivery: String,
+        val standBy: String,
+        val talkTime: String
+    )
+
+    data class SensorsModel(
+        val fingerprint: Boolean,
+        val proximity: Boolean,
+        val accelerometer: Boolean,
+        val magneticField: Boolean,
+        val gyroscope: Boolean,
+        val barometer: Boolean,
+        val nfc: Boolean,
+        val ambientLight: Boolean,
+        val faceUnlock: Boolean,
+        val hallEffect: Boolean,
+        val posture: Boolean
     )
 }
 

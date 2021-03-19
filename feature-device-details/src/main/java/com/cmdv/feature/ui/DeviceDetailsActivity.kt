@@ -44,11 +44,9 @@ class DeviceDetailsActivity : AppCompatActivity() {
     private var pagerDetailFragmentAdapter = FragmentDetailViewPagerAdapter(supportFragmentManager)
     private val mainConstraint = ConstraintSet()
     private val infoConstraint = ConstraintSet()
-    private val compareConstraint = ConstraintSet()
     private var isLoadFinished = false
     private var isMainState = true
     private var isInfoState = false
-    private var isCompareState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,21 +90,19 @@ class DeviceDetailsActivity : AppCompatActivity() {
     }
 
     private fun setupDetailFragmentPager() {
-        binding.viewPagerDeviceDetailFragment.apply {
+        binding.viewPagerSectionsFragment.apply {
             adapter = pagerDetailFragmentAdapter
         }
 
-        binding.bottomNav.setupWithViewPager(binding.viewPagerDeviceDetailFragment)
+        binding.bottomNav.setupWithViewPager(binding.viewPagerSectionsFragment)
     }
 
     private fun addConstraintSetAnimation() {
         mainConstraint.clone(binding.root)
         infoConstraint.clone(this, R.layout.activity_device_details_info)
-        compareConstraint.clone(this, R.layout.activity_device_details_compare)
 
         pagerAdapter.setOnClickListener { transitionMain() }
         binding.imageButtonInfo.setOnClickListener { transitionInfo() }
-        binding.imageViewCompareButton.setOnClickListener { transitionCompare() }
     }
 
     private fun transitionMain() {
@@ -133,7 +129,6 @@ class DeviceDetailsActivity : AppCompatActivity() {
         }
         isMainState = true
         isInfoState = false
-        isCompareState = false
     }
 
     private fun transitionInfo() {
@@ -159,17 +154,6 @@ class DeviceDetailsActivity : AppCompatActivity() {
         }
         isMainState = false
         isInfoState = true
-        isCompareState = false
-    }
-
-    private fun transitionCompare() {
-        if (!isCompareState) {
-            TransitionManager.beginDelayedTransition(binding.root)
-            compareConstraint.applyTo(binding.root)
-        }
-        isMainState = false
-        isInfoState = false
-        isCompareState = true
     }
 
     private fun hideLoading() {

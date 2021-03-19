@@ -12,6 +12,7 @@ import java.util.*
 
 private const val DEFAULT_STRING_VALUE = ""
 private const val DEFAULT_LONG_VALUE = -1L
+private const val DEFAULT_INT_VALUE = -1
 private const val DEFAULT_DOUBLE_VALUE = 0.0
 private const val DEFAULT_BOOLEAN_VALUE = false
 
@@ -67,6 +68,24 @@ private const val FIELD_PLATFORM = "platform"
 private const val FIELD_OS = "os"
 private const val FIELD_CPU = "cpu"
 private const val FIELD_GPU = "gpu"
+private const val FIELD_BATTERY = "battery"
+private const val FIELD_REMOVABLE = "removable"
+private const val FIELD_FAST_CHARGING = "fast_charging"
+private const val FIELD_WIRELESS_CHARGING = "wireless_charging"
+private const val FIELD_POWER_DELIVERY = "power_delivery"
+private const val FIELD_STAND_BY = "stand_by"
+private const val FIELD_TALK_TIME = "talk_time"
+private const val FIELD_FINGERPRINT = "fingerprint"
+private const val FIELD_PROXIMITY = "proximity"
+private const val FIELD_ACCELEROMETER = "accelerometer"
+private const val FIELD_MAGNETIC_FIELD = "magnetic_filed"
+private const val FIELD_GYROSCOPE = "gyroscope"
+private const val FIELD_BAROMETER = "barometer"
+private const val FIELD_NFC = "nfc"
+private const val FIELD_AMBIENT_LIGHT = "ambient_light"
+private const val FIELD_FACE_UNLOCK = "face_unlock"
+private const val FIELD_HALL_EFFECT = "hall_effect"
+private const val FIELD_POSTURE = "posture"
 
 object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
 
@@ -85,6 +104,8 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
         val launch: DeviceModel.LaunchModel = getLaunch(e)
         val network: DeviceModel.NetworkModel = getNetwork(e)
         val platform: DeviceModel.PlatformModel = getPlatform(e)
+        val battery: DeviceModel.BatteryModel = getBattery(e)
+        val sensors: DeviceModel.SensorsModel = getSensors(e)
 
         return DeviceModel(
             id,
@@ -99,7 +120,9 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
             display,
             launch,
             network,
-            platform
+            platform,
+            battery,
+            sensors
         )
     }
 
@@ -235,9 +258,40 @@ object DeviceMapper : BaseMapper<DocumentSnapshot, DeviceModel>() {
             chipset = platformMap.getString(FIELD_CHIPSET).getStringArrayFromString("|"),
         )
     }
+
+    private fun getBattery(e: DocumentSnapshot): DeviceModel.BatteryModel =
+        DeviceModel.BatteryModel(
+            capacity = e.getLongValue(FIELD_CAPACITY),
+            technology = e.getStringValue(FIELD_TECHNOLOGY),
+            removable = e.getBooleanValue(FIELD_REMOVABLE),
+            fastCharging = e.getIntValue(FIELD_FAST_CHARGING),
+            wirelessCharging = e.getIntValue(FIELD_WIRELESS_CHARGING),
+            powerDelivery = e.getStringValue(FIELD_POWER_DELIVERY),
+            standBy = e.getStringValue(FIELD_STAND_BY),
+            talkTime = e.getStringValue(FIELD_TALK_TIME),
+        )
+
+    private fun getSensors(e: DocumentSnapshot): DeviceModel.SensorsModel =
+        DeviceModel.SensorsModel(
+            fingerprint = e.getBooleanValue(FIELD_FINGERPRINT),
+            proximity = e.getBooleanValue(FIELD_PROXIMITY),
+            accelerometer = e.getBooleanValue(FIELD_ACCELEROMETER),
+            magneticField = e.getBooleanValue(FIELD_MAGNETIC_FIELD),
+            gyroscope = e.getBooleanValue(FIELD_GYROSCOPE),
+            barometer = e.getBooleanValue(FIELD_BAROMETER),
+            nfc = e.getBooleanValue(FIELD_NFC),
+            ambientLight = e.getBooleanValue(FIELD_AMBIENT_LIGHT),
+            faceUnlock = e.getBooleanValue(FIELD_FACE_UNLOCK),
+            hallEffect = e.getBooleanValue(FIELD_HALL_EFFECT),
+            posture = e.getBooleanValue(FIELD_POSTURE)
+        )
+
 }
 
 fun <K, V> Map<K, V>.getString(key: K): String = this[key].toString()
+fun <K, V> Map<K, V>.getLong(key: K): Long = this[key] as Long
+fun <K, V> Map<K, V>.getBoolean(key: K): Boolean = this[key] as Boolean
+fun <K, V> Map<K, V>.getInt(key: K): Int = this[key] as Int
 
 @Suppress("UNCHECKED_CAST")
 private fun <K, V> DocumentSnapshot.getMap(field: String): Map<K, V> =
@@ -248,6 +302,13 @@ private fun DocumentSnapshot.getStringValue(field: String): String =
         this.get(field) as String
     } catch (e: Exception) {
         DEFAULT_STRING_VALUE
+    }
+
+private fun DocumentSnapshot.getIntValue(filed: String): Int =
+    try {
+        this.get(filed) as Int
+    } catch (e: Exception) {
+        DEFAULT_INT_VALUE
     }
 
 private fun DocumentSnapshot.getLongValue(filed: String): Long =

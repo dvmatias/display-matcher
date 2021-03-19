@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.cmdv.common.R
 import com.cmdv.common.databinding.CustomDeviceInfoEntryViewBinding
 
@@ -44,25 +46,67 @@ class CustomDeviceInfoEntryView : ConstraintLayout {
             0
         )
         viewType =
-            when (a.getInt(R.styleable.CustomDeviceInfoEntryView_device_info_entry_view_type, 0)) {
+            when (a.getInt(R.styleable.CustomDeviceInfoEntryView_device_info_entry_view_type, -1)) {
                 ViewType.SIMPLE.value -> ViewType.SIMPLE
                 ViewType.MULTIPLE.value -> ViewType.MULTIPLE
                 ViewType.BOOLEAN.value -> ViewType.BOOLEAN
                 else -> throw IllegalAccessException("You must define a view type for this element.")
             }
+        initViewType()
         a.recycle()
     }
 
+    private fun initViewType() {
+        fun setSimpleViewType() {
+            binding.simpleContainer.visibility = View.VISIBLE
+        }
+
+        fun setBooleanViewType() {
+            binding.booleanContainer.visibility = View.VISIBLE
+        }
+
+
+        when (viewType) {
+            ViewType.SIMPLE -> setSimpleViewType()
+            ViewType.MULTIPLE -> binding.simpleContainer.visibility = View.VISIBLE
+            ViewType.BOOLEAN -> setBooleanViewType()
+        }
+    }
+
     fun setInfo(label: String, info: String) {
-        binding.textViewSimpleLabel.text = label
-        binding.textViewSimpleInfo.text = info
+        when (viewType) {
+            ViewType.SIMPLE -> {
+                binding.textViewSimpleLabel.text = label
+                binding.textViewSimpleInfo.text = info
+            }
+            ViewType.MULTIPLE -> {
+            }
+            ViewType.BOOLEAN -> {
+                binding.textViewBooleanLabel.text = label
+            }
+        }
+
     }
 
-    fun setInfo(label: Int, info: String) {
-        setInfo(context.getString(label), info)
+    fun setInfo(label: Int, info: String?) {
+        setInfo(context.getString(label), info ?: "")
     }
 
-    fun setInfo(label: String, state: Boolean) {
+    fun setInfo(label: Int, state: Boolean, info: String? = null) {
+        setInfo(label, info)
+
+        if (state) {
+            binding.booleanContainer.background =
+                ContextCompat.getDrawable(context, R.drawable.shape_custom_device_info_entry_view_boolean_positive_bgr)
+            binding.textViewBooleanInfo.text = context.getString(R.string.text_device_info_entry_view_yes)
+        } else {
+            binding.booleanContainer.background =
+                ContextCompat.getDrawable(context, R.drawable.shape_custom_device_info_entry_view_boolean_negative_bgr)
+            binding.textViewBooleanInfo.text = context.getString(R.string.text_device_info_entry_view_no)
+        }
+    }
+
+    fun setInfo(label: Int, info: List<String>) {
 
     }
 

@@ -116,13 +116,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewManufacturer" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="viewPagerDeviceImages" />
-
     <TextView
         android:id="@+id/textViewDeviceName"
         android:layout_width="wrap_content"
@@ -131,7 +124,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/cereal_medium"
         android:textColor="#202124"
-        android:textSize="20sp"
+        android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewRelease"
         app:layout_constraintStart_toStartOf="@+id/guideLineLeft"
         app:layout_constraintTop_toBottomOf="@+id/viewPagerDeviceImages"
@@ -248,36 +241,36 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerInfo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager_device_detail_fragment"
+            android:id="@+id/viewPagerSectionsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/custom_device_detail_bottom_nav_view_height"
+            app:layout_constraintBottom_toTopOf="@id/bottomNav"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottomNav" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_shadow"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.cmdv.common.views.CustomDeviceDetailBottomNavView
             android:id="@+id/bottomNav"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/fameCompareFragmentContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:background="#58E133"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
